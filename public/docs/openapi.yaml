@@ -1,0 +1,491 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://127.0.0.1:8000/docs'
+paths:
+  /api/chat:
+    post:
+      summary: ''
+      operationId: postApiChat
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Chats
+      security: []
+  /api/chat/messages:
+    get:
+      summary: ''
+      operationId: getApiChatMessages
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Chats
+      security: []
+  /api/properties:
+    get:
+      summary: 'Property list'
+      operationId: propertyList
+      description: 'This endpoint is used to get propeerty list.'
+      parameters: []
+      responses:
+        200:
+          description: 'Property list'
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "\"data\": [\n  \"current_page\": 1,\n  \"data\": [\n      {\n          \"_id\": \"65eec2cd8fb87b059e0c70d2\",\n          \"user_id\": \"65eec0aa4b28c694b60ec10c\",\n          \"property_name\": \"hs villa\",\n          \"price\": \"9867679\",\n          \"location\":  [\n      {\n          \"coords\": {\n              \"speed\": -1,\n              \"longitude\": 76.69112317715411,\n              \"latitude\": 30.71134927265382,\n              \"accuracy\": 16.965582688710988,\n              \"heading\": -1,\n              \"altitude\": 318.2151985168457,\n              \"altitudeAccuracy\": 7.0764055252075195\n          },\n          \"timestamp\": 1709037095653.2131\n      }\n  ],\n          \"bedrooms\": \"4\",\n          \"bathrooms\": \"2\",\n          \"area_sqft\": \"7843784378\",\n          \"deal\": \"rent\",\n          \"type\": \"house\",\n          \"parking\": \"2\",\n          \"description\": \"check descrption\",\n          \"assigned_buyer\": null,\n          \"isAvailable\": null,\n          \"dealer\": null,\n          \"dealer_contact\": \"8899488944\",\n           \"district\": null,\n          \"property_details\": {\n              \"city_view\": null,\n              \"family_villa\": \"Family Villa\",\n              \"air_conditioned\": \"Air Conditioned\",\n              \"phone\": \"3455467676\",\n              \"internet\": \"yes\"\n          },\n          \"images\": [\n              \"property_images/1710146253_3mLKPnUdwwBHXOQFpaT64uY4QtnwRTHBY382VX6C.png\",\n              \"property_images/1710146253_79LV6xbjmuu8feXKfbXwdRAlEwLjs23pGTTaYYaa.png\"\n          ],\n          \"photo\": \"u4hMHWkJXHNM6j1nJIplNxXnG4wcYk2w7kpKCPt9.png\",\n          \"updated_at\": \"2024-03-11T08:37:33.932000Z\",\n          \"created_at\": \"2024-03-11T08:37:33.932000Z\"\n      }\n  ],\n  \"first_page_url\": \"http://127.0.0.1:8000/api/properties?page=1\",\n  \"from\": 1,\n  \"last_page\": 1,\n  \"last_page_url\": \"http://127.0.0.1:8000/api/properties?page=1\",\n  \"links\": [\n      {\n          \"url\": null,\n          \"label\": \"&laquo; Previous\",\n          \"active\": false\n      },\n      {\n          \"url\": \"http://127.0.0.1:8000/api/properties?page=1\",\n          \"label\": \"1\",\n          \"active\": true\n      },\n      {\n          \"url\": null,\n          \"label\": \"Next &raquo;\",\n          \"active\": false\n      }\n  ],\n  \"next_page_url\": null,\n  \"path\": \"http://127.0.0.1:8000/api/properties\",\n  \"per_page\": 10,\n  \"prev_page_url\": null,\n  \"to\": 1,\n  \"total\": 1\n}"
+      tags:
+        - Properties
+      security: []
+  /api/property/add:
+    post:
+      summary: 'Add a property'
+      operationId: addAProperty
+      description: "This endpoint is used to add a property.\n\npayload :\n      {\n          \"_id\": \"65eec2cd8fb87b059e0c70d2\",\n          \"user_id\": \"65eec0aa4b28c694b60ec10c\",\n          \"property_name\": \"hs villa\",\n          \"price\": \"9867679\",\n          \"location\":  [\n      {\n          \"coords\": {\n              \"speed\": -1,\n              \"longitude\": 76.69112317715411,\n              \"latitude\": 30.71134927265382,\n              \"accuracy\": 16.965582688710988,\n              \"heading\": -1,\n              \"altitude\": 318.2151985168457,\n              \"altitudeAccuracy\": 7.0764055252075195\n          },\n          \"timestamp\": 1709037095653.2131\n      }\n  ]\n          \"bathrooms\": \"2\",\n          \"area_sqft\": \"7843784378\",\n          \"deal\": \"rent\",\n          \"type\": \"house\",\n          \"parking\": \"2\",\n          \"description\": \"check descrption\",\n          \"assigned_buyer\": null,\n          \"isAvailable\": null,\n          \"dealer\": null,\n          \"dealer_contact\": \"8899488944\",\n          \"district\": null,\n          \"property_details\": {\n              \"city_view\": null,\n              \"family_villa\": \"Family Villa\",\n              \"air_conditioned\": \"Air Conditioned\",\n              \"phone\": \"3455467676\",\n              \"internet\": \"yes\"\n          },\n          \"images\": [\n              \"property_images/1710146253_3mLKPnUdwwBHXOQFpaT64uY4QtnwRTHBY382VX6C.png\",\n              \"property_images/1710146253_79LV6xbjmuu8feXKfbXwdRAlEwLjs23pGTTaYYaa.png\"\n          ],\n          \"photo\": \"u4hMHWkJXHNM6j1nJIplNxXnG4wcYk2w7kpKCPt9.png\",\n          \"updated_at\": \"2024-03-11T08:37:33.932000Z\",\n          \"created_at\": \"2024-03-11T08:37:33.932000Z\"\n      }"
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "\"result\":\n      {\n          \"_id\": \"65eec2cd8fb87b059e0c70d2\",\n          \"user_id\": \"65eec0aa4b28c694b60ec10c\",\n          \"property_name\": \"hs villa\",\n          \"price\": \"9867679\",\n          \"location\": \"\\\"{\\\\\\\"latitude\\\\\\\": 40.7128, \\\\\\\"longitude\\\\\\\": -74.0060}\\\"\",\n          \"bedrooms\": \"4\",\n          \"bathrooms\": \"2\",\n          \"area_sqft\": \"7843784378\",\n          \"deal\": \"rent\",\n          \"type\": \"house\",\n          \"parking\": \"2\",\n          \"description\": \"check descrption\",\n          \"assigned_buyer\": null,\n          \"isAvailable\": null,\n          \"dealer\": null,\n          \"dealer_contact\": \"8899488944\",\n          \"district\": null,\n          \"property_details\": {\n              \"city_view\": null,\n              \"family_villa\": \"Family Villa\",\n              \"air_conditioned\": \"Air Conditioned\",\n              \"phone\": \"3455467676\",\n              \"internet\": \"yes\"\n          },\n          \"images\": [\n              \"property_images/1710146253_3mLKPnUdwwBHXOQFpaT64uY4QtnwRTHBY382VX6C.png\",\n              \"property_images/1710146253_79LV6xbjmuu8feXKfbXwdRAlEwLjs23pGTTaYYaa.png\"\n          ],\n          \"photo\": \"u4hMHWkJXHNM6j1nJIplNxXnG4wcYk2w7kpKCPt9.png\",\n          \"updated_at\": \"2024-03-11T08:37:33.932000Z\",\n          \"created_at\": \"2024-03-11T08:37:33.932000Z\"\n      }"
+      tags:
+        - Properties
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: ''
+                  example: 4547475
+                property_name:
+                  type: string
+                  description: ''
+                  example: prop1
+                price:
+                  type: integer
+                  description: ''
+                  example: 57787888
+                location:
+                  type: array
+                  description: ''
+                  example: null
+                  items:
+                    type: string
+                bedrooms:
+                  type: integer
+                  description: ''
+                  example: 3
+                bathrooms:
+                  type: integer
+                  description: ''
+                  example: 2
+                area_sqft:
+                  type: integer
+                  description: ''
+                  example: 22323
+                deal:
+                  type: string
+                  description: ''
+                  example: sale
+                type:
+                  type: string
+                  description: ''
+                  example: villa
+                parking:
+                  type: integer
+                  description: ''
+                  example: 4
+                description:
+                  type: string
+                  description: ''
+                  example: 'This property is for sale'
+                assigned_buyer:
+                  type: string
+                  description: ''
+                  example: 'Joh doe'
+                isAvailable:
+                  type: boolean
+                  description: ''
+                  example: true
+                dealer:
+                  type: string
+                  description: ''
+                  example: 'Iseak Huii'
+                dealer_contact:
+                  type: integer
+                  description: 'digits:10 required'
+                  example: 5666566565
+                district:
+                  type: string
+                  description: ''
+                  example: Mohali
+                property_details:
+                  type: array
+                  description: ''
+                  example:
+                    - qui
+                  items:
+                    type: string
+                images:
+                  type: string
+                  format: binary
+                  description: ''
+                photo:
+                  type: string
+                  format: binary
+                  description: ''
+              required:
+                - user_id
+                - property_name
+                - price
+                - location
+                - bedrooms
+                - bathrooms
+                - area_sqft
+                - deal
+                - type
+                - parking
+                - description
+                - assigned_buyer
+                - isAvailable
+                - dealer
+                - district
+                - property_details
+                - images
+                - photo
+      security: []
+  '/api/getproperties/{_id}':
+    get:
+      summary: 'Get a specific property'
+      operationId: getASpecificProperty
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Property not found'
+                properties:
+                  message:
+                    type: string
+                    example: 'Property not found'
+      tags:
+        - Properties
+      security: []
+    parameters:
+      -
+        in: path
+        name: _id
+        description: 'The ID of the .'
+        example: architecto
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: id
+        description: 'The ID of the property.'
+        example: 345
+        required: true
+        schema:
+          type: integer
+  '/api/property/{_id}':
+    delete:
+      summary: 'Delete a property'
+      operationId: deleteAProperty
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Property deleted successfully'
+                properties:
+                  message:
+                    type: string
+                    example: 'Property deleted successfully'
+      tags:
+        - Properties
+      security: []
+    parameters:
+      -
+        in: path
+        name: _id
+        description: 'The ID of the .'
+        example: alias
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: id
+        description: 'The ID of the property to delete.'
+        example: '2'
+        required: true
+        schema:
+          type: string
+  /api/login:
+    post:
+      summary: 'Login a user'
+      operationId: loginAUser
+      description: "This endpoint is used to login a user.\n\npayload :  {\n              \"mobile\": \"3535534323\",\n              \"otp_status\": true,\n              \"status\": true,\n              \"user_location\": [\n      {\n          \"coords\": {\n              \"speed\": -1,\n              \"longitude\": 76.69112317715411,\n              \"latitude\": 30.71134927265382,\n              \"accuracy\": 16.965582688710988,\n              \"heading\": -1,\n              \"altitude\": 318.2151985168457,\n              \"altitudeAccuracy\": 7.0764055252075195\n          },\n          \"timestamp\": 1709037095653.2131\n      }\n  ],\n\n           }"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "\"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.      eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzEwMTQ1NzcyLCJleHAiOjE3MTAxNDkzNzIsIm5iZiI6MTcxMDE0NTc3MiwianRpIjoidm5kT1VrdEVRMzZaZHhBMCIsInN1YiI6IjY1ZWVjMGFhNGIyOGM2OTRiNjBlYzEwYyIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.dMkpq1VJasyxRPZsLO6rc5dstN_n8oAMRgfOcffLIiw\",\n\"token_type\": \"bearer\",\n\"expires_in\": 3600,\n\"user\" :   {\n  \"_id\": \"65eec0aa4b28c694b60ec10c\",\n  \"mobile\": 3294839384,\n  \"name\": null,\n  \"email\": null,\n  \"image\": null,\n  \"user_pincode\": null,\n      \"longitude\": -74.006\n  \"user_location\": {\n      \"latitude\": 40.7128,\n  },\n  \"rera_number\": 6767,\n  \"user_city\": \"una\",\n  \"otp_status\": true,\n  \"status\": true,\n  \"updated_at\": \"2024-03-11T08:28:26.326000Z\",\n  \"created_at\": \"2024-03-11T08:28:26.326000Z\"\n },\n}"
+        401:
+          description: 'Failed Login'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Invalid login credentials'
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid login credentials'
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mobile:
+                  type: integer
+                  description: 'digits:10'
+                  example: 2093235874
+                otp_status:
+                  type: boolean
+                  description: ''
+                  example: false
+                user_location:
+                  type: array
+                  description: ''
+                  example:
+                    - cupiditate
+                  items:
+                    type: string
+                status:
+                  type: boolean
+                  description: ''
+                  example: true
+              required:
+                - mobile
+                - otp_status
+                - user_location
+                - status
+      security: []
+  /api/logout:
+    post:
+      summary: ''
+      operationId: postApiLogout
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Users
+      security: []
+  /api/refresh:
+    post:
+      summary: ''
+      operationId: postApiRefresh
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Users
+      security: []
+  '/api/user/{_id}':
+    post:
+      summary: 'Get a specific user'
+      operationId: getASpecificUser
+      description: ''
+      parameters: []
+      responses:
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'User not found'
+                properties:
+                  message:
+                    type: string
+                    example: 'User not found'
+      tags:
+        - Users
+      security: []
+    put:
+      summary: 'Update a user'
+      operationId: updateAUser
+      description: 'This endpoint is used to update details of a specific user.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'User updated successfully'
+                properties:
+                  message:
+                    type: string
+                    example: 'User updated successfully'
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mobile:
+                  type: integer
+                  description: 'digits:10'
+                  example: 2093235874
+                otp_status:
+                  type: boolean
+                  description: ''
+                  example: false
+                user_location:
+                  type: array
+                  description: ''
+                  example:
+                    - velit
+                  items:
+                    type: string
+                status:
+                  type: integer
+                  description: ''
+                  example: 0
+              required:
+                - mobile
+                - otp_status
+                - user_location
+                - status
+      security: []
+    delete:
+      summary: 'Delete a user'
+      operationId: deleteAUser
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'User deleted successfully'
+                properties:
+                  message:
+                    type: string
+                    example: 'User deleted successfully'
+      tags:
+        - Users
+      security: []
+    parameters:
+      -
+        in: path
+        name: _id
+        description: 'The ID of the .'
+        example: eveniet
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: id
+        description: 'The ID of the user.'
+        example: 3
+        required: true
+        schema:
+          type: integer
+  /api/users:
+    get:
+      summary: 'User list'
+      operationId: userList
+      description: 'This endpoint is used to get user list.'
+      parameters: []
+      responses:
+        200:
+          description: 'User list'
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"user\" :   [\n{\n  \"_id\": \"65eec0aa4b28c694b60ec10c\",\n  \"mobile\": 3294839384,\n  \"name\": null,\n  \"email\": null,\n  \"image\": null,\n  \"user_pincode\": null,\n      \"longitude\": -74.006\n  \"user_location\": {\n      \"latitude\": 40.7128,\n  },\n  \"rera_number\": 6767,\n  \"user_city\": \"una\",\n  \"otp_status\": true,\n  \"status\": true,\n  \"updated_at\": \"2024-03-11T08:28:26.326000Z\",\n  \"created_at\": \"2024-03-11T08:28:26.326000Z\"\n },\n]"
+      tags:
+        - Users
+      security: []
+tags:
+  -
+    name: Chats
+    description: "\nAPIs for managing chats"
+  -
+    name: Properties
+    description: "\nAPIs for managing properties"
+  -
+    name: Users
+    description: "\nAPIs for managing users"

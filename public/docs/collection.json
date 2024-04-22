@@ -1,0 +1,730 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/127.0.0.1:8000\/docs"
+        }
+    ],
+    "info": {
+        "name": "Laravel",
+        "_postman_id": "1c077720-4dec-40cb-a79e-493b1cf4e256",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Chats",
+            "description": "\nAPIs for managing chats",
+            "item": [
+                {
+                    "name": "POST api\/chat",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/chat",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/chat"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "GET api\/chat\/messages",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/chat\/messages",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/chat\/messages"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Properties",
+            "description": "\nAPIs for managing properties",
+            "item": [
+                {
+                    "name": "Property list",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/properties",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/properties"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {token}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint is used to get propeerty list.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "\"data\": [\n  \"current_page\": 1,\n  \"data\": [\n      {\n          \"_id\": \"65eec2cd8fb87b059e0c70d2\",\n          \"user_id\": \"65eec0aa4b28c694b60ec10c\",\n          \"property_name\": \"hs villa\",\n          \"price\": \"9867679\",\n          \"location\":  [\n      {\n          \"coords\": {\n              \"speed\": -1,\n              \"longitude\": 76.69112317715411,\n              \"latitude\": 30.71134927265382,\n              \"accuracy\": 16.965582688710988,\n              \"heading\": -1,\n              \"altitude\": 318.2151985168457,\n              \"altitudeAccuracy\": 7.0764055252075195\n          },\n          \"timestamp\": 1709037095653.2131\n      }\n  ],\n          \"bedrooms\": \"4\",\n          \"bathrooms\": \"2\",\n          \"area_sqft\": \"7843784378\",\n          \"deal\": \"rent\",\n          \"type\": \"house\",\n          \"parking\": \"2\",\n          \"description\": \"check descrption\",\n          \"assigned_buyer\": null,\n          \"isAvailable\": null,\n          \"dealer\": null,\n          \"dealer_contact\": \"8899488944\",\n           \"district\": null,\n          \"property_details\": {\n              \"city_view\": null,\n              \"family_villa\": \"Family Villa\",\n              \"air_conditioned\": \"Air Conditioned\",\n              \"phone\": \"3455467676\",\n              \"internet\": \"yes\"\n          },\n          \"images\": [\n              \"property_images\/1710146253_3mLKPnUdwwBHXOQFpaT64uY4QtnwRTHBY382VX6C.png\",\n              \"property_images\/1710146253_79LV6xbjmuu8feXKfbXwdRAlEwLjs23pGTTaYYaa.png\"\n          ],\n          \"photo\": \"u4hMHWkJXHNM6j1nJIplNxXnG4wcYk2w7kpKCPt9.png\",\n          \"updated_at\": \"2024-03-11T08:37:33.932000Z\",\n          \"created_at\": \"2024-03-11T08:37:33.932000Z\"\n      }\n  ],\n  \"first_page_url\": \"http:\/\/127.0.0.1:8000\/api\/properties?page=1\",\n  \"from\": 1,\n  \"last_page\": 1,\n  \"last_page_url\": \"http:\/\/127.0.0.1:8000\/api\/properties?page=1\",\n  \"links\": [\n      {\n          \"url\": null,\n          \"label\": \"&laquo; Previous\",\n          \"active\": false\n      },\n      {\n          \"url\": \"http:\/\/127.0.0.1:8000\/api\/properties?page=1\",\n          \"label\": \"1\",\n          \"active\": true\n      },\n      {\n          \"url\": null,\n          \"label\": \"Next &raquo;\",\n          \"active\": false\n      }\n  ],\n  \"next_page_url\": null,\n  \"path\": \"http:\/\/127.0.0.1:8000\/api\/properties\",\n  \"per_page\": 10,\n  \"prev_page_url\": null,\n  \"to\": 1,\n  \"total\": 1\n}",
+                            "name": "Property list"
+                        }
+                    ]
+                },
+                {
+                    "name": "Add a property",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/property\/add",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/property\/add"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {token}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "multipart\/form-data"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "user_id",
+                                    "value": 4547475,
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "property_name",
+                                    "value": "prop1",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "price",
+                                    "value": 57787888,
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "location",
+                                    "value": null,
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "bedrooms",
+                                    "value": 3,
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "bathrooms",
+                                    "value": 2,
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "area_sqft",
+                                    "value": 22323,
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "deal",
+                                    "value": "sale",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "villa",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "parking",
+                                    "value": 4,
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "description",
+                                    "value": "This property is for sale",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "assigned_buyer",
+                                    "value": "Joh doe",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "isAvailable",
+                                    "value": true,
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "dealer",
+                                    "value": "Iseak Huii",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "dealer_contact",
+                                    "value": 5666566565,
+                                    "type": "text",
+                                    "description": "digits:10 required"
+                                },
+                                {
+                                    "key": "district",
+                                    "value": "Mohali",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "property_details[0]",
+                                    "value": "qui",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "images",
+                                    "src": [],
+                                    "type": "file"
+                                },
+                                {
+                                    "key": "photo",
+                                    "src": [],
+                                    "type": "file"
+                                }
+                            ]
+                        },
+                        "description": "This endpoint is used to add a property.\n\npayload :\n      {\n          \"_id\": \"65eec2cd8fb87b059e0c70d2\",\n          \"user_id\": \"65eec0aa4b28c694b60ec10c\",\n          \"property_name\": \"hs villa\",\n          \"price\": \"9867679\",\n          \"location\":  [\n      {\n          \"coords\": {\n              \"speed\": -1,\n              \"longitude\": 76.69112317715411,\n              \"latitude\": 30.71134927265382,\n              \"accuracy\": 16.965582688710988,\n              \"heading\": -1,\n              \"altitude\": 318.2151985168457,\n              \"altitudeAccuracy\": 7.0764055252075195\n          },\n          \"timestamp\": 1709037095653.2131\n      }\n  ]\n          \"bathrooms\": \"2\",\n          \"area_sqft\": \"7843784378\",\n          \"deal\": \"rent\",\n          \"type\": \"house\",\n          \"parking\": \"2\",\n          \"description\": \"check descrption\",\n          \"assigned_buyer\": null,\n          \"isAvailable\": null,\n          \"dealer\": null,\n          \"dealer_contact\": \"8899488944\",\n          \"district\": null,\n          \"property_details\": {\n              \"city_view\": null,\n              \"family_villa\": \"Family Villa\",\n              \"air_conditioned\": \"Air Conditioned\",\n              \"phone\": \"3455467676\",\n              \"internet\": \"yes\"\n          },\n          \"images\": [\n              \"property_images\/1710146253_3mLKPnUdwwBHXOQFpaT64uY4QtnwRTHBY382VX6C.png\",\n              \"property_images\/1710146253_79LV6xbjmuu8feXKfbXwdRAlEwLjs23pGTTaYYaa.png\"\n          ],\n          \"photo\": \"u4hMHWkJXHNM6j1nJIplNxXnG4wcYk2w7kpKCPt9.png\",\n          \"updated_at\": \"2024-03-11T08:37:33.932000Z\",\n          \"created_at\": \"2024-03-11T08:37:33.932000Z\"\n      }",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "\"result\":\n      {\n          \"_id\": \"65eec2cd8fb87b059e0c70d2\",\n          \"user_id\": \"65eec0aa4b28c694b60ec10c\",\n          \"property_name\": \"hs villa\",\n          \"price\": \"9867679\",\n          \"location\": \"\\\"{\\\\\\\"latitude\\\\\\\": 40.7128, \\\\\\\"longitude\\\\\\\": -74.0060}\\\"\",\n          \"bedrooms\": \"4\",\n          \"bathrooms\": \"2\",\n          \"area_sqft\": \"7843784378\",\n          \"deal\": \"rent\",\n          \"type\": \"house\",\n          \"parking\": \"2\",\n          \"description\": \"check descrption\",\n          \"assigned_buyer\": null,\n          \"isAvailable\": null,\n          \"dealer\": null,\n          \"dealer_contact\": \"8899488944\",\n          \"district\": null,\n          \"property_details\": {\n              \"city_view\": null,\n              \"family_villa\": \"Family Villa\",\n              \"air_conditioned\": \"Air Conditioned\",\n              \"phone\": \"3455467676\",\n              \"internet\": \"yes\"\n          },\n          \"images\": [\n              \"property_images\/1710146253_3mLKPnUdwwBHXOQFpaT64uY4QtnwRTHBY382VX6C.png\",\n              \"property_images\/1710146253_79LV6xbjmuu8feXKfbXwdRAlEwLjs23pGTTaYYaa.png\"\n          ],\n          \"photo\": \"u4hMHWkJXHNM6j1nJIplNxXnG4wcYk2w7kpKCPt9.png\",\n          \"updated_at\": \"2024-03-11T08:37:33.932000Z\",\n          \"created_at\": \"2024-03-11T08:37:33.932000Z\"\n      }",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a specific property",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/getproperties\/:_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/getproperties\/:_id",
+                            "variable": [
+                                {
+                                    "id": "_id",
+                                    "key": "_id",
+                                    "value": "architecto",
+                                    "description": "The ID of the ."
+                                },
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "345",
+                                    "description": "The ID of the property."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {token}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"message\": \"Property not found\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a property",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/property\/:_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/property\/:_id",
+                            "variable": [
+                                {
+                                    "id": "_id",
+                                    "key": "_id",
+                                    "value": "alias",
+                                    "description": "The ID of the ."
+                                },
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "2",
+                                    "description": "The ID of the property to delete."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {token}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n   \"message\": \"Property deleted successfully\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Users",
+            "description": "\nAPIs for managing users",
+            "item": [
+                {
+                    "name": "Login a user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"mobile\":2093235874,\"otp_status\":false,\"user_location\":[\"cupiditate\"],\"status\":true}"
+                        },
+                        "description": "This endpoint is used to login a user.\n\npayload :  {\n              \"mobile\": \"3535534323\",\n              \"otp_status\": true,\n              \"status\": true,\n              \"user_location\": [\n      {\n          \"coords\": {\n              \"speed\": -1,\n              \"longitude\": 76.69112317715411,\n              \"latitude\": 30.71134927265382,\n              \"accuracy\": 16.965582688710988,\n              \"heading\": -1,\n              \"altitude\": 318.2151985168457,\n              \"altitudeAccuracy\": 7.0764055252075195\n          },\n          \"timestamp\": 1709037095653.2131\n      }\n  ],\n\n           }",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "\"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.      eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzEwMTQ1NzcyLCJleHAiOjE3MTAxNDkzNzIsIm5iZiI6MTcxMDE0NTc3MiwianRpIjoidm5kT1VrdEVRMzZaZHhBMCIsInN1YiI6IjY1ZWVjMGFhNGIyOGM2OTRiNjBlYzEwYyIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.dMkpq1VJasyxRPZsLO6rc5dstN_n8oAMRgfOcffLIiw\",\n\"token_type\": \"bearer\",\n\"expires_in\": 3600,\n\"user\" :   {\n  \"_id\": \"65eec0aa4b28c694b60ec10c\",\n  \"mobile\": 3294839384,\n  \"name\": null,\n  \"email\": null,\n  \"image\": null,\n  \"user_pincode\": null,\n      \"longitude\": -74.006\n  \"user_location\": {\n      \"latitude\": 40.7128,\n  },\n  \"rera_number\": 6767,\n  \"user_city\": \"una\",\n  \"otp_status\": true,\n  \"status\": true,\n  \"updated_at\": \"2024-03-11T08:28:26.326000Z\",\n  \"created_at\": \"2024-03-11T08:28:26.326000Z\"\n },\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n\"message\": \"Invalid login credentials\"\n}",
+                            "name": "Failed Login"
+                        }
+                    ]
+                },
+                {
+                    "name": "POST api\/logout",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/logout",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/logout"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "POST api\/refresh",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/refresh",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/refresh"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get a specific user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user\/:_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user\/:_id",
+                            "variable": [
+                                {
+                                    "id": "_id",
+                                    "key": "_id",
+                                    "value": "eveniet",
+                                    "description": "The ID of the ."
+                                },
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "3",
+                                    "description": "The ID of the user."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {token}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"message\": \"User not found\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user\/:_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user\/:_id",
+                            "variable": [
+                                {
+                                    "id": "_id",
+                                    "key": "_id",
+                                    "value": "111",
+                                    "description": "The ID of the user to update"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {token}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"mobile\":2093235874,\"otp_status\":false,\"user_location\":[\"velit\"],\"status\":0}"
+                        },
+                        "description": "This endpoint is used to update details of a specific user.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n   \"message\": \"User updated successfully\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user\/:_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user\/:_id",
+                            "variable": [
+                                {
+                                    "id": "_id",
+                                    "key": "_id",
+                                    "value": "porro",
+                                    "description": "The ID of the ."
+                                },
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "2",
+                                    "description": "The ID of the user to delete."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {token}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n   \"message\": \"User deleted successfully\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "User list",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/users",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/users"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {token}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint is used to get user list.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"user\" :   [\n{\n  \"_id\": \"65eec0aa4b28c694b60ec10c\",\n  \"mobile\": 3294839384,\n  \"name\": null,\n  \"email\": null,\n  \"image\": null,\n  \"user_pincode\": null,\n      \"longitude\": -74.006\n  \"user_location\": {\n      \"latitude\": 40.7128,\n  },\n  \"rera_number\": 6767,\n  \"user_city\": \"una\",\n  \"otp_status\": true,\n  \"status\": true,\n  \"updated_at\": \"2024-03-11T08:28:26.326000Z\",\n  \"created_at\": \"2024-03-11T08:28:26.326000Z\"\n },\n]",
+                            "name": "User list"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "noauth"
+    }
+}

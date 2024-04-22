@@ -1,0 +1,480 @@
+name: Users
+description: |-
+
+  APIs for managing users
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/login
+    metadata:
+      groupName: Users
+      groupDescription: |-
+
+        APIs for managing users
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Login a user'
+      description: |-
+        This endpoint is used to login a user.
+
+        payload :  {
+                      "mobile": "3535534323",
+                      "otp_status": true,
+                      "status": true,
+                      "user_location": [
+              {
+                  "coords": {
+                      "speed": -1,
+                      "longitude": 76.69112317715411,
+                      "latitude": 30.71134927265382,
+                      "accuracy": 16.965582688710988,
+                      "heading": -1,
+                      "altitude": 318.2151985168457,
+                      "altitudeAccuracy": 7.0764055252075195
+                  },
+                  "timestamp": 1709037095653.2131
+              }
+          ],
+
+                   }
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      mobile:
+        name: mobile
+        description: 'digits:10'
+        required: true
+        example: 2093235874
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      otp_status:
+        name: otp_status
+        description: ''
+        required: true
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      user_location:
+        name: user_location
+        description: ''
+        required: true
+        example:
+          - cupiditate
+        type: 'string[]'
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      status:
+        name: status
+        description: ''
+        required: true
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanBodyParameters:
+      mobile: 2093235874
+      otp_status: false
+      user_location:
+        - cupiditate
+      status: true
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.      eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzEwMTQ1NzcyLCJleHAiOjE3MTAxNDkzNzIsIm5iZiI6MTcxMDE0NTc3MiwianRpIjoidm5kT1VrdEVRMzZaZHhBMCIsInN1YiI6IjY1ZWVjMGFhNGIyOGM2OTRiNjBlYzEwYyIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.dMkpq1VJasyxRPZsLO6rc5dstN_n8oAMRgfOcffLIiw",
+          "token_type": "bearer",
+          "expires_in": 3600,
+          "user" :   {
+            "_id": "65eec0aa4b28c694b60ec10c",
+            "mobile": 3294839384,
+            "name": null,
+            "email": null,
+            "image": null,
+            "user_pincode": null,
+                "longitude": -74.006
+            "user_location": {
+                "latitude": 40.7128,
+            },
+            "rera_number": 6767,
+            "user_city": "una",
+            "otp_status": true,
+            "status": true,
+            "updated_at": "2024-03-11T08:28:26.326000Z",
+            "created_at": "2024-03-11T08:28:26.326000Z"
+           },
+          }
+        headers: []
+        description: success
+        custom: []
+      -
+        status: 401
+        content: |-
+          {
+          "message": "Invalid login credentials"
+          }
+        headers: []
+        description: 'Failed Login'
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/logout
+    metadata:
+      groupName: Users
+      groupDescription: |-
+
+        APIs for managing users
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/refresh
+    metadata:
+      groupName: Users
+      groupDescription: |-
+
+        APIs for managing users
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: 'api/user/{_id}'
+    metadata:
+      groupName: Users
+      groupDescription: |-
+
+        APIs for managing users
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get a specific user'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Authorization: 'Bearer {token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      _id:
+        name: _id
+        description: 'The ID of the .'
+        required: true
+        example: eveniet
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      id:
+        name: id
+        description: 'The ID of the user.'
+        required: true
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanUrlParameters:
+      _id: eveniet
+      id: 3
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 404
+        content: |-
+          {
+            "message": "User not found"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+    uri: 'api/user/{_id}'
+    metadata:
+      groupName: Users
+      groupDescription: |-
+
+        APIs for managing users
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update a user'
+      description: 'This endpoint is used to update details of a specific user.'
+      authenticated: false
+      custom: []
+    headers:
+      Authorization: 'Bearer {token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      _id:
+        name: _id
+        description: 'The ID of the user to update'
+        required: true
+        example: '111'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanUrlParameters:
+      _id: '111'
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      mobile:
+        name: mobile
+        description: 'digits:10'
+        required: true
+        example: 2093235874
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      otp_status:
+        name: otp_status
+        description: ''
+        required: true
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      user_location:
+        name: user_location
+        description: ''
+        required: true
+        example:
+          - velit
+        type: 'string[]'
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      status:
+        name: status
+        description: ''
+        required: true
+        example: 0
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanBodyParameters:
+      mobile: 2093235874
+      otp_status: false
+      user_location:
+        - velit
+      status: 0
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+             "message": "User updated successfully"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/user/{_id}'
+    metadata:
+      groupName: Users
+      groupDescription: |-
+
+        APIs for managing users
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Delete a user'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Authorization: 'Bearer {token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      _id:
+        name: _id
+        description: 'The ID of the .'
+        required: true
+        example: porro
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      id:
+        name: id
+        description: 'The ID of the user to delete.'
+        required: true
+        example: '2'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanUrlParameters:
+      _id: porro
+      id: '2'
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+             "message": "User deleted successfully"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/users
+    metadata:
+      groupName: Users
+      groupDescription: |-
+
+        APIs for managing users
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'User list'
+      description: 'This endpoint is used to get user list.'
+      authenticated: false
+      custom: []
+    headers:
+      Authorization: 'Bearer {token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+          "user" :   [
+          {
+            "_id": "65eec0aa4b28c694b60ec10c",
+            "mobile": 3294839384,
+            "name": null,
+            "email": null,
+            "image": null,
+            "user_pincode": null,
+                "longitude": -74.006
+            "user_location": {
+                "latitude": 40.7128,
+            },
+            "rera_number": 6767,
+            "user_city": "una",
+            "otp_status": true,
+            "status": true,
+            "updated_at": "2024-03-11T08:28:26.326000Z",
+            "created_at": "2024-03-11T08:28:26.326000Z"
+           },
+          ]
+        headers: []
+        description: 'User list'
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
