@@ -22,13 +22,13 @@ class PropertyController extends Controller
 
     public function create()
     {
-        return view('Property.create');
+        return view('property.create');
     }
 
     public function save(Request $request)
 {
 
-    dd($request);
+    // dd($request);
     $validator = Validator::make($request->all(), [
     'property_name' => 'required|string|min:4|max:40',
     'price' => 'required|numeric|min:0',
@@ -139,7 +139,7 @@ class PropertyController extends Controller
     public function edit($id)
     {
         $property = Property::findOrFail($id);
-        return view('Property.update', compact('property'));
+        return view('property.update', compact('property'));
     }
 
     public function delete($id)
