@@ -5,7 +5,7 @@ namespace App\Http\Controllers\web;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User; 
-use App\Models\property; 
+use App\Models\Property; 
 
 class HomeController extends Controller
 {
