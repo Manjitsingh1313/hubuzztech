@@ -70,7 +70,7 @@
 
                                         <div class="form-group">
                                             <input name="email" type="email" class="form-control form-control-user"
-                                                   id="exampleInputLoginField" placeholder="Enter Mobile Number or Email...">
+                                                   id="exampleInputLoginField" placeholder="Please Enter Your Email...">
                                         </div>
                                         <div class="form-group">
                                             <input name="password" type="password"
