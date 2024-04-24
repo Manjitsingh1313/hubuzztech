@@ -10326,3 +10326,26 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
     width: 100%;
 }
+
+
+
+/* extra custom css */
+
+
+.inputfile {
+    display: none; 
+}
+
+.file-upload-btn {
+    display: inline-block;
+    background-color: #3498db; /* Button color */
+    color: #fff; /* Text color */
+    padding: 10px 20px; /* Padding */
+    cursor: pointer; /* Cursor style */
+    border-radius: 5px; /* Rounded corners */
+}
+
+/* Styling when hovering over the button */
+.file-upload-btn:hover {
+    background-color: #2980b9;
+}

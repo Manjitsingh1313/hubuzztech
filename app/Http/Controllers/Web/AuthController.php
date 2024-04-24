@@ -27,6 +27,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'mobile' => 'required|numeric|digits:10|unique:users',
+            'email' => 'required|string|unique:users',
             'password' => 'required|min:6',
             'role' => 'required|string|in:user,admin',
         ]);
@@ -38,6 +39,7 @@ class AuthController extends Controller
         $user = User::create([
             'mobile' => intval($request->mobile), 
             'password' => Hash::make($request->password),
+            'email' => $request->email,
             'role' => $request->role,
             'otp_status' => true,
             'status' => true,
@@ -63,41 +65,39 @@ class AuthController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'mobile' => 'required|digits:10',
+                'email' => 'required|email',
                 'password' => 'required',
             ]);
     
             if ($validator->fails()) {
                 return redirect()->back()->withInput()->withErrors(['error' => $validator->errors()]);
             }
-            $mobile = intval($request->input('mobile'));
-
-            $credentials = [
-                'mobile' => $mobile,
-                'password' => $request->input('password'),
-            ];
-            if (!Auth::attempt($credentials)) {
-                throw new \Exception('Invalid mobile number or password');
+    
+            $email = $request->input('email');
+            $password = $request->input('password');
+    
+            $user = User::where('email', $email)->first();
+    
+            if (!$user || !Hash::check($password, $user->password)) {
+                throw new \Exception('Invalid Email or password');
             }
     
-            $user = Auth::user();
-            Log::info('Authenticated user:', ['user' => $user]); 
-
-            // if ($user->otp_status !== true || $user->status !== true) {
-            //     Auth::logout();
-            //     throw new \Exception('Access denied. Please verify status and payment status.');
-            // }
+            if (Auth::attempt(['email' => $email, 'password' => $password])) {
+                $user = Auth::user();
+                Log::info('Authenticated user:', ['user' => $user]); 
     
-            if ($user->role === 'admin') {
-                Session::put('user', $user);
-                // $request->session()->put('user', $user->toArray()); // Store user data in session
-
-                return redirect()->route('dashboard')->with([
-                    'message' => 'Admin logged in successfully',
-                ]);
+                if ($user->role === 'admin') {
+                    Session::put('user', $user);
+    
+                    return redirect()->route('dashboard')->with([
+                        'message' => 'Admin logged in successfully',
+                    ]);
+                } else {
+                    Auth::logout();
+                    throw new \Exception('You do not have permission to access this page.');
+                }
             } else {
-                Auth::logout();
-                throw new \Exception('You do not have permission to access this page.');
+                throw new \Exception('Authentication failed');
             }
     
         } catch (\Exception $e) {

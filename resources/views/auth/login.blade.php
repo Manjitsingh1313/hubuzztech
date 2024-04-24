@@ -42,30 +42,35 @@
                                     @endif
 
                                     @if ($errors->any())
-                                    <div class="alert alert-danger">
-                                        <ul class="list-unstyled">
-                                            @foreach ($errors->all() as $error)
-                                                @if (is_string($error))
-                                                    <li>{{ $error }}</li>
-                                                @elseif(is_array($error))
-                                                    @foreach ($error as $message)
-                                                        <li>{{ $message }}</li>
-                                                    @endforeach
-                                                @endif
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
+                                        <div class="alert alert-danger">
+                                            <ul class="list-unstyled">
+                                                @foreach ($errors->all() as $error)
+                                                    @if (is_string($error))
+                                                        <li>{{ $error }}</li>
+                                                    @elseif(is_array($error))
+                                                        @foreach ($error as $message)
+                                                            <li>{{ $message }}</li>
+                                                        @endforeach
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
                                     <form action="{{ route('login.action') }}" method="POST" class="user">
                                         @csrf
-                                       
+
 
                                         {{-- <div class="form-group">
                       <input name="email" type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
                     </div> --}}
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <input name="mobile" type="text" class="form-control form-control-user"
                                                 id="exampleInputMobile" placeholder="Enter Mobile Number...">
+                                        </div> --}}
+
+                                        <div class="form-group">
+                                            <input name="email" type="email" class="form-control form-control-user"
+                                                   id="exampleInputLoginField" placeholder="Enter Mobile Number or Email...">
                                         </div>
                                         <div class="form-group">
                                             <input name="password" type="password"
