@@ -81,7 +81,11 @@ class UserController extends Controller
             $limit = $requestData['limit'] ?? 10;
     
             // $query = DB::collection('users')->with('ratings');
-            $query = User::query()->with('ratings');
+            // $query = User::query()->with('ratings');
+            $query = User::query()
+                ->where('role', 'user')
+                ->with('ratings')
+                ->orderBy('created_at', 'desc'); 
 
             // dd($query);
 
@@ -421,10 +425,19 @@ class UserController extends Controller
                     return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()], 400);
                 }
                 if ($request->hasFile('image')) {
-                    $image = $request->file('image');
-                    $imageName = $image->getClientOriginalName();
-                    $imagePath = $image->storeAs('images', $imageName, 'public/images');
-                    $user->image = $imagePath;
+                    // $image = $request->file('image');
+                    // $imageName = $image->getClientOriginalName();
+                    // $imagePath = $image->storeAs('images', $imageName, 'public/images');
+                    // $user->image = $imagePath;
+
+                    $Uploadimage = $request->file('image');
+                    $single_photo = time() . '_' . $Uploadimage->hashName();
+                    $Uploadimage->move(public_path('images/user_images'), $single_photo);
+                
+                    $photo = 'images/user_images/' . $single_photo;
+                    
+                    $user->image = $photo;
+
                 }
                 if (empty($user->user_pincode) && !empty($request->user_pincode)) {
                     $user->user_pincode = $request->user_pincode;
