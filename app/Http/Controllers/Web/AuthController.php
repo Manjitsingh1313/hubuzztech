@@ -67,6 +67,10 @@ class AuthController extends Controller
             $validator = Validator::make($request->all(), [
                 'email' => 'required|email',
                 'password' => 'required',
+            ], [
+                'email.required' => 'Please enter your email address.',
+                'email.email' => 'Please enter a valid email address.',
+                'password.required' => 'Please enter your password.',
             ]);
     
             if ($validator->fails()) {
@@ -100,8 +104,12 @@ class AuthController extends Controller
                 throw new \Exception('Authentication failed');
             }
     
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Custom validation error messages
+            return redirect()->back()->withInput()->withErrors(['error' => $e->validator->errors()->first()]);
         } catch (\Exception $e) {
-            return redirect()->back()->withInput()->withErrors(['error' => $e->getMessage()]);
+            // General error message
+            return redirect()->back()->withInput()->withErrors(['error' => 'Login failed. Please check your credentials and try again.']);
         }
     }
     
@@ -120,7 +128,6 @@ public function changePassword(Request $request)
     try {
         $mobile = Session::get('user');
         $user = User::where('mobile', $mobile['mobile'])->first();
-        
         if (!$user) {
             return redirect()->back()->withInput()->withErrors(['error' => 'User not found']);
         }

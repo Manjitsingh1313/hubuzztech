@@ -18,7 +18,8 @@ class HomeController extends Controller
         $users = User::all();
         
         $properties = Property::all();
-        
+        $activeUsersCount = User::where('status', true)->count();
+        $inactiveUsersCount = User::where('status', false)->count();
         $propertyDealers = User::where('role', 'property_dealer')->get();
         
         return view('dashboard', [
@@ -27,6 +28,8 @@ class HomeController extends Controller
             'users' => $users,
             'properties' => $properties,
             'propertyDealers' => $propertyDealers,
+            'activeUsersCount' => $activeUsersCount,
+            'inactiveUsersCount' => $inactiveUsersCount,
         ]);
     }
     
