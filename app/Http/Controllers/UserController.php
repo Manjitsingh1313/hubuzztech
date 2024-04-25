@@ -308,6 +308,8 @@ class UserController extends Controller
                 'payment_res'=>'required|array',
                 'payment_status'=>'required|integer',
                 'email'=>'email',
+                'user_city'=>'required',
+
             ]);
             $status = true;
 
@@ -324,6 +326,7 @@ class UserController extends Controller
                             'mobile'=>$request->mobile,
                             'otp_status'=>$request->otp_status,
                             'user_location'=>$request->user_location,
+                            'user_city'=>$request->user_city,
                             'status'=>$request->status,
                             'email'=>$request->email,
                             'user_pincode'=>$request->user_pincode,
