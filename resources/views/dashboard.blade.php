@@ -65,51 +65,51 @@
                 </div>
             </div>
         </div>
-       <!-- Active Users Card -->
-<div class="col-xl-3 col-md-6 mb-4">
-    <div class="card border-left-info shadow h-100 py-2">
-        <div class="card-body">
-            <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                        Active</div>
+        <!-- Active Users Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
                     <div class="row no-gutters align-items-center">
-                        <div class="col-auto">
-                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $activeUsersCount }}</div>
-                        </div>
-                        <div class="col">
-                            <div class="progress progress-sm mr-2">
-                                {{-- You can use this if you want to display a progress bar based on the count --}}
-                                {{-- <div class="progress-bar bg-info" role="progressbar" style="width: {{ $activeUsersCount }}%" aria-valuenow="{{ $activeUsersCount }}" aria-valuemin="0" aria-valuemax="100"></div> --}}
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Active</div>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-auto">
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $activeUsersCount }}</div>
+                                </div>
+                                <div class="col">
+                                    <div class="progress progress-sm mr-2">
+                                        {{-- You can use this if you want to display a progress bar based on the count --}}
+                                        {{-- <div class="progress-bar bg-info" role="progressbar" style="width: {{ $activeUsersCount }}%" aria-valuenow="{{ $activeUsersCount }}" aria-valuemin="0" aria-valuemax="100"></div> --}}
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                        <div class="col-auto">
+                            {{-- <i class="fas fa-clipboard-list fa-2x text-gray-300"></i> --}}
                         </div>
                     </div>
                 </div>
-                <div class="col-auto">
-                    {{-- <i class="fas fa-clipboard-list fa-2x text-gray-300"></i> --}}
-                </div>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- Inactive Users Card -->
-<div class="col-xl-3 col-md-6 mb-4">
-    <div class="card border-left-warning shadow h-100 py-2">
-        <div class="card-body">
-            <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                        Inactive</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $inactiveUsersCount }}</div>
-                </div>
-                <div class="col-auto">
-                    {{-- <i class="fas fa-comments fa-2x text-gray-300"></i> --}}
+        <!-- Inactive Users Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Inactive</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $inactiveUsersCount }}</div>
+                        </div>
+                        <div class="col-auto">
+                            {{-- <i class="fas fa-comments fa-2x text-gray-300"></i> --}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
 
 
@@ -121,12 +121,12 @@
                 Properties</button>
         </div>
 
+        <img src="{{ asset('/assets/images/column-chart.webp') }}" alt="Inactive Icon"   style="width: 100%; height: 70vh;"/>
     </div>
-    <div>
-        <img src="{{ asset('/assets/images/column-chart.webp') }}" alt="Inactive Icon" class="img-fluid" style="width: 100%; height: 100%;">
-    </div>
-    
-    
-   
-    
+
+
+
+
+
+
 @endsection
