@@ -238,42 +238,53 @@
                                     </div>
                                 </div>
                             </div>
-                            {{dd($property)}}
+
+                            <pre>
+                                {{-- {{var_dump($property)}} --}}
+                                {{-- {{dd($property)}} --}}
+                                {{-- {{ print_r($property)}} --}}
+                             </pre>
+
+
                             <div class="row mb-3">
                                 <!-- Existing Images -->
                                 <div class="col-md-6">
                                     <h5>Existing Images</h5>
-                                    <ul class="list-unstyled d-flex flex-wrap">
-                                        @foreach ($property->images ?? [] as $i => $imagePath)
-                                            @if ($imagePath)
-                                                <li class="image-item"
-                                                    style="width: 200px; margin-right: 20px; margin-bottom: 20px;">
-                                                    <img src="{{ asset($imagePath) }}" alt="Property Image"
-                                                        class="img-thumbnail mb-2" style="width: 100%;">
-                                                    <button type="button" class="btn btn-danger btn-sm"
-                                                        onclick="deleteImage({{ $i }})">
-                                                        Delete
-                                                    </button>
-                                                    <input type="hidden" name="existing_images[]"
-                                                        value="{{ $imagePath }}">
-                                                </li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
+                                    @if (is_array($property) || is_object($property))
+                                        <ul class="list-unstyled d-flex flex-wrap">
+                                            @foreach ($property->toArray()['images'] ?? [] as $i => $imagePath)
+                                                @if ($imagePath)
+                                                    <li class="image-item"
+                                                        style="width: 200px; margin-right: 20px; margin-bottom: 20px;">
+                                                        <img src="{{ asset($imagePath) }}" alt="Property Image"
+                                                            class="img-thumbnail mb-2" style="width: 100%;">
+                                                        <button type="button" class="btn btn-danger btn-sm"
+                                                            onclick="deleteImage({{ $i }})">
+                                                            Delete
+                                                        </button>
+                                                        <input type="hidden" name="existing_images[]"
+                                                            value="{{ $imagePath }}">
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                        @if (empty($property->toArray()['images']))
+                                            <p>No images available. Please upload some images.</p>
+                                        @else
+                                            <p>Please select more images.</p>
+                                        @endif
 
-                                    @if ($property->images->toArray())
-                                        <p>Please select multiple images.</p>
+                                        @error('images.*')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     @endif
-
-
-                                    @error('images.*')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
                                 </div>
                                 <!-- Main Photo -->
                                 <div class="col-md-6">
-                                    <h1>Main Photo</h1>
-                                    <input type="file" name="photo" class="form-control" accept="image/*">
+                                    <h3>Main Photo</h3>
+                                    <input type="file" name="photo" id="photo" class="inputfile"
+                                        accept="image/*">
+                                    <label for="photo" class="file-upload-btn">Choose Photo</label>
                                     @error('photo')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -288,19 +299,23 @@
 
                             <!-- Upload Images -->
                             <div class="mb-4">
-                                @if (empty($property->images))
+                                @if (empty($property->toArray()['images']))
                                     <h5>Upload Images</h5>
                                 @else
                                     <h5>Add More Images</h5>
                                 @endif
-                                <input type="file" name="images[]" accept="image/*" multiple class="form-control">
+                                <input type="file" name="images[]" id="images" multiple class="inputfile"
+                                    accept="image/*">
+                                <label for="images" class="file-upload-btn">Choose Photo</label>
                                 @error('images.*')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
 
+
                             <script>
                                 function deleteImage(index) {
+                                    console.log(index)
                                     let imagesContainer = document.querySelector('.list-unstyled');
                                     let imageItem = imagesContainer.children[index];
                                     imageItem.remove();
@@ -315,6 +330,7 @@
                                     document.querySelector('form').appendChild(deleteInput);
                                 }
                             </script>
+
 
 
 

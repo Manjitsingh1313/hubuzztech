@@ -136,11 +136,7 @@ class PropertyController extends Controller
 
     
 
-    public function edit($id)
-    {
-        $property = Property::findOrFail($id);
-        return view('property.update', compact('property'));
-    }
+   
 
     public function delete($id)
     {
@@ -157,11 +153,17 @@ class PropertyController extends Controller
 
 
 
-
+    public function edit($id)
+    {
+        $property = Property::findOrFail($id);
+        return view('property.update', compact('property'));
+    }
    
 
     public function update(Request $request, $id)
     {
+      
+      
         try {
             $property = Property::findOrFail($id);
     
@@ -198,65 +200,72 @@ class PropertyController extends Controller
     
             $validatedData = $validator->validated();
     
-            // Handle photo update
-            if ($request->hasFile('photo')) {
-                // Delete old photo if exists
-                if ($property->photo) {
-                    unlink(public_path($property->photo));
-                }
-    
-                // Store new photo
-                $photo = $request->file('photo');
-                $filename = time() . '_' . $photo->hashName();
-                $photo->move(public_path('images/property_default_image'), $filename);
-                $validatedData['photo'] = 'images/property_default_image/' . $filename;
-            } else {
-                $validatedData['photo'] = $property->photo;
+             // Handle photo update
+        if ($request->hasFile('photo')) {
+            // Delete old photo if exists
+            if ($property->photo) {
+                unlink(public_path($property->photo));
             }
-    
-            // Handle existing images deletion
-            if ($request->has('delete_images')) {
-                $delete_images = $request->input('delete_images');
-                foreach ($delete_images as $imagePath) {
+
+            // Store new photo
+            $photo = $request->file('photo');
+            $filename = time() . '_' . $photo->hashName();
+            $photo->move(public_path('images/property_default_image'), $filename);
+            $validatedData['photo'] = 'images/property_default_image/' . $filename;
+        } else {
+            $validatedData['photo'] = $property->photo;
+        }
+
+        // Handle existing images deletion and update
+        if ($request->has('delete_images')) {
+            $delete_images = $request->input('delete_images');
+            foreach ($delete_images as $imagePath) {
+                if (file_exists(public_path($imagePath))) {
+                    unlink(public_path($imagePath));
+                }
+                $validatedData['images'] = $property->images->filter(function ($image) use ($imagePath) {
+                    return $image !== $imagePath;
+                })->toArray();
+            }
+        } else {
+            $validatedData['images'] = $property->images->toArray();
+        }
+
+        // Handle existing images update
+        if ($request->has('existing_images')) {
+            $existing_images = $request->input('existing_images');
+            foreach ($existing_images as $index => $imagePath) {
+                if ($request->hasFile("existing_images_file.{$index}")) {
+                    $image = $request->file("existing_images_file.{$index}");
+                    $filename = time() . '_' . $image->hashName();
+                    $image->move(public_path('images/property_images'), $filename);
+                    $existing_images[$index] = 'images/property_images/' . $filename;
                     if (file_exists(public_path($imagePath))) {
                         unlink(public_path($imagePath));
                     }
-                    $validatedData['images'] = array_filter($property->images, function ($image) use ($imagePath) {
-                        return $image !== $imagePath;
-                    });
                 }
-            } else {
-                $validatedData['images'] = $property->images;
             }
+            $validatedData['images'] = array_merge($existing_images, $validatedData['images']);
+        }
+
+        // dd($request);
+        // dd($id);
+   // Handle multiple images update
+if ($request->hasFile('images')) {
+    $new_images = [];
+    foreach ($request->file('images') as $image) {
+        $filename = time() . '_' . $image->hashName();
+        $image->move(public_path('images/property_images'), $filename);
+        $new_images[] = 'images/property_images/' . $filename;
+    }
     
-            // Handle existing images update
-            if ($request->has('existing_images')) {
-                $existing_images = $request->input('existing_images');
-                foreach ($existing_images as $index => $imagePath) {
-                    if ($request->hasFile("existing_images_file.{$index}")) {
-                        $image = $request->file("existing_images_file.{$index}");
-                        $filename = time() . '_' . $image->hashName();
-                        $image->move(public_path('images/property_images'), $filename);
-                        $existing_images[$index] = 'images/property_images/' . $filename;
-                        if (file_exists(public_path($imagePath))) {
-                            unlink(public_path($imagePath));
-                        }
-                    }
-                }
-                $validatedData['images'] = array_merge($existing_images, $validatedData['images'] ?? []);
-            }
-    
-            // Handle multiple images update
-            if ($request->hasFile('images')) {
-                $new_images = [];
-                foreach ($request->file('images') as $image) {
-                    $filename = time() . '_' . $image->hashName();
-                    $image->move(public_path('images/property_images'), $filename);
-                    $new_images[] = 'images/property_images/' . $filename;
-                }
-                $validatedData['images'] = array_merge($new_images, $validatedData['images'] ?? []);
-            }
-    
+    $existing_images = $validatedData['images'] ?? [];
+    $validatedData['images'] = array_merge($new_images, $existing_images);
+}
+
+
+            // dd($property);
+
             $property->update($validatedData);
     
             if ($property) {
