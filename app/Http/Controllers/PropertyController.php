@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Auth;
  */
 class PropertyController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth:api');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
 
 
     /**
