@@ -81,7 +81,11 @@ class UserController extends Controller
             $limit = $requestData['limit'] ?? 10;
     
             // $query = DB::collection('users')->with('ratings');
-            $query = User::query()->with('ratings');
+            // $query = User::query()->with('ratings');
+            $query = User::query()
+                ->where('role', 'user')
+                ->with('ratings')
+                ->orderBy('created_at', 'desc'); 
 
             // dd($query);
 
