@@ -149,7 +149,7 @@ class UserController extends Controller
             
             
             return response()->json([
-                'message' => 'Request processed successfully',
+                'message' => 'Users listed successfully',
                 'users' => $users,
                 'limit' => $limit,
                 'page' => $page,
