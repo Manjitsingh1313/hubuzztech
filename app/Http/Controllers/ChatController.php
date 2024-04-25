@@ -144,7 +144,7 @@ public function sendMessage(Request $request)
         $validator = Validator::make($request->all(), [
             'sender_id' => 'required|string|exists:users,_id',
             'recipient_id' => 'required|string|exists:users,_id',
-            'message' => 'required|string',
+            'message' => 'required',
         ]);
 
         if ($validator->fails()) {

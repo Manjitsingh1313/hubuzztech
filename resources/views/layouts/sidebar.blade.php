@@ -66,15 +66,15 @@
   </li>
 
   <!-- Divider -->
-  <hr class="sidebar-divider">
+  {{-- <hr class="sidebar-divider"> --}}
 
   <!-- Heading -->
-  <div class="sidebar-heading">
+  {{-- <div class="sidebar-heading">
       Dealer
-  </div>
+  </div> --}}
   <li class="nav-item">
     <a class="nav-link" href="{{ route('dealers') }}">
-        <i class="fas fa-fw fa-chart-area"></i>
+        <i class="fas fa-fw fa-user"></i>
         <span>Dealers</span></a>
 </li>
   <!-- Nav Item - Pages Collapse Menu -->
@@ -113,12 +113,12 @@
   </li> --}}
 
   <!-- Divider -->
-  <hr class="sidebar-divider">
+  {{-- <hr class="sidebar-divider"> --}}
 
   <!-- Heading -->
-  <div class="sidebar-heading">
+  {{-- <div class="sidebar-heading">
       Property
-  </div>
+  </div> --}}
 
   <!-- Nav Item - Pages Collapse Menu -->
   {{-- <li class="nav-item">
@@ -144,7 +144,7 @@
   <!-- Nav Item - Charts -->
   <li class="nav-item">
       <a class="nav-link" href="{{ route('properties') }}">
-          <i class="fas fa-fw fa-chart-area"></i>
+        <i class="fas fa-fw fa-building"></i>
           <span>Properties</span></a>
   </li>
 
