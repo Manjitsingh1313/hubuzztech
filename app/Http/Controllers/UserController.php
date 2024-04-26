@@ -148,9 +148,6 @@ class UserController extends Controller
             }
             
             
-
-
-            
             
             return response()->json([
                 'message' => 'Users listed successfully',
@@ -371,17 +368,18 @@ class UserController extends Controller
     }
 
 
-
     protected function respondWithToken($token, $user)
     {
+        $expiresInMinutes = auth()->factory()->getTTL() * 24 * 60; // 24 hours * 60 minutes
+    
         return response()->json([
             'access_token' => $token,
             'user' => $user,
             'token_type' => 'Bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => $expiresInMinutes
         ]);
     }
-
+    
 
     
    /**
@@ -433,7 +431,7 @@ class UserController extends Controller
                     $Uploadimage = $request->file('image');
                     $single_photo = time() . '_' . $Uploadimage->hashName();
                     $Uploadimage->move(public_path('images/user_images'), $single_photo);
-                
+            
                     $photo = 'images/user_images/' . $single_photo;
                     
                     $user->image = $photo;
@@ -523,10 +521,9 @@ class UserController extends Controller
      * }
      */
     // getUserByMobile
-    public function getUserByMobile(Request $request , $mobile)
+    public function getUserByMobile(Request $request, int $mobile)
     {
         try {
-         
             $data = User::where('mobile', $mobile)->first();
             if (!$data) {
                 return response()->json(['message' => 'User not found with this mobile number'], 404);
