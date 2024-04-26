@@ -282,16 +282,29 @@ if ($request->hasFile('images')) {
     
     
     
-    public function showUserProperties($user_id)
+    public function showUserProperties($user_id, Request $request)
     {
+        $user_id = $user_id;
+    
         $user = User::find($user_id);
     
         if (!$user) {
             return redirect()->back()->with('error', 'User not found');
         }
-        $properties = $user->properties;
-        return view('property.user_properties', compact('properties'));
+    
+        $searchQuery = $request->input('search');
+    
+        $propertiesQuery = $user->properties();
+        if ($searchQuery) {
+            $propertiesQuery->where('property_name', 'like', '%' . $searchQuery . '%');
+        }
+        
+        $properties = $propertiesQuery->paginate(10);
+    
+        return view('property.user_properties', compact('properties', 'searchQuery', 'user_id'));
     }
+    
+    
     
     
     

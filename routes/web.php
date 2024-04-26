@@ -23,6 +23,7 @@ Route::middleware(['web', 'admin'])->group(function () {
         Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
         Route::get('/change-password', [AuthController::class, 'changePasswordView'])->name('changePassword');
         Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change/password');
+        Route::get('/dealer/{user_id}/properties',[PropertyController::class, 'showUserProperties'] )->name('user/properties');
         
         Route::get('/dealers', [DealersController::class, 'dealers'])->name('dealers');
         Route::get('/dealers/create', [DealersController::class, 'create'])->name('dealer/create');
@@ -37,8 +38,8 @@ Route::middleware(['web', 'admin'])->group(function () {
         Route::get('/properties/edit/{id}', [PropertyController::class, 'edit'])->name('properties/edit');
         Route::put('/properties/update/{id}', [PropertyController::class, 'update'])->name('properties/update');
         Route::get('/properties/delete/{id}', [PropertyController::class, 'delete'])->name('properties/delete');
-        Route::get('/user/{user_id}/properties',[PropertyController::class, 'showUserProperties'] )->name('user/properties');
 
+        Route::get('/download-apk',  [HomeController::class, 'downloadApk'] )->name('download.apk');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
         Route::fallback(function () {
@@ -46,6 +47,8 @@ Route::middleware(['web', 'admin'])->group(function () {
         });
     });
  
+// routes/web.php
+
 
     Route::fallback(function () {
         return redirect('/login');

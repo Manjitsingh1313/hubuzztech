@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User; 
 use App\Models\Property; 
+use Illuminate\Support\Facades\File;
 
 class HomeController extends Controller
 {
@@ -42,6 +43,29 @@ class HomeController extends Controller
     {
         return view('profile');
     }
+
+
+
+// apk download file function
+
+
+
+public function downloadApk()
+{
+    $apkDirectory = public_path('apk');
+
+    $apkFiles = File::glob($apkDirectory . '/*.apk');
+    // Check if any APK file exists
+    if (empty($apkFiles)) {
+        abort(404, 'No APK files found');
+    }
+
+    // Get the first APK file found
+    $apkFilePath = $apkFiles[0];
+
+    // Provide download response
+    return response()->download($apkFilePath, 'app-release.apk');
+}
 
     
 }

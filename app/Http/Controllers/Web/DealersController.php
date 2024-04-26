@@ -17,7 +17,8 @@ class DealersController extends Controller
      */
     public function dealers()
     {
-        $users = User::where('role', '!=', 'admin')->orderBy('created_at', 'desc')->get(); 
+        // $users = User::where('role', '!=', 'admin')->orderBy('created_at', 'desc')->paginate(10); 
+        $users = User::orderBy('created_at', 'desc')->paginate(10); 
         // You can also use User::where('role', 'dealer')->get(); if you want to filter by role
         // Pass user data to the view
         return view('dealer.index', ['users' => $users]);
