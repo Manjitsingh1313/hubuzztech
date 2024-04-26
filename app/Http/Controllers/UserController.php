@@ -520,10 +520,9 @@ class UserController extends Controller
      * }
      */
     // getUserByMobile
-    public function getUserByMobile(Request $request , $mobile)
+    public function getUserByMobile(Request $request, int $mobile)
     {
         try {
-         
             $data = User::where('mobile', $mobile)->first();
             if (!$data) {
                 return response()->json(['message' => 'User not found with this mobile number'], 404);

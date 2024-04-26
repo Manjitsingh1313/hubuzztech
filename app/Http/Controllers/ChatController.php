@@ -226,7 +226,6 @@ public function sendMessage(Request $request)
                     $senderMessages[] = $formattedMessage;
                 }
             }
-
             $sender_profile = User::find($sender_id);
             if (!$sender_profile) {
                 return response()->json(['message' => 'Sender not found.'], 404);
