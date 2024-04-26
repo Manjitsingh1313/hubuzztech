@@ -8,13 +8,10 @@
     <div class="p-6 text-gray-900">
         <div class="d-flex align-items-center justify-content-between">
             <h1 class="h3 mb-2 text-gray-800">Dealers</h1>
-            {{-- <p class="mb-4">Below is the list of dealers.</p> --}}
-            {{-- <h2 class="mb-0">Dealers</h2> --}}
             <a href="{{ route('dealer/create') }}" class="btn btn-primary mb-2">
                 <i class="fas fa-plus"></i> Add Dealer
             </a>
         </div>
-        
     </div>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -38,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $dealer)
+                        @forelse ($users as $dealer)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ isset($dealer->name) && !empty($dealer->name) ? $dealer->name : 'N/A' }}</td>
@@ -55,7 +52,7 @@
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <button type="button" class="btn btn-danger" data-toggle="modal"
-                                    data-target="#deleteModal{{ $dealer->id }}">
+                                    data-target="#deleteModal{{ $dealer->_id }}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                                 <!-- Delete Modal -->
@@ -88,7 +85,11 @@
                                 </div>
                             </td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="7" class="text-center">Dealers not found</td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -99,9 +100,9 @@
 @endsection
 
 @push('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#dataTable').DataTable();
-        });
-    </script>
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+    });
+</script>
 @endpush

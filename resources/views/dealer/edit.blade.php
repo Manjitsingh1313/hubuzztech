@@ -108,28 +108,31 @@
                             <div class="col mb-3">
                                 <label class="form-label">Profile</label>
                                 @if (isset($dealer->image))
-                                    <img src="{{ asset('/images/user_images/' . $dealer->image) }}" alt="Profile Image"
-                                        class="img-thumbnail" style="max-width: 200px;">
+                                    <img src="{{ asset($dealer->image) }}" alt="Profile Image" class="img-thumbnail" style="max-width: 200px;">
                                     <div class="mt-2">
-                                        <input type="file" name="image" class="form-control" placeholder="Update Image"
-                                            accept="image/*">
+                                        <label for="image" class="file-upload-btn btn btn-primary">
+                                            Update Image
+                                            <input type="file" id="image" name="image" class="form-control inputfile" accept="image/*">
+                                        </label>
                                         <small class="text-muted">Upload a new image to update</small>
                                     </div>
                                 @else
-                                    <input type="file" name="image" class="form-control" placeholder="Upload Image"
-                                        accept="image/*">
+                                    <label for="image" class="file-upload-btn btn btn-primary">
+                                        Upload Image
+                                        <input type="file" id="image" name="image" class="form-control inputfile" accept="image/*">
+                                    </label>
                                     <small class="text-muted">Upload a profile image</small>
                                 @endif
                             </div>
                             <div class="col mb-3">
                                 <label class="form-label">User Pincode</label>
-                                <input type="text" name="user_pincode" class="form-control" placeholder="User Pincode"
-                                    value="{{ old('user_pincode', $dealer->user_pincode) }}">
+                                <input type="text" name="user_pincode" class="form-control" placeholder="User Pincode" value="{{ old('user_pincode', $dealer->user_pincode) }}">
                                 @error('user_pincode')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
+                        
                         <div class="row">
                             <div class="col mb-3">
                                 <label class="form-label">RERA Number</label>
