@@ -227,9 +227,20 @@ public function sendMessage(Request $request)
                 }
             }
 
+            $sender_profile = User::find($sender_id);
+            if (!$sender_profile) {
+                return response()->json(['message' => 'Sender not found.'], 404);
+            }
+
+            $recipient_profile = User::find($recipient_id);
+            if (!$recipient_profile) {
+                return response()->json(['message' => 'Recipient not found.'], 404);
+            }
+
+
             return response()->json([
-                'sender_id' => $sender_id,
-                'recipient_id' => $recipient_id,
+                'sender_profile' => $sender_profile,
+                'recipient_profile' => $recipient_profile,
                 'sender_msgs' => $senderMessages,
                 'recipient_msgs' => $recipientMessages
             ], 200);
