@@ -148,9 +148,6 @@ class UserController extends Controller
             }
             
             
-
-
-            
             
             return response()->json([
                 'message' => 'Users listed successfully',
@@ -433,7 +430,7 @@ class UserController extends Controller
                     $Uploadimage = $request->file('image');
                     $single_photo = time() . '_' . $Uploadimage->hashName();
                     $Uploadimage->move(public_path('images/user_images'), $single_photo);
-                
+            
                     $photo = 'images/user_images/' . $single_photo;
                     
                     $user->image = $photo;
