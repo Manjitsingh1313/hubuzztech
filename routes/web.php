@@ -37,6 +37,7 @@ Route::middleware(['web', 'admin'])->group(function () {
         Route::get('/properties/edit/{id}', [PropertyController::class, 'edit'])->name('properties/edit');
         Route::put('/properties/update/{id}', [PropertyController::class, 'update'])->name('properties/update');
         Route::get('/properties/delete/{id}', [PropertyController::class, 'delete'])->name('properties/delete');
+        Route::get('/user/{user_id}/properties',[PropertyController::class, 'showUserProperties'] )->name('user/properties');
 
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

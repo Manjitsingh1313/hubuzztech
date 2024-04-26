@@ -17,9 +17,8 @@ class DealersController extends Controller
      */
     public function dealers()
     {
-        $users = User::where('role', '!=', 'admin')
-                 ->orderBy('created_at', 'desc')
-                 ->get(); // You can also use User::where('role', 'dealer')->get(); if you want to filter by role
+        $users = User::where('role', '!=', 'admin')->orderBy('created_at', 'desc')->get(); 
+        // You can also use User::where('role', 'dealer')->get(); if you want to filter by role
         // Pass user data to the view
         return view('dealer.index', ['users' => $users]);
     }
@@ -114,73 +113,76 @@ class DealersController extends Controller
      */
 
      public function updateDealer(Request $request, $id)
-     {
-         try {
-             $rules = [
-                 'name' => 'nullable|string|max:255',
-                 'mobile' => 'required|integer|unique:users,mobile|digits:10',
-                 'email' => 'nullable|email|unique:dealers,email,' . $id,
-                 'user_city' => 'nullable|string|max:255',
-                 'user_pincode' => 'nullable|integer|max:999999',
-                 'rera_number' => 'nullable|string|max:255',
-                 'status' => 'nullable|boolean',
-                 'role' => 'nullable|string|in:admin,user',
-                 'password' => 'nullable|string|min:6',
-                 'otp_status' => 'nullable|boolean',
-                 'payment_res' => 'nullable|string|max:255',
-                 'payment_status' => 'nullable|string|in:pending,completed,failed',
-             ];
+{
+    try {
+        $rules = [
+            'name' => 'nullable|string|max:255',
+            'mobile' => 'required|integer|unique:users,mobile,' . $id . '|digits:10',
+            'email' => 'nullable|email|unique:users,email,' . $id,
+            'user_city' => 'nullable|string|max:255',
+            'user_pincode' => 'nullable|integer|max:999999',
+            'rera_number' => 'nullable|string|max:255',
+            'status' => 'nullable|boolean',
+            'role' => 'nullable|string|in:admin,user',
+            'password' => 'nullable|string|min:6',
+            'otp_status' => 'nullable|boolean',
+            'payment_res' => 'nullable|string|max:255',
+            'payment_status' => 'nullable|string|in:pending,completed,failed',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $dealer = User::find($id);
+
+        if (!$dealer) {
+            return response()->json(['message' => 'Dealer not found'], 404);
+        }
+
+        // Update fields based on request data
+        $dealer->mobile = $request->filled('mobile') ? intval($request->mobile) : $dealer->mobile;
+        $dealer->name = $request->filled('name') ? filter_var($request->name, FILTER_SANITIZE_STRING) : $dealer->name;
+        $dealer->email = $request->filled('email') ? filter_var($request->email, FILTER_SANITIZE_EMAIL) : $dealer->email;
+        $dealer->user_city = $request->filled('user_city') ? filter_var($request->user_city, FILTER_SANITIZE_STRING) : $dealer->user_city;
+        $dealer->role = $request->filled('role') ? filter_var($request->role, FILTER_SANITIZE_STRING) : $dealer->role;
+        $dealer->status = $request->filled('status') ? filter_var($request->status, FILTER_VALIDATE_BOOLEAN) : $dealer->status;
+        $dealer->user_pincode = $request->filled('user_pincode') ? intval($request->user_pincode) : $dealer->user_pincode;
+        $dealer->rera_number = $request->filled('rera_number') ? filter_var($request->rera_number, FILTER_SANITIZE_STRING) : $dealer->rera_number;
+        $dealer->password = $request->filled('password') ? Hash::make($request->password) : $dealer->password;
+        $dealer->otp_status = $request->filled('otp_status') ? filter_var($request->otp_status, FILTER_VALIDATE_BOOLEAN) : $dealer->otp_status;
+        $dealer->payment_res = $request->filled('payment_res') ? filter_var($request->payment_res, FILTER_SANITIZE_STRING) : $dealer->payment_res;
+        $dealer->payment_status = $request->filled('payment_status') ? filter_var($request->payment_status, FILTER_SANITIZE_STRING) : $dealer->payment_status;
+
+        if ($request->hasFile('image')) {
+            $Uploadimage = $request->file('image');
+            $single_photo = time() . '_' . $Uploadimage->hashName();
+            if (!empty($dealer->image)) {
+                $oldImagePath = public_path('images/user_images/' . $dealer->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+            $Uploadimage->move(public_path('images/user_images'), $single_photo);
+            $dealer->image = $single_photo;
+        }
+
+        $dealer->save();
+
+        return redirect()->route('dealers')->with('success', 'Dealer updated successfully.');
+
+    } catch (\Exception $e) {
+        return redirect()->back()
+            ->withErrors(['error' => 'Failed to update dealer: ' . $e->getMessage()])
+            ->withInput();
+    }
+}
+
      
-             $validator = Validator::make($request->all(), $rules);
-             
-             if ($validator->fails()) {
-                 // If validation fails, return back with errors
-                 return redirect()->back()
-                     ->withErrors($validator)
-                     ->withInput();
-             }
-     
-             $dealer = User::find($id);
-     
-             if (!$dealer) {
-                 return response()->json(['message' => 'Dealer not found'], 404);
-             }
-     
-             $dealer->mobile = intval($request->mobile);
-             $dealer->name = filter_var($request->name, FILTER_SANITIZE_STRING) ?? $dealer->name;
-             $dealer->email = filter_var($request->email, FILTER_SANITIZE_EMAIL) ?? $dealer->email;
-             $dealer->user_city = filter_var($request->user_city, FILTER_SANITIZE_STRING) ?? $dealer->user_city;
-             $dealer->role = filter_var($request->role, FILTER_SANITIZE_STRING) ?? $dealer->role;
-             $dealer->status = filter_var($request->status, FILTER_VALIDATE_BOOLEAN) ?? $dealer->status;
-             $dealer->user_pincode = intval($request->user_pincode);
-             $dealer->rera_number = filter_var($request->rera_number, FILTER_SANITIZE_STRING) ?? $dealer->rera_number;
-             $dealer->password = $request->password ? Hash::make($request->password) : $dealer->password;
-             $dealer->otp_status = filter_var($request->otp_status, FILTER_VALIDATE_BOOLEAN) ?? $dealer->otp_status;
-             $dealer->payment_res = filter_var($request->payment_res, FILTER_SANITIZE_STRING) ?? $dealer->payment_res;
-             $dealer->payment_status = filter_var($request->payment_status, FILTER_SANITIZE_STRING) ?? $dealer->payment_status;
-     
-             if ($request->hasFile('image')) {
-                 $Uploadimage = $request->file('image');
-                 $single_photo = time() . '_' . $Uploadimage->hashName(); 
-                 if (!empty($dealer->image)) {
-                     $oldImagePath = public_path('images/user_images/' . $dealer->image);
-                     if (file_exists($oldImagePath)) {
-                         unlink($oldImagePath);
-                     }
-                 }
-                 $Uploadimage->move(public_path('images/user_images'), $single_photo); 
-                 $dealer->image = $single_photo; 
-             }
-             $dealer->save();
-     
-             return redirect()->route('dealers')->with('success', 'Dealer updated successfully.');
-     
-         } catch (\Exception $e) {
-             return redirect()->back()
-                 ->withErrors(['error' => 'Failed to update dealer: ' . $e->getMessage()])
-                 ->withInput();
-         }
-     }
      
 
     

@@ -38,7 +38,7 @@
                                 <th>Area Sqft</th>
                                 <th>Deal</th>
                                 <th>Type</th>
-                                {{-- <th>Parking</th> --}}
+                                <th>Dealer Properties</th>
                                 {{-- <th>Description</th> --}}
                                 {{-- <th>Status</th> --}}
                                 <th>Action</th>
@@ -59,9 +59,15 @@
                                     {{-- <td class="align-middle">{{ $property->parking }}</td> --}}
                                     {{-- <td class="align-middle">{{ $property->description }}</td> --}}
                                     {{-- <td class="align-middle">{{ $property->status }}</td> --}}
+                                    <td>
+                                        <a href="{{ route('user/properties', ['user_id' => $property->user_id]) }}">
+                                         View 
+                                        </a>
+                                    </td>
+                                    
                                     <td class="align-middle">
                                         <div class="d-flex" role="group" aria-label="Basic example">
-                                            <a href="{{ route('properties/edit', ['id' => $property->_id]) }}" type="button"
+                                            <a href="{{ route('properties/edit', ['id' => $property->_id]) }}"             type="button"
                                                 class="btn  btn-warning  mr-2">
                                                 <span class="icon text-gray-600">
                                                     <i class="fas fa-edit"></i>

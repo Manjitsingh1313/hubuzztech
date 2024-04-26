@@ -69,14 +69,24 @@
                                         </div> --}}
 
                                         <div class="form-group">
-                                            <input name="email" type="email" class="form-control form-control-user"
+                                            <input name="email" type="email" class="form-control form-control-user @error('email') is-invalid @enderror"
                                                    id="exampleInputLoginField" placeholder="Please Enter Your Email...">
+                                            @error('email')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                         <div class="form-group">
-                                            <input name="password" type="password"
-                                                class="form-control form-control-user" id="exampleInputPassword"
-                                                placeholder="Password">
+                                            <input name="password" type="password" class="form-control form-control-user @error('password') is-invalid @enderror"
+                                                   id="exampleInputPassword" placeholder="Password">
+                                            @error('password')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
+                                        
                                         {{-- <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
                                                 <input name="remember" type="checkbox" class="custom-control-input"
