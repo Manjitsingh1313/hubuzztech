@@ -29,15 +29,15 @@
 
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead class="table-primary">
+                    <thead class="table-primary" style="background-color: grey;">
                         <tr>
-                            <th>#</th>
-                            <th>Property Name</th>
-                            <th>Price</th>
-                            <th>Area Sqft</th>
-                            <th>Deal</th>
-                            <th>Type</th>
-                            <th>Action</th>
+                            <th style="color: white;">#</th>
+                            <th style="color: white;">Property Name</th>
+                            <th style="color: white;">Price</th>
+                            <th style="color: white;">Area Sqft</th>
+                            <th style="color: white;">Deal</th>
+                            <th style="color: white;">Type</th>
+                            <th style="color: white;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,11 +53,11 @@
                                 <td>
                                     <div class="d-flex" role="group" aria-label="Basic example">
                                         <a href="{{ route('properties/edit', ['id' => $property->_id]) }}"
-                                           class="btn btn-warning mr-2">
+                                           class="btn btn-warning mr-2" data-toggle="tooltip" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                data-target="#deleteModal{{ $property->_id }}">
+                                                data-target="#deleteModal{{ $property->_id }}" data-toggle="tooltip" title="Delete">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                         <!-- Delete Modal -->
