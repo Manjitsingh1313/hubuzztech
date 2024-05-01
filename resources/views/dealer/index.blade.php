@@ -21,17 +21,17 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead class="table-primary">
+                    <thead class="table-primary" style="background-color: grey;">
                         <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            {{-- <th>Email</th> --}}
-                            <th>Mobile</th>
-                            {{-- <th>User City</th> --}}
-                            <th>Role</th>
-                            <th>Status</th>
-                            <th>Dealer Properties</th>
-                            <th>Action</th>
+                            <th  style="color: white;">#</th>
+                            <th  style="color: white;">Name</th>
+                            {{-- <th  style="color: white;">Email</th> --}}
+                            <th  style="color: white;">Mobile</th>
+                            {{-- <th  style="color: white;">User City</th> --}}
+                            <th  style="color: white;">Role</th>
+                            <th  style="color: white;">Status</th>
+                            <!-- <th  style="color: white;">Dealer Properties</th> -->
+                            <th  style="color: white;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,15 +44,19 @@
                             {{-- <td>{{ isset($dealer->user_city) && !empty($dealer->user_city) ? $dealer->user_city : 'N/A' }}</td> --}}
                             <td>{{ isset($dealer->role) && !empty($dealer->role) ? $dealer->role : 'N/A' }}</td>
                             <td>{{ isset($dealer->status) ? ($dealer->status ? 'Active' : 'Inactive') : 'Inactive' }}</td>
-                            <td>
+                            <!-- <td>
                                 <a href="{{ route('user/properties', ['user_id' => $dealer->_id]) }}">View</a>
-                            </td>
+                            </td> -->
                             <td>
-                                <a href="{{ route('dealer/edit', $dealer->_id) }}" class="btn btn-warning">
+                                <a href="{{ route('user/properties', ['user_id' => $dealer->_id]) }}" class="btn btn-secondary" data-toggle="tooltip" title="Search">
+                                    <i class="fas fa-search" style="color: white;"></i>
+                                </a>
+
+                                <a href="{{ route('dealer/edit', $dealer->_id) }}" class="btn btn-warning" data-toggle="tooltip" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <button type="button" class="btn btn-danger" data-toggle="modal"
-                                    data-target="#deleteModal{{ $dealer->_id }}">
+                                    data-target="#deleteModal{{ $dealer->_id }}" data-toggle="tooltip" title="Delete">
                                     <i class="fas fa-trash"></i>
                                 </button>
                                 <!-- Delete Modal -->
