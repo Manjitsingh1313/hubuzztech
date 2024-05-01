@@ -526,7 +526,7 @@ class UserController extends Controller
         try {
             $data = User::where('mobile', $mobile)->first();
             if (!$data) {
-                return response()->json(['message' => 'User not found with this mobile number'], 404);
+                return response()->json(['message' => 'User not found with this mobile number']);
             }
 
             return response()->json(['user' => $data], 200);
