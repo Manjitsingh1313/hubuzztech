@@ -43,6 +43,9 @@
                         <div class="col">
                             <input type="email" name="email" class="form-control" placeholder="Email" value="{{ old('email') }}">
                         </div>
+                        <div class="col">
+                            <input type="user_city" name="user_city" class="form-control" placeholder="City" value="{{ old('user_city') }}">
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
@@ -73,7 +76,7 @@
                     </div>
                     {{-- Removed commented out fields --}}
                     <div class="row justify-content-between">
-                        <div class="col">
+                        <div class="col d-flex justify-content-end">
                             <div class="d-grid">
                                 <button class="btn btn-primary btn-block">Submit</button>
                             </div>
