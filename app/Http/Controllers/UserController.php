@@ -316,7 +316,7 @@ class UserController extends Controller
 
             if($validator2->fails())
             {
-                return response()->json($validator2->errors(), 400);
+                return response()->json($validator2->errors());
             }
             if($request->otp_status === true){
                 if($request->user_location !== '' || $request->user_location !== null){
