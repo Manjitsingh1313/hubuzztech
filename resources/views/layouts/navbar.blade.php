@@ -170,11 +170,12 @@
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Change password
                 </a>
+                
                 {{-- Doownload link  --}}
-                {{-- <a class="dropdown-item" href="{{ route('download.apk') }}">
-            <i class="fas fa-download fa-sm fa-fw mr-2 text-gray-400"></i>
-            Download APK
-          </a> --}}
+                <a class="dropdown-item" href="{{ route('download.apk') }}">
+                    <i class="fas fa-download fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Download APK
+                </a> 
 
 
                 {{-- <a class="dropdown-item" href="#">

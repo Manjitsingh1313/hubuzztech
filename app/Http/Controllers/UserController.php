@@ -26,7 +26,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register']]);
+        $this->middleware('auth:api', ['except' => ['login','register', 'getUserByMobile']]);
     }
 
     /**
@@ -284,7 +284,7 @@ class UserController extends Controller
                         'access_token' => $token,
                         'user' => $user,
                         'token_type' => 'Bearer',
-                        'expires_in' => auth()->factory()->getTTL() * 60
+                        'expires_in' => auth()->factory()->getTTL() * 24 * 60
                     ]);
                 }else{
                     return $response=[
@@ -342,7 +342,7 @@ class UserController extends Controller
                             'access_token' => $token,
                             'user' => $user,
                             'token_type' => 'Bearer',
-                            'expires_in' => auth()->factory()->getTTL() * 60
+                            'expires_in' => auth()->factory()->getTTL() * 24 * 60
                         ]);
                     }else{
                         return $response=[

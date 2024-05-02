@@ -343,7 +343,7 @@
 
 
                         <div class="row justify-content-between">
-                            <div class="col">
+                            <div class="col d-flex justify-content-end">
                                 <div class="d-grid">
                                     <button class="btn btn-warning btn-block">Update</button>
                                 </div>

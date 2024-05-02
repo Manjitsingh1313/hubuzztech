@@ -50,7 +50,7 @@
   <!-- Sidebar - Brand -->
   <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard') }}">
       <div class="sidebar-brand-icon ">
-        <img src="{{ asset('assets/images/logo-withbg.png') }}" alt="Profile Image" style="max-width: 20px;">
+        <img src="{{ asset('assets/images/logo-withoutbg2.png') }}" alt="Profile Image" style="max-width: 50px; margin-bottom: 15px;">
       </div>
       <div class="sidebar-brand-text mx-3">Hubuzz technology</div>
   </a>

@@ -111,7 +111,7 @@
                                     <img src="{{ asset($dealer->image) }}" alt="Profile Image" class="img-thumbnail" style="max-width: 200px;">
                                     <div class="mt-2">
                                         <label for="image" class="file-upload-btn btn btn-primary">
-                                            Update Image
+                                            Update picture
                                             <input type="file" id="image" name="image" class="form-control inputfile" accept="image/*">
                                         </label>
                                         <small class="text-muted">Upload a new image to update</small>
@@ -144,9 +144,9 @@
                             </div>
                         </div>
                         <div class="row justify-content-between">
-                            <div class="col">
+                            <div class="col d-flex justify-content-end">
                                 <div class="d-grid">
-                                    <button class="btn btn-warning btn-block">Update</button>
+                                    <button class="btn btn-warning btn-inline">Update</button>
                                 </div>
                             </div>
                             <div class="col-auto">

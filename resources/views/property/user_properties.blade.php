@@ -22,14 +22,14 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tfoot>
+                        <!-- <tfoot>
                             <tr>
                                 <th>Property</th>
                                 <th>Price</th>
                                 {{-- <th>Status</th> --}}
                                 <th>Action</th>
                             </tr>
-                        </tfoot>
+                        </tfoot> -->
                         <tbody>
                             @foreach ($properties as $property)
                             {{-- {{dd($property)}} --}}
