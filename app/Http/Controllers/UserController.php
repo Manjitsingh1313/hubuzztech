@@ -306,7 +306,7 @@ class UserController extends Controller
                 'user_location'=>'required',
                 'name'=>'required|string',
                 // 'user_pincode' => 'nullable|integer|digits_between:1,6',
-                'user_pincode' => 'nullable|integer',
+                'user_pincode' => 'nullable',
                 'payment_res'=>'required|array',
                 'payment_status'=>'required|integer',
                 'email'=>'email',
