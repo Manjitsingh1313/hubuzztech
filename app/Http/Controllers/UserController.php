@@ -267,7 +267,7 @@ class UserController extends Controller
             'status'=>'required|boolean',
             'payment_res'=>'required|array',
             'payment_status'=>'required|integer',
-
+    
         ]);
         $exists = User::where('mobile', $request->mobile)->exists();
 
@@ -284,7 +284,7 @@ class UserController extends Controller
                         'access_token' => $token,
                         'user' => $user,
                         'token_type' => 'Bearer',
-                        'expires_in' => auth()->factory()->getTTL() * 24 * 60
+                        'expires_in' => auth()->factory()->getTTL() * 60
                     ]);
                 }else{
                     return $response=[
@@ -304,13 +304,20 @@ class UserController extends Controller
                 'mobile'=>'required|integer|digits:10',
                 'otp_status'=>'required',
                 'user_location'=>'required',
-                'name'=>'required|string',
-                // 'user_pincode' => 'nullable|integer|digits_between:1,6',
-                'user_pincode' => 'nullable',
+                'user_pincode' => 'nullable|integer|digits_between:1,6',
                 'payment_res'=>'required|array',
                 'payment_status'=>'required|integer',
-                'email'=>'email',
+                'email'=>'email|nullable',
                 'user_city'=>'required',
+                'name'=> "nullable",
+                'password'=> "nullable",
+                'role'=> "nullable",
+                'average_user_rating' => "nullable",
+                'ratings' => 'nullable',
+                'rera_number' => 'nullable',
+                'image' => 'nullable'
+
+
 
             ]);
             $status = true;
@@ -332,10 +339,15 @@ class UserController extends Controller
                             'status'=>$request->status,
                             'email'=>$request->email,
                             'user_pincode'=>$request->user_pincode,
-                            'name'=>$request->name,
+                            'role' => $role,
                             'payment_res'=>$request->payment_res,
                             'payment_status'=>$request->payment_status,
-                            'role' => $role,
+                            'name'=> $request->name ? $request->name : "N/A",
+                            'password'=> $request->password ? $request->password : "N/A",
+                            'image' => $request->image ? $request->image : "N/A",
+                            'rera_number' => $request->rera_number ? $request->rera_number : "N/A",
+                            'image' => $request->image ? $request->image : "N/A"
+
                         ]);
                         $token = Auth::guard('api')->login($user);
                         return response()->json([
@@ -343,7 +355,7 @@ class UserController extends Controller
                             'access_token' => $token,
                             'user' => $user,
                             'token_type' => 'Bearer',
-                            'expires_in' => auth()->factory()->getTTL() * 24 * 60
+                            'expires_in' => auth()->factory()->getTTL() * 60
                         ]);
                     }else{
                         return $response=[
@@ -367,6 +379,123 @@ class UserController extends Controller
         }
         
     }
+
+
+
+
+    // public function login(Request $request)
+    // {
+
+    //     $validator = Validator::make($request->all(), [
+    //         'mobile'=>'required|integer|digits:10',
+    //         'otp_status'=>'required|boolean',
+    //         // 'name'=>'required|string',
+    //         // 'user_pincode'=>'required|integer',
+    //         // 'email'=>'required|email',
+    //         'user_location'=>'required|array',
+    //         'status'=>'required|boolean',
+    //         'payment_res'=>'required|array',
+    //         'payment_status'=>'required|integer',
+
+    //     ]);
+    //     $exists = User::where('mobile', $request->mobile)->exists();
+
+    //     if ($exists) {
+    //         if ($validator->fails()) {
+    //             return response()->json(['error' => $validator->errors()], 401);
+    //         }
+    //         $user = User::where('mobile', $request->mobile)->first();
+    //         if($request->otp_status === true){
+    //             if($request->payment_status === true){
+    //                 $token = Auth::guard('api')->login($user);
+    //                 return response()->json([
+    //                     'message' => 'User logged in successfully',
+    //                     'access_token' => $token,
+    //                     'user' => $user,
+    //                     'token_type' => 'Bearer',
+    //                     'expires_in' => auth()->factory()->getTTL() * 24 * 60
+    //                 ]);
+    //             }else{
+    //                 return $response=[
+    //                     'success'=> false,
+    //                     'message'=> 'Payment not done',
+    //                 ];
+    //         }
+                
+    //         }else {
+    //             return $response=[
+    //                 'success'=> false,
+    //                 'message'=> 'Invalid OTP',
+    //             ];
+    //         }
+    //     }else {
+    //         $validator2 = Validator::make($request->all(),[
+    //             'mobile'=>'required|integer|digits:10',
+    //             'otp_status'=>'required',
+    //             'user_location'=>'required',
+    //             'name'=>'required|string',
+    //             // 'user_pincode' => 'nullable|integer|digits_between:1,6',
+    //             'user_pincode' => 'nullable',
+    //             'payment_res'=>'required|array',
+    //             'payment_status'=>'required|integer',
+    //             'email'=>'email',
+    //             'user_city'=>'required',
+
+    //         ]);
+    //         $status = true;
+
+    //         if($validator2->fails())
+    //         {
+    //             return response()->json($validator2->errors());
+    //         }
+    //         if($request->otp_status === true){
+    //             if($request->user_location !== '' || $request->user_location !== null){
+    //                 if($request->payment_status === true){
+    //                     $role = $request->role ?? 'user';
+
+    //                     $user = User::create([
+    //                         'mobile'=>$request->mobile,
+    //                         'otp_status'=>$request->otp_status,
+    //                         'user_location'=>$request->user_location,
+    //                         'user_city'=>$request->user_city,
+    //                         'status'=>$request->status,
+    //                         'email'=>$request->email,
+    //                         'user_pincode'=>$request->user_pincode,
+    //                         'name'=>$request->name,
+    //                         'payment_res'=>$request->payment_res,
+    //                         'payment_status'=>$request->payment_status,
+    //                         'role' => $role,
+    //                     ]);
+    //                     $token = Auth::guard('api')->login($user);
+    //                     return response()->json([
+    //                         'message' => 'User registered successfully',
+    //                         'access_token' => $token,
+    //                         'user' => $user,
+    //                         'token_type' => 'Bearer',
+    //                         'expires_in' => auth()->factory()->getTTL() * 24 * 60
+    //                     ]);
+    //                 }else{
+    //                     return $response=[
+    //                         'success'=> false,
+    //                         'message'=> 'Payment not done',
+    //                     ];
+    //                 }
+                   
+    //             }else{
+    //                 return $response=[
+    //                     'success'=> false,
+    //                     'message'=> 'User location required',
+    //                 ];
+    //             }
+    //         }else{
+    //             return response()->json([
+    //                 'error'=>'Invalid OTP',
+    //             ]); 
+    //         } 
+
+    //     }
+        
+    // }
 
 
     protected function respondWithToken($token, $user)
