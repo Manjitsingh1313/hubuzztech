@@ -69,29 +69,35 @@ class DealersController extends Controller
                  'role' => 'required|string|in:admin,user',
              ]);
      
-             if ($validator->fails()) {
-                 return redirect()->back()->withErrors($validator)->withInput();
-             }
-     
-             $validatedData = $validator->validated();
-     
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+    
+            $validatedData = $validator->validated();
+    
              // Sanitize and validate otp_status and status
                     // Set default values
-                $validatedData['otp_status'] = true;
-                $validatedData['status'] = true;
-     
-             $validatedData['mobile'] = intval(filter_var($validatedData['mobile'], FILTER_SANITIZE_NUMBER_INT));
-             $validatedData['email'] = filter_var($validatedData['email'], FILTER_SANITIZE_EMAIL);
-             $validatedData['name'] = filter_var($validatedData['name'], FILTER_SANITIZE_STRING);
-             $validatedData['user_city'] = filter_var($request->user_city, FILTER_SANITIZE_STRING) ?? null;
-             $validatedData['user_pincode'] = intval(filter_var($request->user_pincode, FILTER_SANITIZE_NUMBER_INT)) ?? null;
-             $validatedData['rera_number'] = filter_var($request->rera_number, FILTER_SANITIZE_STRING) ?? null;
-             $validatedData['password'] = Hash::make($request->password);
-     
-             // Create a new user
-             User::create($validatedData);
-     
-             return redirect()->route('dealers')->with('success', 'Dealer created successfully');
+            $validatedData['otp_status'] = true;
+            $validatedData['status'] = true;
+            $validatedData['mobile'] = intval(filter_var($validatedData['mobile'], FILTER_SANITIZE_NUMBER_INT));
+            $validatedData['email'] = filter_var($validatedData['email'], FILTER_SANITIZE_EMAIL);
+            $validatedData['name'] = filter_var($validatedData['name'], FILTER_SANITIZE_STRING);
+            $validatedData['user_city'] = filter_var($request->user_city, FILTER_SANITIZE_STRING) ?? "N/A";
+            $validatedData['user_pincode'] = intval(filter_var($request->user_pincode, FILTER_SANITIZE_NUMBER_INT)) ?? "N/A";
+            $validatedData['rera_number'] = filter_var($request->rera_number, FILTER_SANITIZE_STRING) ?? "N/A";
+            $validatedData['password'] = Hash::make($request->password);
+            $validatedData['image'] = filter_var($request->image, FILTER_SANITIZE_STRING) ?? "N/A";
+            $validatedData['payment_res'] = filter_var($request->payment_res, FILTER_SANITIZE_STRING) ?? "N/A";
+            $validatedData['payment_status'] = filter_var($request->payment_status, FILTER_SANITIZE_STRING) ?? "N/A";
+            $validatedData['status'] = filter_var($request->status, FILTER_SANITIZE_STRING) ?? "N/A";
+            $validatedData['average_user_rating'] = filter_var($request->average_user_rating, FILTER_SANITIZE_STRING) ?? "N/A";
+            $validatedData['ratings'] = filter_var($request->ratings, FILTER_SANITIZE_STRING) ?? "N/A";
+            $validatedData['user_location'] = filter_var($request->user_location, FILTER_SANITIZE_STRING) ?? "N/A";
+
+            // Create a new user
+            User::create($validatedData);
+    
+            return redirect()->route('dealers')->with('success', 'Dealer created successfully');
          } catch (\Exception $e) {
              return redirect()->back()->withErrors(['error' => 'Failed to create dealer: ' . $e->getMessage()])->withInput();
          }

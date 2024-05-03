@@ -263,10 +263,10 @@ class UserController extends Controller
             // 'name'=>'required|string',
             // 'user_pincode'=>'required|integer',
             // 'email'=>'required|email',
-            'user_location'=>'required|array',
-            'status'=>'required|boolean',
-            'payment_res'=>'required|array',
-            'payment_status'=>'required|integer',
+            // 'user_location'=>'required|array',
+            // 'status'=>'required|boolean',
+            // 'payment_res'=>'required|array',
+            // 'payment_status'=>'required|integer',
     
         ]);
         $exists = User::where('mobile', $request->mobile)->exists();
@@ -277,7 +277,7 @@ class UserController extends Controller
             }
             $user = User::where('mobile', $request->mobile)->first();
             if($request->otp_status === true){
-                if($request->payment_status === true){
+                // if($request->payment_status === true){
                     $token = Auth::guard('api')->login($user);
                     return response()->json([
                         'message' => 'User logged in successfully',
@@ -286,12 +286,12 @@ class UserController extends Controller
                         'token_type' => 'Bearer',
                         'expires_in' => auth()->factory()->getTTL() * 60
                     ]);
-                }else{
-                    return $response=[
-                        'success'=> false,
-                        'message'=> 'Payment not done',
-                    ];
-            }
+            //     }else{
+            //         return $response=[
+            //             'success'=> false,
+            //             'message'=> 'Payment not done',
+            //         ];
+            // }
                 
             }else {
                 return $response=[
