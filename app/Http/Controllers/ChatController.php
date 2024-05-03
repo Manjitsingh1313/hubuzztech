@@ -134,8 +134,8 @@ class ChatController extends Controller
 
 
 
-public function sendMessage(Request $request)
-{
+    public function sendMessage(Request $request)
+    {
     try {
         if (!Auth::check()) {
             return response()->json(['message' => 'Unauthorized. Please log in.'], 401);
@@ -164,7 +164,7 @@ public function sendMessage(Request $request)
     } catch (\Exception $e) {
         return response()->json(['message' => 'Failed to send message', 'error' => $e->getMessage()], 500);
     }
-}
+    }
 
         
     
