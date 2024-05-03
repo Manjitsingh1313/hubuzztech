@@ -256,7 +256,6 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'mobile'=>'required|integer|digits:10',
             'otp_status'=>'required|boolean',
@@ -269,11 +268,12 @@ class UserController extends Controller
             // 'payment_status'=>'required|integer',
     
         ]);
-        $exists = User::where('mobile', $request->mobile)->exists();
+        $mobileNumber = intval($request->mobile);
+        $exists = User::where('mobile', $mobileNumber)->exists();
 
         if ($exists) {
             if ($validator->fails()) {
-                return response()->json(['error' => $validator->errors()], 401);
+                return response()->json(['error' => $validator->errors()]);
             }
             $user = User::where('mobile', $request->mobile)->first();
             if($request->otp_status === true){
@@ -317,9 +317,6 @@ class UserController extends Controller
                 'ratings' => 'nullable',
                 'rera_number' => 'nullable',
                 'image' => 'nullable'
-
-
-
             ]);
             $status = true;
 
