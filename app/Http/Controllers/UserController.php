@@ -268,8 +268,7 @@ class UserController extends Controller
             // 'payment_status'=>'required|integer',
     
         ]);
-        $mobileNumber = intval($request->mobile);
-        $exists = User::where('mobile', $mobileNumber)->exists();
+        $exists = User::where('mobile', $request->mobile)->exists();
 
         if ($exists) {
             if ($validator->fails()) {
