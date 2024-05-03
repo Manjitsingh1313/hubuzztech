@@ -134,8 +134,8 @@ class ChatController extends Controller
 
 
 
-    public function sendMessage(Request $request)
-    {
+public function sendMessage(Request $request)
+{
     try {
         if (!Auth::check()) {
             return response()->json(['message' => 'Unauthorized. Please log in.'], 401);
@@ -164,52 +164,44 @@ class ChatController extends Controller
     } catch (\Exception $e) {
         return response()->json(['message' => 'Failed to send message', 'error' => $e->getMessage()], 500);
     }
-    }
+}
 
         
     
 
-    public function getChat(Request $request)
+    public function getChat(Request $request, $recipient_id)
     {
+
         try {
+            
             if (!Auth::check()) {
                 return response()->json(['message' => 'Unauthorized. Please log in.'], 401);
             }
-            $validator = Validator::make($request->all(), [
-                'recipient_id' => 'required|string|exists:users,_id',
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()], 400);
+            if (!$recipient_id) {
+                return response()->json(['message' => 'Recipient ID is missing.'], 400);
             }
 
-            $user = Auth::id();
-            $sender_id = $user;
-            $recipient_id = $request->input('recipient_id');
+            $sender_id = Auth::id();
+
+
             $chatExists = Chat::where(function ($query) use ($sender_id, $recipient_id) {
                 $query->where('sender_id', $sender_id)
                     ->where('recipient_id', $recipient_id);
-            })
-            ->orWhere(function ($query) use ($sender_id, $recipient_id) {
+            })->orWhere(function ($query) use ($sender_id, $recipient_id) {
                 $query->where('sender_id', $recipient_id)
                     ->where('recipient_id', $sender_id);
-            })
-            ->exists();
+            })->exists();
 
             if (!$chatExists) {
                 return response()->json(['message' => 'No chat messages found between the sender and recipient'], 404);
             }
-
-            $messages = Chat::where(function ($query) use ($sender_id, $recipient_id) {
-                $query->where('sender_id', $sender_id)
-                    ->where('recipient_id', $recipient_id);
-            })
-            ->orWhere(function ($query) use ($sender_id, $recipient_id) {
-                $query->where('sender_id', $recipient_id)
-                    ->where('recipient_id', $sender_id);
-            })
-            ->orderBy('created_at', 'asc')
-            ->get();
+            $chats = Chat::where(function ($query) use ($sender_id, $recipient_id) {
+                        $query->where('sender_id', $sender_id)
+                            ->where('recipient_id', $recipient_id);
+                    })->orWhere(function ($query) use ($sender_id, $recipient_id) {
+                        $query->where('sender_id', $recipient_id)
+                            ->where('recipient_id', $sender_id);
+                    })->get();
 
             $senderMessages = [];
             $recipientMessages = [];
