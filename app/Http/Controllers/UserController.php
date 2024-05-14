@@ -526,14 +526,12 @@ class UserController extends Controller
             try {
                 $user = User::findOrFail($id);
                 $validator = Validator::make($request->all(), [
-                    'name' => 'required|string',
+                    'name' => 'string',
                     'image' => 'nullable|image|max:2048', 
                     'email' => 'nullable|string|email|unique:users,email,' . $user->id,
                     'user_pincode' => 'nullable|integer|digits_between:1,6',
                     'status' => 'boolean',
                 ], [
-                    'name.required' => 'The name field is required.',
-                    'name.string' => 'The name must be a string.',
                     'email.email' => 'The email must be a valid email address.',
                     'email.unique' => 'The email has already been taken.',
                     'user_pincode.integer' => 'The pincode must be a integer.',
