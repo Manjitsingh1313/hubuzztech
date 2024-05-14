@@ -523,53 +523,92 @@ class UserController extends Controller
     // updateUser by id 
     public function updateUser(Request $request, $id)
         {
+            return $request->input('mobile');
+
             try {
-                $user = User::findOrFail($id);
                 $validator = Validator::make($request->all(), [
-                    'name' => 'string',
-                    'image' => 'nullable|image|max:2048', 
-                    'email' => 'nullable|string|email|unique:users,email,' . $user->id,
+                    'mobile'=>'integer|digits:10',
+                    'otp_status'=>'',
+                    'user_location'=>'array',
                     'user_pincode' => 'nullable|integer|digits_between:1,6',
-                    'status' => 'boolean',
-                ], [
-                    'email.email' => 'The email must be a valid email address.',
-                    'email.unique' => 'The email has already been taken.',
-                    'user_pincode.integer' => 'The pincode must be a integer.',
-                    'status.boolean' => 'The status must be a boolean value.',
+                    'payment_res'=>'array',
+                    'payment_status'=>'boolean',
+                    'email'=>'email|nullable',
+                    'user_city'=>'',
+                    'name'=> "nullable",
+                    'password'=> "nullable",
+                    'role'=> "nullable",
+                    'average_user_rating' => "nullable",
+                    'ratings' => 'nullable',
+                    'rera_number' => 'nullable',
+                    'image' => 'nullable'
 
                 ]);
                 if ($validator->fails()) {
-                    return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()], 400);
+                    return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()]);
                 }
-                if ($request->hasFile('image')) {
-                    // $image = $request->file('image');
-                    // $imageName = $image->getClientOriginalName();
-                    // $imagePath = $image->storeAs('images', $imageName, 'public/images');
-                    // $user->image = $imagePath;
+                else{
+                    $user = User::findOrFail($id);
+                    if(!$user){
+                        return response()->json(['message' => 'User not found', 'user' => $user]);
 
-                    $Uploadimage = $request->file('image');
-                    $single_photo = time() . '_' . $Uploadimage->hashName();
-                    $Uploadimage->move(public_path('images/user_images'), $single_photo);
-            
-                    $photo = 'images/user_images/' . $single_photo;
-                    
-                    $user->image = $photo;
+                    }else{
 
-                }
-                if (empty($user->user_pincode) && !empty($request->user_pincode)) {
-                    $user->user_pincode = $request->user_pincode;
-                }
-                $user->name = $request->name;
-                $user->user_pincode = $request->user_pincode ?? $user->user_pincode; 
-                $user->status = $request->status ?? $user->status; 
+                    }
 
-                if (!empty($request->email)) {
-                    $user->email = $request->email;
+                    if ($request->hasFile('image')) {
+                        // $image = $request->file('image');
+                        // $imageName = $image->getClientOriginalName();
+                        // $imagePath = $image->storeAs('images', $imageName, 'public/images');
+                        // $user->image = $imagePath;
+    
+                        $Uploadimage = $request->file('image');
+                        $single_photo = time() . '_' . $Uploadimage->hashName();
+                        $Uploadimage->move(public_path('images/user_images'), $single_photo);
+                
+                        $photo = 'images/user_images/' . $single_photo;
+                        
+                        $user->image = $photo;
+                        $user->otp_status = $user->otp_status;
+                        $user->mobile = $user->mobile;
+                        $user->payment_res = $request->payment_res ? $request->payment_res : $user->payment_res;
+                        $user->email = $request->email ? $request->email : $user->email;
+                        $user->user_city = $request->user_city ? $request->user_city : $user->user_city;
+                        $user->password = $request->password ? $request->password : $user->password;
+                        $user->name = $request->name ? $request->name : $user->name;
+                        $user->role = $request->role ? $request->role : $user->role;
+                        $user->average_user_rating = $request->average_user_rating ? $request->average_user_rating : $user->average_user_rating;
+                        $user->ratings = $request->ratings ? $request->ratings : $user->ratings;
+                        $user->rera_number = $request->rera_number ? $request->rera_number : $user->rera_number;
+                        $user->status = $request->status ?? $user->status; 
+                        $user->user_pincode = $request->user_pincode ?? $user->user_pincode; 
+                        $user->save();
+                        return response()->json(['message' => 'User updated successfully here', 'user' => $user]);
+    
+                    }
+                    else{
+                        $user->otp_status = $user->otp_status;
+                        $user->mobile = $user->mobile;
+                        $user->payment_res = $request->payment_res ? $request->payment_res : $user->payment_res;
+                        $user->image = $request->image ? $request->image : $user->image;
+                        $user->email = $request->email ? $request->email : $user->email;
+                        $user->user_city = $request->user_city ? $request->user_city : $user->user_city;
+                        $user->password = $request->password ? $request->password : $user->password;
+                        $user->name = $request->name ? $request->name : $user->name;
+                        $user->role = $request->role ? $request->role : $user->role;
+                        $user->average_user_rating = $request->average_user_rating ? $request->average_user_rating : $user->average_user_rating;
+                        $user->ratings = $request->ratings ? $request->ratings : $user->ratings;
+                        $user->rera_number = $request->rera_number ? $request->rera_number : $user->rera_number;
+                        $user->status = $request->status ?? $user->status; 
+                        $user->user_pincode = $request->user_pincode ?? $user->user_pincode; 
+                        $user->save();
+                        return response()->json(['message' => 'User updated successfully', 'user' => $user]);
+                    }
+                  
                 }
-                $user->save();
-                return response()->json(['message' => 'User updated successfully', 'user' => $user], 200);
+                
             } catch (\Exception $e) {
-                return response()->json(['message' => 'Failed to update user.', 'error' => $e->getMessage()], 500);
+                return response()->json(['message' => 'Failed to update user.', 'error' => $e->getMessage()]);
             }
         }
 
