@@ -325,7 +325,6 @@ class UserController extends Controller
             }
             if($request->otp_status === true){
                 if($request->user_location !== '' || $request->user_location !== null){
-                    if($request->payment_status === true){
                         $role = $request->role ?? 'user';
 
                         $user = User::create([
@@ -354,12 +353,7 @@ class UserController extends Controller
                             'token_type' => 'Bearer',
                             'expires_in' => auth()->factory()->getTTL() * 24 * 60
                         ]);
-                    }else{
-                        return $response=[
-                            'success'=> false,
-                            'message'=> 'Payment not done',
-                        ];
-                    }
+                
                    
                 }else{
                     return $response=[
