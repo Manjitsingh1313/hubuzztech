@@ -529,18 +529,18 @@ class UserController extends Controller
                     'mobile'=>'integer|digits:10',
                     'otp_status'=>'',
                     'user_location'=>'array',
-                    'user_pincode' => 'nullable|integer|digits_between:1,6',
+                    'user_pincode' => 'integer|digits_between:1,6',
                     'payment_res'=>'array',
                     'payment_status'=>'boolean',
-                    'email'=>'email|nullable',
+                    'email'=>'email',
                     'user_city'=>'',
-                    'name'=> "nullable",
-                    'password'=> "nullable",
-                    'role'=> "nullable",
-                    'average_user_rating' => "nullable",
-                    'ratings' => 'nullable',
-                    'rera_number' => 'nullable',
-                    'image' => 'nullable'
+                    'name'=> "",
+                    'password'=> "",
+                    'role'=> "",
+                    'average_user_rating' => "",
+                    'ratings' => '',
+                    'rera_number' => '',
+                    'image' => ''
 
                 ]);
                 if ($validator->fails()) {
