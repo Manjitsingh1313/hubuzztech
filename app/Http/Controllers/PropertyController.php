@@ -167,15 +167,13 @@ class PropertyController extends Controller
             }else {
 
                 // Get orderby and pagination by adding into url => ?sort_by=name&sort_order=desc&per_page=20
-              
                 $properties = Property::all();
                 $propertiesWithUserData = [];
 
                 foreach ($properties as $property) {
                     $user_id = $property->user_id;
-                    $userdata = User::where('user_id', $user_id)->first();
-                    $property->user = $userdata;
-                    $propertiesWithUserData[] = $property;
+                    $userdata = User::where('_id', $user_id)->first();
+                    $propertiesWithUserData[] = $userdata;
                 }
                 $properties = Property::orderBy($sortBy, $sortOrder)->get();
         
