@@ -523,7 +523,6 @@ class UserController extends Controller
     // updateUser by id 
     public function updateUser(Request $request, $id)
         {
-            return $request->input('mobile');
 
             try {
                 $validator = Validator::make($request->all(), [
