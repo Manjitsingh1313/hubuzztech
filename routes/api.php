@@ -12,6 +12,7 @@ use Dedoc\Scramble\Http\Middleware\RestrictedDocsAccess;
 use Dedoc\Scramble\Facades\Generator;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\CommissionController;
 
 
 
@@ -59,7 +60,11 @@ Route::group([
     Route::put('reviews/{id}', [ReviewController::class, 'updateReview']);
     Route::delete('reviews/{id}', [ReviewController::class, 'deleteReview']);
 
-
+    // commission
+    Route::post('add/commission', [CommissionController::class, 'AddCommission']);
+    Route::put('update/commission/{id}', [CommissionController::class, 'updateCommission']);
+    Route::delete('delete/commission/{id}', [CommissionController::class, 'deleteCommission']);
+    Route::get('/commission/list', [CommissionController::class, 'Commission_list']);
 
 });
 
