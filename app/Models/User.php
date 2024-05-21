@@ -45,7 +45,9 @@ class User extends Authenticatable implements JWTSubject
         'status',
         'average_user_rating',
         'ratings',
-        'properties'
+        'properties',
+        'is_connected',
+
 
     ];
 

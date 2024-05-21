@@ -34,6 +34,7 @@ class CommissionController extends Controller
     public function AddCommission(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
             'commission_with_user_id' => 'required',
             'property_id' => '',
             'amount' => 'required',
@@ -47,18 +48,28 @@ class CommissionController extends Controller
             return response()->json(['error' => $validator->errors()]);
         }
         // return "hh";
-        // $user_id = Auth::id();
-        $commission = new Commission();
-        $commission->user_id = $request->user_id;
-        $commission->commission_with_user_id = $request->commission_with_user_id;
-        $commission->property_id = $request->property_id;
-        $commission->amount = $request->amount;
-        $commission->description = $request->description;
-        $commission->title = $request->title;
-        $commission->comm_date = $request->comm_date;
-        $commission->status = $request->status;
-        $commission->save();
-        return response()->json(['message' => 'Commission stored successfully', 'commission' => $commission]);
+        $user = User::where('_id', $request->user_id)->first();
+        $comm_with_user = User::where('_id', $request->commission_with_user_id)->first();
+        if($user){
+            if($comm_with_user){
+                  // return $user;
+                $commission = new Commission();
+                $commission->user_id = $user;
+                $commission->commission_with_user_id = $comm_with_user;
+                $commission->property_id = $request->property_id;
+                $commission->amount = $request->amount;
+                $commission->description = $request->description;
+                $commission->title = $request->title;
+                $commission->comm_date = $request->comm_date;
+                $commission->status = $request->status;
+                $commission->save();
+                return response()->json(['message' => 'Commission stored successfully', 'commission' => $commission]);
+            }else{
+                return response()->json(['message' => 'Commission with user not found']);
+            }
+        }else{
+            return response()->json(['message' => 'User not found']);
+        }
     }
 
 
@@ -98,7 +109,7 @@ class CommissionController extends Controller
     public function Commission_list(Request $request)
     {
         try {
-            $comm = Report::all();
+            $comm = Commission::all();
             return response()->json($comm);
             
             return response()->json([
@@ -137,10 +148,11 @@ class CommissionController extends Controller
                 $validator = Validator::make($request->all(), [
                     'user_id'=>'required',
                     'property_id'=>'',
-                    'amount'=> "required",
+                    'commission_with_user_id'=>'required',
+                    'amount'=> "",
                     'description'=> "",
                     'title'=> "",
-                    'comm_date' => "required",
+                    'comm_date' => "",
                     'status' => '',
                 ]);
                 if ($validator->fails()) {
