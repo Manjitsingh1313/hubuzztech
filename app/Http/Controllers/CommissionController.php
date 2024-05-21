@@ -50,26 +50,20 @@ class CommissionController extends Controller
         // return "hh";
         $user = User::where('_id', $request->user_id)->first();
         $comm_with_user = User::where('_id', $request->commission_with_user_id)->first();
-        if($user){
-            if($comm_with_user){
-                  // return $user;
-                $commission = new Commission();
-                $commission->user_id = $user;
-                $commission->commission_with_user_id = $comm_with_user;
-                $commission->property_id = $request->property_id;
-                $commission->amount = $request->amount;
-                $commission->description = $request->description;
-                $commission->title = $request->title;
-                $commission->comm_date = $request->comm_date;
-                $commission->status = $request->status;
-                $commission->save();
-                return response()->json(['message' => 'Commission stored successfully', 'commission' => $commission]);
-            }else{
-                return response()->json(['message' => 'Commission with user not found']);
-            }
-        }else{
-            return response()->json(['message' => 'User not found']);
-        }
+        // return $user;
+
+            $commission = new Commission();
+            $commission->user_id = $user;
+            $commission->commission_with_user_id = $comm_with_user;
+            $commission->property_id = $request->property_id;
+            $commission->amount = $request->amount;
+            $commission->description = $request->description;
+            $commission->title = $request->title;
+            $commission->comm_date = $request->comm_date;
+            $commission->status = $request->status;
+            $commission->save();
+            return response()->json(['message' => 'Commission stored successfully', 'commission' => $commission]);
+           
     }
 
 
@@ -110,7 +104,6 @@ class CommissionController extends Controller
     {
         try {
             $comm = Commission::all();
-            return response()->json($comm);
             
             return response()->json([
                 'message' => 'Commission listed successfully',
