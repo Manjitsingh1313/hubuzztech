@@ -51,10 +51,12 @@ class CommissionController extends Controller
         $user = User::where('_id', $request->user_id)->first();
         $comm_with_user = User::where('_id', $request->commission_with_user_id)->first();
         // return $user;
-
+        if (!$user || !$comm_with_user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
             $commission = new Commission();
-            $commission->user_id = $user;
-            $commission->commission_with_user_id = $comm_with_user;
+            $commission->user_id = $user->toArray();
+            $commission->commission_with_user_id = $comm_with_user->toArray();
             $commission->property_id = $request->property_id;
             $commission->amount = $request->amount;
             $commission->description = $request->description;
