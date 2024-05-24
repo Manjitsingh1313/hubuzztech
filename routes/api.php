@@ -72,7 +72,7 @@ Route::group([
     Route::post('send/notification', [NotificationController::class, 'SendNotification']);
     Route::put('update/notification/{id}', [NotificationController::class, 'updateNotification']);
     Route::delete('delete/notification/{id}', [NotificationController::class, 'deleteNotificationById']);
-    Route::get('/notification/list', [NotificationController::class, 'Notification_list']);
+    Route::get('/notification/list/{id}', [NotificationController::class, 'Notification_list']);
 });
 
 

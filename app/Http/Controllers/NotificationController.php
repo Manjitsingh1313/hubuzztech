@@ -60,10 +60,10 @@ class NotificationController extends Controller
     }
 
 
-    public function Notification_list(Request $request)
+    public function Notification_list(Request $request, $sender_id)
     {
         try {
-            $notifi = Notification::all();
+            $notifications = Notification::where('sender_id', $sender_id)->get();
             
             return response()->json([
                 'message' => 'Notification listed successfully',
