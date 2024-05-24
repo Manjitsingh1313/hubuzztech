@@ -13,6 +13,8 @@ use Dedoc\Scramble\Facades\Generator;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\CommissionController;
+use App\Http\Controllers\NotificationController;
+
 
 
 
@@ -65,7 +67,12 @@ Route::group([
     Route::put('update/commission/{id}', [CommissionController::class, 'updateCommission']);
     Route::delete('delete/commission/{id}', [CommissionController::class, 'deleteCommission']);
     Route::get('/commission/list', [CommissionController::class, 'Commission_list']);
-
+   
+    // notification
+    Route::post('send/notification', [NotificationController::class, 'SendNotification']);
+    Route::put('update/notification/{id}', [NotificationController::class, 'updateNotification']);
+    Route::delete('delete/notification/{id}', [NotificationController::class, 'deleteNotificationById']);
+    Route::get('/notification/list', [NotificationController::class, 'Notification_list']);
 });
 
 
