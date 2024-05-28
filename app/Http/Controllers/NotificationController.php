@@ -34,8 +34,10 @@ class NotificationController extends Controller
 
         if ($notifiSender && $notifiReceiver) {
             $notification = new Notification();
-            $notification->sender_id = $notifiSender->toArray();
-            $notification->receiver_id = $notifiReceiver->toArray();
+            $notification->sender_data = $notifiSender->toArray();
+            $notification->receiver_data = $notifiReceiver->toArray();
+            $notification->sender_id = $notifiSender->_id;
+            $notification->receiver_id = $notifiReceiver->_id;
             $notification->desctiption = $request->desctiption;
             $notification->receiver_token = $request->receiver_token;
             $notification->sender_token = $request->sender_token;
@@ -63,13 +65,22 @@ class NotificationController extends Controller
     public function Notification_list(Request $request, $sender_id)
     {
         try {
-            $notifications = Notification::where('sender_id', $sender_id)->get();
-            
-            return response()->json([
-                'message' => 'Notification listed successfully',
-                'data' => $notifications
-            ]);
-    
+            $firstNotification = Notification::where('sender_id', $sender_id)->first();
+        
+            if ($firstNotification) {
+                $notifications = Notification::where('sender_id', $sender_id)->get();
+                
+                return response()->json([
+                    'length' => count($notifications),
+                    'message' => 'Notifications listed successfully',
+                    'data' => $notifications
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'No notifications found for the given sender ID',
+                    'data' => []
+                ]);
+            }
         
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to process request.', 'message' => $e->getMessage()]);
@@ -100,6 +111,8 @@ class NotificationController extends Controller
                     return response()->json(['message' => 'Notification details not found', 'data' => $notifi]);
 
                 }else{
+                    $notifiSender = User::where('sender_id', $request->sender_id)->first();
+                    $notifiReceiver = User::where('receiver_id', $request->receiver_id)->first();
                     $data = Notification::findOrFail($id);
                     $data->fill([         
                         'title' => $data->title,
@@ -112,7 +125,8 @@ class NotificationController extends Controller
                         'message' => $request->message,
                         'notification_date' => $request->notification_date,
                         'status' => $request->status,
-
+                        'sender_data' => $notifiSender->toArray(),
+                        'receiver_data' => $notifiReceiver->toArray(),
                     ]);
                     $data->save();          
                     return response()->json([
