@@ -26,7 +26,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register', 'getUserByMobile','refresh', 'respondWithToken']]);
+        $this->middleware('auth:api', ['except' => ['getUserById', 'login','register', 'getUserByMobile','refresh', 'respondWithToken']]);
     }
 
     /**
@@ -746,12 +746,12 @@ class UserController extends Controller
          
             $user = User::find($id);
             if (!$user) {
-                return response()->json(['message' => 'User not found.'], 404);
+                return response()->json(['message' => 'User not found.']);
             }
 
-            return response()->json(['user' => $user], 200);
+            return response()->json(['user' => $user]);
         } catch (QueryException $e) {
-            return response()->json(['message' => 'Failed to retrieve user.', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Failed to retrieve user.', 'error' => $e->getMessage()]);
         }
     }
   
