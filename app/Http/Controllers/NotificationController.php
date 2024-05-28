@@ -62,13 +62,40 @@ class NotificationController extends Controller
     }
 
 
-    public function Notification_list(Request $request, $sender_id)
+    public function Notification_list_Sender(Request $request, $sender_id)
     {
         try {
             $firstNotification = Notification::where('sender_id', $sender_id)->first();
         
             if ($firstNotification) {
                 $notifications = Notification::where('sender_id', $sender_id)->get();
+                
+                return response()->json([
+                    'length' => count($notifications),
+                    'message' => 'Notifications listed successfully',
+                    'data' => $notifications
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'No notifications found for the given sender ID',
+                    'data' => []
+                ]);
+            }
+        
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to process request.', 'message' => $e->getMessage()]);
+        }
+    }
+
+
+
+    public function Notification_list_Receiver(Request $request, $receiver)
+    {
+        try {
+            $firstNotification = Notification::where('receiver', $receiver)->first();
+        
+            if ($firstNotification) {
+                $notifications = Notification::where('receiver', $receiver)->get();
                 
                 return response()->json([
                     'length' => count($notifications),

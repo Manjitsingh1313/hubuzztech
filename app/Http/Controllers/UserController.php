@@ -742,13 +742,10 @@ class UserController extends Controller
     public function getUserById(Request $request , $id)
     {
         try {
-
-         
             $user = User::find($id);
             if (!$user) {
                 return response()->json(['message' => 'User not found.']);
             }
-
             return response()->json(['user' => $user]);
         } catch (QueryException $e) {
             return response()->json(['message' => 'Failed to retrieve user.', 'error' => $e->getMessage()]);
