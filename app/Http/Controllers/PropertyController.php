@@ -408,7 +408,7 @@ class PropertyController extends Controller
         }
     }
     
-    public function Auth_Property_list(Request $request, $userid)
+    public function My_Property_list(Request $request, $userid)
     {
         try {
             $user_with_prop_exists = Property::where('user_id', $userid)->first();
@@ -427,7 +427,6 @@ class PropertyController extends Controller
                     'data' => []
                 ]);
             }
-        
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to process request.', 'message' => $e->getMessage()]);
         }

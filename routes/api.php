@@ -40,7 +40,7 @@ Route::group([
     Route::post('/property/add', [PropertyController::class, 'storeProperty']);
     Route::put('/property/{_id}', [PropertyController::class, 'updateProperty']);
     Route::delete('/property/{_id}', [PropertyController::class, 'deletePropertyById']);
-    Route::get('/authuser/properties/{id}', [PropertyController::class, 'Auth_Property_list']);
+    Route::get('/my/properties/{id}', [PropertyController::class, 'My_Property_list']);
 
     // Payments
     Route::get('/payments', [PaymentController::class, 'Payment_list']);
