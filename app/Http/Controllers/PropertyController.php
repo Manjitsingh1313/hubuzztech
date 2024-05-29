@@ -408,7 +408,30 @@ class PropertyController extends Controller
         }
     }
     
-
+    public function Auth_Property_list(Request $request, $userid)
+    {
+        try {
+            $user_with_prop_exists = Property::where('user_id', $userid)->first();
+        
+            if ($user_with_prop_exists) {
+                $properties = Property::where('user_id', $userid)->get();
+                
+                return response()->json([
+                    'length' => count($properties),
+                    'message' => 'Properties listed successfully',
+                    'data' => $properties
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'No properties found for the given user ID',
+                    'data' => []
+                ]);
+            }
+        
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to process request.', 'message' => $e->getMessage()]);
+        }
+    }
 
     /**
      * Delete a property
