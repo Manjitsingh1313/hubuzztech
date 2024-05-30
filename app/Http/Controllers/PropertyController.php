@@ -337,7 +337,7 @@ class PropertyController extends Controller
             ]);
     
             if ($validator->fails()) {
-                return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()], 400);
+                return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()]);
             }else{
 
             if ($request->hasFile('images')) {
@@ -393,16 +393,16 @@ class PropertyController extends Controller
                         ]);
                  
                 }else {
-                    return response()->json(['message' => 'No file uploaded'], 400);
+                    return response()->json(['message' => 'No file uploaded']);
                 }
             } else {
-                return response()->json(['message' => 'No images provided'], 400);
+                return response()->json(['message' => 'No images provided']);
             }
 
         }
 
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to store property.', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Failed to store property.', 'error' => $e->getMessage()]);
         }
     }
     
@@ -449,14 +449,14 @@ class PropertyController extends Controller
             $property = Property::find($id);
     
             if (!$property) {
-                return response()->json(['message' => 'Property not found.'], 404);
+                return response()->json(['message' => 'Property not found.']);
             }
     
             $property->delete();
     
-            return response()->json(['message' => 'Property deleted successfully.'], 200);
+            return response()->json(['message' => 'Property deleted successfully.']);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to delete property.', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Failed to delete property.', 'error' => $e->getMessage()]);
         }
     }
     
