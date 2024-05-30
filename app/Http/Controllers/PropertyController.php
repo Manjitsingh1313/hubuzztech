@@ -322,7 +322,7 @@ class PropertyController extends Controller
             'parking' => 'required|integer|min:0', 
             'description' => 'required|string|min:5',
             'assigned_buyer' => 'nullable|string',
-            'isAvailable' => 'boolean',
+            // 'isAvailable' => 'boolean',
             'dealer' => 'nullable|string',
             'dealer_contact' => 'required|numeric|digits_between:10,10', 
             'district' => 'nullable|string',
@@ -363,8 +363,6 @@ class PropertyController extends Controller
                     $locationArray = json_decode($locationString, true);
 
                         // single image upload
-                    
-
                         $property = new Property();
                         $property->user_id = $request->user_id;
                         $property->property_name = $request->property_name;

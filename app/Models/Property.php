@@ -35,6 +35,8 @@ class Property extends Model
         'photo',
         'images',
         'status',
+        'prop_post_date',
+        'pincode'
     ];
 
     // $property = Property::find($propertyId);
