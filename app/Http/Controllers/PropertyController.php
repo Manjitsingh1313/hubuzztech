@@ -323,10 +323,9 @@ class PropertyController extends Controller
             'description' => 'required|string|min:5',
             'assigned_buyer' => 'nullable|string',
             // 'isAvailable' => 'boolean',
-            'dealer' => 'nullable',
+            'dealer' => 'nullable|array',
             // 'dealer_contact' => 'required|numeric|digits_between:1,10', 
             'dealer_contact' => 'required|numeric', 
-
             'district' => 'nullable|string',
             'property_details' => 'required|array',
             'photo'=> 'required',
@@ -335,7 +334,7 @@ class PropertyController extends Controller
             'property_details.air_conditioned' => 'nullable|string',
             'property_details.phone' => 'nullable|integer||digits:10',
             'property_details.internet' => 'nullable|string',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
     
             if ($validator->fails()) {
