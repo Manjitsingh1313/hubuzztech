@@ -37,7 +37,7 @@ Route::group([
     // Properties
     Route::get('/properties', [PropertyController::class, 'property_list']);
     Route::get('/getproperties/{id}',  [PropertyController::class, 'getPropertiesByUserId']);
-    Route::post('/property/add', [PropertyController::class, 'storeProperty']);
+    Route::post('property/add', [PropertyController::class, 'storeProperty']);
     Route::put('/property/{_id}', [PropertyController::class, 'updateProperty']);
     Route::delete('/property/{_id}', [PropertyController::class, 'deletePropertyById']);
     Route::get('/my/properties/{id}', [PropertyController::class, 'My_Property_list']);
