@@ -323,8 +323,10 @@ class PropertyController extends Controller
             'description' => 'required|string|min:5',
             'assigned_buyer' => 'nullable|string',
             // 'isAvailable' => 'boolean',
-            'dealer' => 'nullable|string',
-            'dealer_contact' => 'required|numeric|digits_between:10,10', 
+            'dealer' => 'nullable',
+            // 'dealer_contact' => 'required|numeric|digits_between:1,10', 
+            'dealer_contact' => 'required|numeric', 
+
             'district' => 'nullable|string',
             'property_details' => 'required|array',
             'photo'=> 'required',
