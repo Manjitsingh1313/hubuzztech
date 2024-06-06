@@ -329,11 +329,7 @@ class PropertyController extends Controller
             'district' => 'nullable|string',
             'property_details' => 'required|array',
             'photo'=> 'required',
-            'property_details.city_view' => 'nullable|string', 
-            'property_details.family_villa' => 'nullable|string',
-            'property_details.air_conditioned' => 'nullable|string',
-            'property_details.phone' => 'nullable|integer||digits:10',
-            'property_details.internet' => 'nullable|string',
+         
             // 'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
     
@@ -353,11 +349,10 @@ class PropertyController extends Controller
 
                 if ($request->hasFile('photo')) {
                     
-                    $Uploadimage = $request->file('photo');
-                    $single_photo = time() . '_' . $Uploadimage->hashName();
-                    $Uploadimage->move(public_path('images/property_default_image'), $single_photo);
-                
-                    $photo = 'images/property_default_image/' . $single_photo;
+                    $uploadImage = $request->file('photo');
+                    $singlePhotoName = time() . '_' . $uploadImage->getClientOriginalName();
+                    $uploadImage->move(public_path('images/property_default_image'), $singlePhotoName);
+                    $photoPath = 'images/property_default_image/' . $singlePhotoName;
 
 
                     $locationString = $request->input('location');
@@ -383,14 +378,15 @@ class PropertyController extends Controller
                         $property->district = $request->district;
                         $property->property_details = $request->property_details;
                         // $property->images = $multiple_photos;
-                        $property->photo = $photo;
+                        $property->photo = $photoPath;
                         $property->save();
 
                         return response()->json([
                             'message'=>'Property added successfully.',
                             'result'=> $property,
-                            'property_default_path' => $photo,
-                            'Uploadimage' => $Uploadimage,
+                            'property_default_path' => $photoPath,
+
+                          
 
                             // 'multiple_photos_paths' => $multiple_photos
                         ]);
