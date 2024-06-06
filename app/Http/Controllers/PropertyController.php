@@ -354,6 +354,7 @@ class PropertyController extends Controller
                 if ($request->hasFile('photo')) {
                     
                     $Uploadimage = $request->file('photo');
+                    dd($Uploadimage);
                     $single_photo = time() . '_' . $Uploadimage->hashName();
                     $Uploadimage->move(public_path('images/property_default_image'), $single_photo);
                 
@@ -382,7 +383,7 @@ class PropertyController extends Controller
                         $property->dealer_contact = $request->dealer_contact;
                         $property->district = $request->district;
                         $property->property_details = $request->property_details;
-                        $property->images = $multiple_photos;
+                        // $property->images = $multiple_photos;
                         $property->photo = $photo;
                         $property->save();
 
@@ -390,7 +391,9 @@ class PropertyController extends Controller
                             'message'=>'Property added successfully.',
                             'result'=> $property,
                             'property_default_path' => $photo,
-                            'multiple_photos_paths' => $multiple_photos
+                            'Uploadimage' => $Uploadimage,
+
+                            // 'multiple_photos_paths' => $multiple_photos
                         ]);
                  
                 }else {
