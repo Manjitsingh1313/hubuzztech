@@ -341,15 +341,15 @@ class PropertyController extends Controller
                 return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()]);
             }else{
 
-            if ($request->hasFile('images')) {
-                $multiple_photos = [];
-                foreach ($request->file('images') as $image) {
-                    $filename = time() . '_' . $image->hashName();
-                    $path = $image->move(public_path('images/property_images'), $filename);
+            // if ($request->hasFile('images')) {
+                // $multiple_photos = [];
+                // foreach ($request->file('images') as $image) {
+                //     $filename = time() . '_' . $image->hashName();
+                //     $path = $image->move(public_path('images/property_images'), $filename);
     
-                    // Add the filename to the array
-                    $multiple_photos[] = 'images/property_images/' . $filename;
-                }
+                //     // Add the filename to the array
+                //     $multiple_photos[] = 'images/property_images/' . $filename;
+                // }
 
                 if ($request->hasFile('photo')) {
                     
@@ -396,9 +396,9 @@ class PropertyController extends Controller
                 }else {
                     return response()->json(['message' => 'No file uploaded']);
                 }
-            } else {
-                return response()->json(['message' => 'No images provided']);
-            }
+            // } else {
+            //     return response()->json(['message' => 'No images provided']);
+            // }
 
         }
 
