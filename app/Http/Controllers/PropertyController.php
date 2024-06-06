@@ -354,7 +354,6 @@ class PropertyController extends Controller
                 if ($request->hasFile('photo')) {
                     
                     $Uploadimage = $request->file('photo');
-                    dd($Uploadimage);
                     $single_photo = time() . '_' . $Uploadimage->hashName();
                     $Uploadimage->move(public_path('images/property_default_image'), $single_photo);
                 
