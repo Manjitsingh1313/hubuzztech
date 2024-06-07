@@ -328,7 +328,7 @@ class PropertyController extends Controller
             'dealer_contact' => 'required|numeric', 
             'district' => 'nullable|string',
             'property_details' => 'array',
-            'photo'=> 'required',
+            'photo'=> '',
          
             // 'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
