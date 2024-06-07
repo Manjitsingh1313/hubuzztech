@@ -347,53 +347,49 @@ class PropertyController extends Controller
                 //     $multiple_photos[] = 'images/property_images/' . $filename;
                 // }
 
-                if ($request->hasFile('photo')) {
+                // if ($request->hasFile('photo')) {
                     
-                    $uploadImage = $request->file('photo');
-                    $singlePhotoName = time() . '_' . $uploadImage->getClientOriginalName();
-                    $uploadImage->move(public_path('images/property_default_image'), $singlePhotoName);
-                    $photoPath = 'images/property_default_image/' . $singlePhotoName;
+                $uploadImage = $request->file('photo');
+                $singlePhotoName = time() . '_' . $uploadImage->getClientOriginalName();
+                $uploadImage->move(public_path('images/property_default_image'), $singlePhotoName);
+                $photoPath = 'images/property_default_image/' . $singlePhotoName;
 
 
-                    $locationString = $request->input('location');
-                    $locationArray = json_decode($locationString, true);
+                $locationString = $request->input('location');
+                $locationArray = json_decode($locationString, true);
 
-                        // single image upload
-                        $property = new Property();
-                        $property->user_id = $request->user_id;
-                        $property->property_name = $request->property_name;
-                        $property->price = $request->price;
-                        $property->location = $locationArray;
-                        $property->bedrooms = $request->bedrooms;
-                        $property->bathrooms = $request->bathrooms;
-                        $property->area_sqft = $request->area_sqft;
-                        $property->deal = $request->deal;
-                        $property->type = $request->type;
-                        $property->parking = $request->parking;
-                        $property->description = $request->description;
-                        $property->assigned_buyer = $request->assigned_buyer;
-                        $property->isAvailable = $request->isAvailable;
-                        $property->dealer = $request->dealer;
-                        $property->dealer_contact = $request->dealer_contact;
-                        $property->district = $request->district;
-                        $property->property_details = $request->property_details;
-                        // $property->images = $multiple_photos;
-                        $property->photo = $photoPath;
-                        $property->save();
+                // single image upload
+                $property = new Property();
+                $property->user_id = $request->user_id;
+                $property->property_name = $request->property_name;
+                $property->price = $request->price;
+                $property->location = $locationArray;
+                $property->bedrooms = $request->bedrooms;
+                $property->bathrooms = $request->bathrooms;
+                $property->area_sqft = $request->area_sqft;
+                $property->deal = $request->deal;
+                $property->type = $request->type;
+                $property->parking = $request->parking;
+                $property->description = $request->description;
+                $property->assigned_buyer = $request->assigned_buyer;
+                $property->isAvailable = $request->isAvailable;
+                $property->dealer = $request->dealer;
+                $property->dealer_contact = $request->dealer_contact;
+                $property->district = $request->district;
+                $property->property_details = $request->property_details;
+                // $property->images = $multiple_photos;
+                $property->photo = $photoPath;
+                $property->save();
 
-                        return response()->json([
-                            'message'=>'Property added successfully.',
-                            'result'=> $property,
-                            'property_default_path' => $photoPath,
-
-                          
-
-                            // 'multiple_photos_paths' => $multiple_photos
+                return response()->json([
+                    'message'=>'Property added successfully.',
+                    'result'=> $property,
+                    'property_default_path' => $photoPath,
                         ]);
                  
-                }else {
-                    return response()->json(['message' => 'No file uploaded']);
-                }
+                // }else {
+                //     return response()->json(['message' => 'No file uploaded']);
+                // }
             // } else {
             //     return response()->json(['message' => 'No images provided']);
             // }
