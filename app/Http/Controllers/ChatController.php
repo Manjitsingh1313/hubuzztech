@@ -132,12 +132,9 @@ class ChatController extends Controller
 
 
 
-
-
     public function sendMessage(Request $request)
     {
         try {
-
             $validator = Validator::make($request->all(), [
                 'sender_id' => 'required|string|exists:users,_id',
                 'recipient_id' => 'required|string|exists:users,_id',
@@ -147,14 +144,33 @@ class ChatController extends Controller
             if ($validator->fails()) {
                 return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()]);
             }
-
-            $chat = new Chat();
-            $chat->sender_id = Auth::id();
-            $chat->recipient_id = $request->input('recipient_id');
-            $chat->message = $request->input('message');
-            $chat->sent_at = now();
-            $chat->save();
-            return response()->json(['message' => 'Message sent successfully']);
+            else{
+                $sender_id = $request->input('sender_id'); 
+                $recipient_id = $request->input('recipient_id'); 
+                $sender_profile = User::find($sender_id);
+                if (!$sender_profile) {
+                    return response()->json(['message' => 'Sender not found.']);
+                }
+                $recipient_profile = User::find($recipient_id);
+                if (!$recipient_profile) {
+                    return response()->json(['message' => 'Recipient not found.']);
+                }
+                $chat = new Chat();
+                $chat->sender_data = $sender_profile->toArray();
+                $chat->recipient_data = $recipient_profile->toArray();
+                $chat->sender_id = $sender_id;
+                $chat->recipient_id = $recipient_id;
+                $chat->message = $request->input('message');
+                $chat->sent_at = now();
+                $chat->save();
+                return response()->json([
+                    'message' => 'Message sent successfully',
+                    'sent_message' => $chat,
+                    'recipient_profile' => $recipient_profile,
+                    'sender_profile' => $sender_profile,
+                ]);
+            }
+          
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to send message', 'error' => $e->getMessage()]);
         }
@@ -243,11 +259,9 @@ class ChatController extends Controller
         // return $recipient_id;
 
         try {
-            
             if (!$recipient_id) {
                 return response()->json(['message' => 'Recipient ID is missing.']);
             }
-
             $chatExists = Chat::where('sender_id', $sender_id)
             ->where('recipient_id', $recipient_id)
             ->first();

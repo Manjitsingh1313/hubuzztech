@@ -11,7 +11,7 @@ class Chat extends Eloquent
     protected $guarded = [];
 
     protected $fillable = [
-        'sender_id', 'recipient_id', 'message', 'sent_at','status'
+        'sender_id', 'recipient_id', 'message', 'sent_at','status', 'sender_data', 'recipient_data'
     ];
     protected $casts = [
         // 'message' => 'array',
