@@ -270,6 +270,9 @@ class ChatController extends Controller
                 return response()->json(['message' => 'No chat messages found between the sender and recipient']);
             }
             else{
+                $chatExists = Chat::where('sender_id', $sender_id)
+                ->where('recipient_id', $recipient_id)
+                ->get();
                 $sender_profile = User::find($sender_id);
                 if (!$sender_profile) {
                     return response()->json(['message' => 'Sender not found.']);
