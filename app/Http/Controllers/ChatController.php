@@ -134,114 +134,188 @@ class ChatController extends Controller
 
 
 
-public function sendMessage(Request $request)
-{
-    try {
-        if (!Auth::check()) {
-            return response()->json(['message' => 'Unauthorized. Please log in.'], 401);
-        }
+    public function sendMessage(Request $request)
+    {
+        try {
 
-        $validator = Validator::make($request->all(), [
-            'sender_id' => 'required|string|exists:users,_id',
-            'recipient_id' => 'required|string|exists:users,_id',
-            'message' => 'required',
-        ]);
+            $validator = Validator::make($request->all(), [
+                'sender_id' => 'required|string|exists:users,_id',
+                'recipient_id' => 'required|string|exists:users,_id',
+                'message' => 'required',
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()], 400);
-        }
+            if ($validator->fails()) {
+                return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()]);
+            }
 
-        if ($request->input('sender_id') !== Auth::id()) {
-            return response()->json(['message' => 'Unauthorized. Sender ID does not match authenticated user ID.'], 401);
+            $chat = new Chat();
+            $chat->sender_id = Auth::id();
+            $chat->recipient_id = $request->input('recipient_id');
+            $chat->message = $request->input('message');
+            $chat->sent_at = now();
+            $chat->save();
+            return response()->json(['message' => 'Message sent successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to send message', 'error' => $e->getMessage()]);
         }
-        $chat = new Chat();
-        $chat->sender_id = Auth::id();
-        $chat->recipient_id = $request->input('recipient_id');
-        $chat->message = $request->input('message');
-        $chat->sent_at = now();
-        $chat->save();
-        return response()->json(['message' => 'Message sent successfully'], 200);
-    } catch (\Exception $e) {
-        return response()->json(['message' => 'Failed to send message', 'error' => $e->getMessage()], 500);
     }
-}
 
         
     
 
-    public function getChat(Request $request, $recipient_id)
+    // public function getChat(Request $request, $recipient_id)
+    // {
+
+    //     try {
+            
+    //         if (!Auth::check()) {
+    //             return response()->json(['message' => 'Unauthorized. Please log in.'], 401);
+    //         }
+    //         if (!$recipient_id) {
+    //             return response()->json(['message' => 'Recipient ID is missing.'], 400);
+    //         }
+
+    //         $sender_id = Auth::id();
+
+
+    //         $chatExists = Chat::where(function ($query) use ($sender_id, $recipient_id) {
+    //             $query->where('sender_id', $sender_id)
+    //                 ->where('recipient_id', $recipient_id);
+    //         })->orWhere(function ($query) use ($sender_id, $recipient_id) {
+    //             $query->where('sender_id', $recipient_id)
+    //                 ->where('recipient_id', $sender_id);
+    //         })->exists();
+
+    //         if (!$chatExists) {
+    //             return response()->json(['message' => 'No chat messages found between the sender and recipient'], 404);
+    //         }
+    //         $chats = Chat::where(function ($query) use ($sender_id, $recipient_id) {
+    //                     $query->where('sender_id', $sender_id)
+    //                         ->where('recipient_id', $recipient_id);
+    //                 })->orWhere(function ($query) use ($sender_id, $recipient_id) {
+    //                     $query->where('sender_id', $recipient_id)
+    //                         ->where('recipient_id', $sender_id);
+    //                 })->get();
+
+    //         $senderMessages = [];
+    //         $recipientMessages = [];
+
+    //         foreach ($messages as $message) {
+    //             $formattedMessage = [
+    //                 'date' => $message->created_at->format('d/m/Y H:i'),
+    //                 'message' => $message->message
+    //             ];
+
+    //             if ($message->sender_id == $sender_id) {
+    //                 $recipientMessages[] = $formattedMessage;
+    //             } else {
+    //                 $senderMessages[] = $formattedMessage;
+    //             }
+    //         }
+    //         $sender_profile = User::find($sender_id);
+    //         if (!$sender_profile) {
+    //             return response()->json(['message' => 'Sender not found.'], 404);
+    //         }
+
+    //         $recipient_profile = User::find($recipient_id);
+    //         if (!$recipient_profile) {
+    //             return response()->json(['message' => 'Recipient not found.'], 404);
+    //         }
+
+
+    //         return response()->json([
+    //             'sender_profile' => $sender_profile,
+    //             'recipient_profile' => $recipient_profile,
+    //             'sender_msgs' => $senderMessages,
+    //             'recipient_msgs' => $recipientMessages
+    //         ], 200);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['message' => 'Failed to retrieve messages', 'error' => $e->getMessage()], 500);
+    //     }
+    // }
+
+        
+    public function getChat(Request $request)
     {
+        $sender_id = $request->input('sender_id'); 
+        $recipient_id = $request->input('recipient_id'); 
+        // return $sender_id;
+        // return $recipient_id;
 
         try {
             
-            if (!Auth::check()) {
-                return response()->json(['message' => 'Unauthorized. Please log in.'], 401);
-            }
             if (!$recipient_id) {
-                return response()->json(['message' => 'Recipient ID is missing.'], 400);
+                return response()->json(['message' => 'Recipient ID is missing.']);
             }
 
-            $sender_id = Auth::id();
-
-
-            $chatExists = Chat::where(function ($query) use ($sender_id, $recipient_id) {
-                $query->where('sender_id', $sender_id)
-                    ->where('recipient_id', $recipient_id);
-            })->orWhere(function ($query) use ($sender_id, $recipient_id) {
-                $query->where('sender_id', $recipient_id)
-                    ->where('recipient_id', $sender_id);
-            })->exists();
+            $chatExists = Chat::where('sender_id', $sender_id)
+            ->where('recipient_id', $recipient_id)
+            ->first();
 
             if (!$chatExists) {
-                return response()->json(['message' => 'No chat messages found between the sender and recipient'], 404);
+                return response()->json(['message' => 'No chat messages found between the sender and recipient']);
             }
-            $chats = Chat::where(function ($query) use ($sender_id, $recipient_id) {
-                        $query->where('sender_id', $sender_id)
-                            ->where('recipient_id', $recipient_id);
-                    })->orWhere(function ($query) use ($sender_id, $recipient_id) {
-                        $query->where('sender_id', $recipient_id)
-                            ->where('recipient_id', $sender_id);
-                    })->get();
-
-            $senderMessages = [];
-            $recipientMessages = [];
-
-            foreach ($messages as $message) {
-                $formattedMessage = [
-                    'date' => $message->created_at->format('d/m/Y H:i'),
-                    'message' => $message->message
-                ];
-
-                if ($message->sender_id == $sender_id) {
-                    $recipientMessages[] = $formattedMessage;
-                } else {
-                    $senderMessages[] = $formattedMessage;
+            else{
+                $sender_profile = User::find($sender_id);
+                if (!$sender_profile) {
+                    return response()->json(['message' => 'Sender not found.']);
                 }
-            }
-            $sender_profile = User::find($sender_id);
-            if (!$sender_profile) {
-                return response()->json(['message' => 'Sender not found.'], 404);
+    
+                $recipient_profile = User::find($recipient_id);
+                if (!$recipient_profile) {
+                    return response()->json(['message' => 'Recipient not found.']);
+                }
+    
+                return response()->json([
+                    'sender_profile' => $sender_profile,
+                    'recipient_profile' => $recipient_profile,
+                    'chatuserlist' => $chatExists,
+                ]);
             }
 
-            $recipient_profile = User::find($recipient_id);
-            if (!$recipient_profile) {
-                return response()->json(['message' => 'Recipient not found.'], 404);
-            }
-
-
-            return response()->json([
-                'sender_profile' => $sender_profile,
-                'recipient_profile' => $recipient_profile,
-                'sender_msgs' => $senderMessages,
-                'recipient_msgs' => $recipientMessages
-            ], 200);
+           
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to retrieve messages', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Failed to retrieve messages', 'error' => $e->getMessage()]);
         }
     }
 
-        
-        
+
+          
+    public function getAuthChatList(Request $request)
+    {
+        $sender_id = $request->input('sender_id'); 
+        // return $sender_id;
+
+        try {
+            
+            if (!$sender_id) {
+                return response()->json(['message' => 'sender ID is missing.']);
+            }
+
+            $chatExists = Chat::where('sender_id', $sender_id)
+            ->first();
+
+            if (!$chatExists) {
+                return response()->json(['message' => 'No chat messages found']);
+            }
+            else{
+                $sender_profile = User::find($sender_id);
+                if (!$sender_profile) {
+                    return response()->json(['message' => 'Sender not found.']);
+                }
+                $chatData = Chat::where('sender_id', $sender_id)
+                ->get();
+    
+                return response()->json([
+                    'sender_profile' => $sender_profile,
+                    'authChatList' => $chatData,
+                ]);
+            }
+           
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to retrieve messages', 'error' => $e->getMessage()]);
+        }
+    }
 
         
 }

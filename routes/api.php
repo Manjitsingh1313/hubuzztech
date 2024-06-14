@@ -52,7 +52,9 @@ Route::group([
 
     //chat
     Route::post('/chat', [ChatController::class, 'sendMessage']);
-    Route::post('/chat/messages/{id}', [ChatController::class, 'getChat']);
+    Route::post('/chat/messages', [ChatController::class, 'getChat']);
+    Route::post('/chat/list', [ChatController::class, 'getAuthChatList']);
+
 
     // rating
     Route::post('/ratings', [RatingController::class, 'store']);
