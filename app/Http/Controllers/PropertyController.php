@@ -713,14 +713,13 @@ class PropertyController extends Controller
                     return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()], 400);
                 }
 
-                // Find the property by ID
                 $property = Property::find($id);
 
                 if (!$property) {
                     return response()->json(['message' => 'Property not found'], 404);
                 }
 
-                // Update property fields
+          
                 $property->user_id = $request->user_id;
                 $property->property_name = $request->property_name;
                 $property->price = $request->price;
@@ -739,29 +738,28 @@ class PropertyController extends Controller
                 $property->district = $request->district;
                 $property->property_details = $request->property_details;
 
-                // Handle image uploads
+                // if ($request->hasFile('images')) {
+                //     $multiple_photos = [];
+                //     foreach ($request->file('images') as $image) {
+                //         $filename = time() . '_' . $image->hashName();
+                //         $image->move(public_path('images/property_images'), $filename);
+
+                //         // Add the filename to the array
+                //         $multiple_photos[] = 'images/property_images/' . $filename;
+                //     }
+                //     $property->images = $multiple_photos;
+                // }
+
                 if ($request->hasFile('images')) {
-                    $multiple_photos = [];
-                    foreach ($request->file('images') as $image) {
-                        $filename = time() . '_' . $image->hashName();
-                        $image->move(public_path('images/property_images'), $filename);
-
-                        // Add the filename to the array
-                        $multiple_photos[] = 'images/property_images/' . $filename;
-                    }
-                    $property->images = $multiple_photos;
+                    $uploadImage = $request->file('photo');
+                    $singlePhotoName = time() . '_' . $uploadImage->getClientOriginalName();
+                    $uploadImage->move(public_path('images/property_default_image'), $singlePhotoName);
+                    $photoPath = 'images/property_default_image/' . $singlePhotoName;
+                    $property->photo = $photoPath;
+                }else{
+                    $property->photo = $property->photo;
                 }
 
-                if ($request->hasFile('photo')) {
-                    $Uploadimage = $request->file('photo');
-                    $single_photo = time() . '_' . $Uploadimage->hashName();
-                    $Uploadimage->move(public_path('images/property_default_image'), $single_photo);
-
-                    $photo = 'images/property_default_image/' . $single_photo;
-                    $property->photo = $photo;
-                }
-
-                // Save the updated property
                 $property->save();
 
                 return response()->json([
