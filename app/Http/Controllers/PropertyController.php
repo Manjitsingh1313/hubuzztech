@@ -717,55 +717,47 @@ class PropertyController extends Controller
 
                 if (!$property) {
                     return response()->json(['message' => 'Property not found'], 404);
+                }else
+                {
+                    $property->user_id = $request->user_id;
+                    $property->property_name = $request->property_name;
+                    $property->price = $request->price;
+                    $property->location = json_decode($request->input('location'), true);
+                    $property->bedrooms = $request->bedrooms;
+                    $property->bathrooms = $request->bathrooms;
+                    $property->area_sqft = $request->area_sqft;
+                    $property->deal = $request->deal;
+                    $property->type = $request->type;
+                    $property->parking = $request->parking;
+                    $property->description = $request->description;
+                    $property->assigned_buyer = $request->assigned_buyer;
+                    $property->isAvailable = $request->isAvailable;
+                    $property->dealer = $request->dealer;
+                    $property->dealer_contact = $request->dealer_contact;
+                    $property->district = $request->district;
+                    $property->property_details = $request->property_details;
+                    $property->photo = $request->photo;
+
+                    if ($request->has('photo') && !empty($request->photo)) {
+                        $uploadImage = $request->file('photo');
+                        $singlePhotoName = time() . '_' . $uploadImage->getClientOriginalName();
+                        $uploadImage->move(public_path('images/property_default_image'), $singlePhotoName);
+                        $photoPath = 'images/property_default_image/' . $singlePhotoName;
+                        $property->photo = $photoPath;
+                    } else {
+                       
+                        $property->photo = $property->photo; 
+                    }
+                    $property->save();
+    
+                    return response()->json([
+                        'message' => 'Property updated successfully.',
+                        'result' => $property,
+                    ]);
                 }
 
           
-                $property->user_id = $request->user_id;
-                $property->property_name = $request->property_name;
-                $property->price = $request->price;
-                $property->location = json_decode($request->input('location'), true);
-                $property->bedrooms = $request->bedrooms;
-                $property->bathrooms = $request->bathrooms;
-                $property->area_sqft = $request->area_sqft;
-                $property->deal = $request->deal;
-                $property->type = $request->type;
-                $property->parking = $request->parking;
-                $property->description = $request->description;
-                $property->assigned_buyer = $request->assigned_buyer;
-                $property->isAvailable = $request->isAvailable;
-                $property->dealer = $request->dealer;
-                $property->dealer_contact = $request->dealer_contact;
-                $property->district = $request->district;
-                $property->property_details = $request->property_details;
-
-                // if ($request->hasFile('images')) {
-                //     $multiple_photos = [];
-                //     foreach ($request->file('images') as $image) {
-                //         $filename = time() . '_' . $image->hashName();
-                //         $image->move(public_path('images/property_images'), $filename);
-
-                //         // Add the filename to the array
-                //         $multiple_photos[] = 'images/property_images/' . $filename;
-                //     }
-                //     $property->images = $multiple_photos;
-                // }
-
-                if ($request->hasFile('images')) {
-                    $uploadImage = $request->file('photo');
-                    $singlePhotoName = time() . '_' . $uploadImage->getClientOriginalName();
-                    $uploadImage->move(public_path('images/property_default_image'), $singlePhotoName);
-                    $photoPath = 'images/property_default_image/' . $singlePhotoName;
-                    $property->photo = $photoPath;
-                }else{
-                    $property->photo = $property->photo;
-                }
-
-                $property->save();
-
-                return response()->json([
-                    'message' => 'Property updated successfully.',
-                    'result' => $property,
-                ]);
+           
 
             } catch (\Exception $e) {
                 return response()->json(['message' => 'Failed to update property.', 'error' => $e->getMessage()], 500);
