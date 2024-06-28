@@ -684,36 +684,36 @@ class PropertyController extends Controller
     {
         try {
             // Validate request data
-            $validator = Validator::make($request->all(), [
-                'user_id' => 'required|string|exists:users,_id',
-                'property_name' => 'required|string|min:4|max:40',
-                'price' => 'required|numeric|min:0',
-                'location' => 'required',
-                'bedrooms' => 'required|integer|min:0',
-                'bathrooms' => 'required|integer|min:0',
-                'area_sqft' => 'required|numeric|min:0',
-                'deal' => 'required|string|in:sale,rent',
-                'type' => 'required|string|in:house,apartment,villa',
-                'parking' => 'required|integer|min:0',
-                'description' => 'required|string|min:5',
-                'assigned_buyer' => 'nullable|string',
-                'isAvailable' => 'boolean',
-                'dealer' => 'nullable|string',
-                'dealer_contact' => 'required|numeric|digits_between:10,10',
-                'district' => 'nullable|string',
-                'property_details' => 'nullable|array',
-                'photo' => 'nullable',
-                'property_details.city_view' => 'nullable',
-                'property_details.family_villa' => 'nullable',
-                'property_details.air_conditioned' => 'nullable',
-                'property_details.phone' => 'nullable|integer|digits:10',
-                'property_details.internet' => 'nullable|string',
-                'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]);
+            // $validator = Validator::make($request->all(), [
+            //     'user_id' => 'required|string|exists:users,_id',
+            //     'property_name' => 'required|string|min:4|max:40',
+            //     'price' => 'required|numeric|min:0',
+            //     'location' => 'required',
+            //     'bedrooms' => 'required|integer|min:0',
+            //     'bathrooms' => 'required|integer|min:0',
+            //     'area_sqft' => 'required|numeric|min:0',
+            //     'deal' => 'required|string|in:sale,rent',
+            //     'type' => 'required|string|in:house,apartment,villa',
+            //     'parking' => 'required|integer|min:0',
+            //     'description' => 'required|string|min:5',
+            //     'assigned_buyer' => 'nullable|string',
+            //     'isAvailable' => 'boolean',
+            //     'dealer' => 'nullable|string',
+            //     'dealer_contact' => 'required|numeric|digits_between:10,10',
+            //     'district' => 'nullable|string',
+            //     'property_details' => 'nullable|array',
+            //     'photo' => 'nullable',
+            //     'property_details.city_view' => 'nullable',
+            //     'property_details.family_villa' => 'nullable',
+            //     'property_details.air_conditioned' => 'nullable',
+            //     'property_details.phone' => 'nullable|integer|digits:10',
+            //     'property_details.internet' => 'nullable|string',
+            //     'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // ]);
     
-            if ($validator->fails()) {
-                return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()], 400);
-            }
+            // if ($validator->fails()) {
+            //     return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()], 400);
+            // }
     
             $property = Property::find($id);
     
