@@ -736,9 +736,9 @@ class PropertyController extends Controller
                     $property->dealer_contact = $request->dealer_contact;
                     $property->district = $request->district;
                     $property->property_details = $request->property_details;
-                    $property->photo = $request->photo;
+                    $property->photo = $property->photo;
 
-                    if ($request->has('photo') && !empty($request->photo)) {
+                    if ($request->has('photo')) {
                         $uploadImage = $request->file('photo');
                         $singlePhotoName = time() . '_' . $uploadImage->getClientOriginalName();
                         $uploadImage->move(public_path('images/property_default_image'), $singlePhotoName);
@@ -748,6 +748,7 @@ class PropertyController extends Controller
                        
                         $property->photo = $property->photo; 
                     }
+
                     $property->save();
     
                     return response()->json([
