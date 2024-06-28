@@ -678,92 +678,172 @@ class PropertyController extends Controller
     //     }
     // }
     
+
+
     public function updateProperty(Request $request, $id)
-        {
-            try {
-                // Validate request data
-                $validator = Validator::make($request->all(), [
-                    'user_id' => 'required|string|exists:users,_id',
-                    'property_name' => 'required|string|min:4|max:40',
-                    'price' => 'required|numeric|min:0',
-                    'location' => 'required',
-                    'bedrooms' => 'required|integer|min:0',
-                    'bathrooms' => 'required|integer|min:0',
-                    'area_sqft' => 'required|numeric|min:0',
-                    'deal' => 'required|string|in:sale,rent',
-                    'type' => 'required|string|in:house,apartment,villa',
-                    'parking' => 'required|integer|min:0',
-                    'description' => 'required|string|min:5',
-                    'assigned_buyer' => 'nullable|string',
-                    'isAvailable' => 'boolean',
-                    'dealer' => 'nullable|string',
-                    'dealer_contact' => 'required|numeric|digits_between:10,10',
-                    'district' => 'nullable|string',
-                    'property_details' => 'nullable|array',
-                    'photo' => 'nullable',
-                    'property_details.city_view' => 'nullable',
-                    'property_details.family_villa' => 'nullable',
-                    'property_details.air_conditioned' => 'nullable',
-                    'property_details.phone' => 'nullable|integer|digits:10',
-                    'property_details.internet' => 'nullable|string',
-                    'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                ]);
-
-                if ($validator->fails()) {
-                    return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()], 400);
-                }
-
-                $property = Property::find($id);
-
-                if (!$property) {
-                    return response()->json(['message' => 'Property not found'], 404);
-                }else
-                {
-                    $property->user_id = $request->user_id;
-                    $property->property_name = $request->property_name;
-                    $property->price = $request->price;
-                    $property->location = json_decode($request->input('location'), true);
-                    $property->bedrooms = $request->bedrooms;
-                    $property->bathrooms = $request->bathrooms;
-                    $property->area_sqft = $request->area_sqft;
-                    $property->deal = $request->deal;
-                    $property->type = $request->type;
-                    $property->parking = $request->parking;
-                    $property->description = $request->description;
-                    $property->assigned_buyer = $request->assigned_buyer;
-                    $property->isAvailable = $request->isAvailable;
-                    $property->dealer = $request->dealer;
-                    $property->dealer_contact = $request->dealer_contact;
-                    $property->district = $request->district;
-                    $property->property_details = $request->property_details;
-                    $property->photo = $property->photo;
-
-                    // if ($request->has('photo')) {
-                    //     $uploadImage = $request->file('photo');
-                    //     $singlePhotoName = time() . '_' . $uploadImage->getClientOriginalName();
-                    //     $uploadImage->move(public_path('images/property_default_image'), $singlePhotoName);
-                    //     $photoPath = 'images/property_default_image/' . $singlePhotoName;
-                    //     $property->photo = $photoPath;
-                    // } else {
-                       
-                    //     $property->photo = $property->photo; 
-                    // }
-
-                    $property->save();
+    {
+        try {
+            // Validate request data
+            $validator = Validator::make($request->all(), [
+                'user_id' => 'required|string|exists:users,_id',
+                'property_name' => 'required|string|min:4|max:40',
+                'price' => 'required|numeric|min:0',
+                'location' => 'required',
+                'bedrooms' => 'required|integer|min:0',
+                'bathrooms' => 'required|integer|min:0',
+                'area_sqft' => 'required|numeric|min:0',
+                'deal' => 'required|string|in:sale,rent',
+                'type' => 'required|string|in:house,apartment,villa',
+                'parking' => 'required|integer|min:0',
+                'description' => 'required|string|min:5',
+                'assigned_buyer' => 'nullable|string',
+                'isAvailable' => 'boolean',
+                'dealer' => 'nullable|string',
+                'dealer_contact' => 'required|numeric|digits_between:10,10',
+                'district' => 'nullable|string',
+                'property_details' => 'nullable|array',
+                'photo' => 'nullable',
+                'property_details.city_view' => 'nullable',
+                'property_details.family_villa' => 'nullable',
+                'property_details.air_conditioned' => 'nullable',
+                'property_details.phone' => 'nullable|integer|digits:10',
+                'property_details.internet' => 'nullable|string',
+                'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
     
-                    return response()->json([
-                        'message' => 'Property updated successfully.',
-                        'result' => $property,
-                    ]);
-                }
+            if ($validator->fails()) {
+                return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()], 400);
+            }
+    
+            $property = Property::find($id);
+    
+            if (!$property) {
+                return response()->json(['message' => 'Property not found'], 404);
+            }
+    
+            // Update the property fields using ternary operators
+            $property->user_id = $request->user_id ?? $property->user_id;
+            $property->property_name = $request->property_name ?? $property->property_name;
+            $property->price = $request->price ?? $property->price;
+            $property->location = $request->has('location') ? json_decode($request->input('location'), true) : $property->location;
+            $property->bedrooms = $request->bedrooms ?? $property->bedrooms;
+            $property->bathrooms = $request->bathrooms ?? $property->bathrooms;
+            $property->area_sqft = $request->area_sqft ?? $property->area_sqft;
+            $property->deal = $request->deal ?? $property->deal;
+            $property->type = $request->type ?? $property->type;
+            $property->parking = $request->parking ?? $property->parking;
+            $property->description = $request->description ?? $property->description;
+            $property->assigned_buyer = $request->assigned_buyer ?? $property->assigned_buyer;
+            $property->isAvailable = $request->isAvailable ?? $property->isAvailable;
+            $property->dealer = $request->dealer ?? $property->dealer;
+            $property->dealer_contact = $request->dealer_contact ?? $property->dealer_contact;
+            $property->district = $request->district ?? $property->district;
+            $property->property_details = $request->property_details ?? $property->property_details;
+            $property->photo = $request->photo ?? $property->photo;
+    
+            $property->save();
+    
+            return response()->json([
+                'message' => 'Property updated successfully.',
+                'result' => $property,
+            ]);
+    
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to update property.', 'error' => $e->getMessage()], 500);
+        }
+    }
+    
+
+
+
+
+
+    // public function updateProperty(Request $request, $id)
+    //     {
+    //         try {
+    //             // Validate request data
+    //             $validator = Validator::make($request->all(), [
+    //                 'user_id' => 'required|string|exists:users,_id',
+    //                 'property_name' => 'required|string|min:4|max:40',
+    //                 'price' => 'required|numeric|min:0',
+    //                 'location' => 'required',
+    //                 'bedrooms' => 'required|integer|min:0',
+    //                 'bathrooms' => 'required|integer|min:0',
+    //                 'area_sqft' => 'required|numeric|min:0',
+    //                 'deal' => 'required|string|in:sale,rent',
+    //                 'type' => 'required|string|in:house,apartment,villa',
+    //                 'parking' => 'required|integer|min:0',
+    //                 'description' => 'required|string|min:5',
+    //                 'assigned_buyer' => 'nullable|string',
+    //                 'isAvailable' => 'boolean',
+    //                 'dealer' => 'nullable|string',
+    //                 'dealer_contact' => 'required|numeric|digits_between:10,10',
+    //                 'district' => 'nullable|string',
+    //                 'property_details' => 'nullable|array',
+    //                 'photo' => 'nullable',
+    //                 'property_details.city_view' => 'nullable',
+    //                 'property_details.family_villa' => 'nullable',
+    //                 'property_details.air_conditioned' => 'nullable',
+    //                 'property_details.phone' => 'nullable|integer|digits:10',
+    //                 'property_details.internet' => 'nullable|string',
+    //                 'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    //             ]);
+
+    //             if ($validator->fails()) {
+    //                 return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()], 400);
+    //             }
+
+    //             $property = Property::find($id);
+
+    //             if (!$property) {
+    //                 return response()->json(['message' => 'Property not found'], 404);
+    //             }else
+    //             {
+    //                 $property->user_id = $request->user_id;
+    //                 $property->property_name = $request->property_name;
+    //                 $property->price = $request->price;
+    //                 $property->location = json_decode($request->input('location'), true);
+    //                 $property->bedrooms = $request->bedrooms;
+    //                 $property->bathrooms = $request->bathrooms;
+    //                 $property->area_sqft = $request->area_sqft;
+    //                 $property->deal = $request->deal;
+    //                 $property->type = $request->type;
+    //                 $property->parking = $request->parking;
+    //                 $property->description = $request->description;
+    //                 $property->assigned_buyer = $request->assigned_buyer;
+    //                 $property->isAvailable = $request->isAvailable;
+    //                 $property->dealer = $request->dealer;
+    //                 $property->dealer_contact = $request->dealer_contact;
+    //                 $property->district = $request->district;
+    //                 $property->property_details = $request->property_details;
+    //                 $property->photo = $property->photo;
+
+    //                 // if ($request->has('photo')) {
+    //                 //     $uploadImage = $request->file('photo');
+    //                 //     $singlePhotoName = time() . '_' . $uploadImage->getClientOriginalName();
+    //                 //     $uploadImage->move(public_path('images/property_default_image'), $singlePhotoName);
+    //                 //     $photoPath = 'images/property_default_image/' . $singlePhotoName;
+    //                 //     $property->photo = $photoPath;
+    //                 // } else {
+                       
+    //                 //     $property->photo = $property->photo; 
+    //                 // }
+
+    //                 $property->save();
+    
+    //                 return response()->json([
+    //                     'message' => 'Property updated successfully.',
+    //                     'result' => $property,
+    //                 ]);
+    //             }
 
           
            
 
-            } catch (\Exception $e) {
-                return response()->json(['message' => 'Failed to update property.', 'error' => $e->getMessage()], 500);
-            }
-        }
+    //         } catch (\Exception $e) {
+    //             return response()->json(['message' => 'Failed to update property.', 'error' => $e->getMessage()], 500);
+    //         }
+    //     }
 
     
 
