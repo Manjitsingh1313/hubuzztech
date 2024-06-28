@@ -738,16 +738,16 @@ class PropertyController extends Controller
                     $property->property_details = $request->property_details;
                     $property->photo = $property->photo;
 
-                    if ($request->has('photo')) {
-                        $uploadImage = $request->file('photo');
-                        $singlePhotoName = time() . '_' . $uploadImage->getClientOriginalName();
-                        $uploadImage->move(public_path('images/property_default_image'), $singlePhotoName);
-                        $photoPath = 'images/property_default_image/' . $singlePhotoName;
-                        $property->photo = $photoPath;
-                    } else {
+                    // if ($request->has('photo')) {
+                    //     $uploadImage = $request->file('photo');
+                    //     $singlePhotoName = time() . '_' . $uploadImage->getClientOriginalName();
+                    //     $uploadImage->move(public_path('images/property_default_image'), $singlePhotoName);
+                    //     $photoPath = 'images/property_default_image/' . $singlePhotoName;
+                    //     $property->photo = $photoPath;
+                    // } else {
                        
-                        $property->photo = $property->photo; 
-                    }
+                    //     $property->photo = $property->photo; 
+                    // }
 
                     $property->save();
     
