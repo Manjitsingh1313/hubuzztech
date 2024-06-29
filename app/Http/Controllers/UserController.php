@@ -315,7 +315,10 @@ class UserController extends Controller
                 'average_user_rating' => "nullable",
                 'ratings' => 'nullable',
                 'rera_number' => 'nullable',
-                'image' => 'nullable'
+                'image' => 'nullable',
+                'notification_push_token' => 'nullable',
+                'notification_data' => 'nullable'
+
             ]);
             $status = true;
 
@@ -342,7 +345,9 @@ class UserController extends Controller
                             'password'=> $request->password ? $request->password : "N/A",
                             'image' => $request->image ? $request->image : "N/A",
                             'rera_number' => $request->rera_number ? $request->rera_number : "N/A",
-                            'image' => $request->image ? $request->image : "N/A"
+                            'image' => $request->image ? $request->image : "N/A",
+                            'notification_push_token' => $request->notification_push_token ? $request->notification_push_token : "N/A",
+                            'notification_data' => $request->notification_data ? $request->notification_data : "N/A"
 
                         ]);
                         $token = Auth::guard('api')->login($user);
