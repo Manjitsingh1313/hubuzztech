@@ -715,38 +715,64 @@ class PropertyController extends Controller
             //     return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()], 400);
             // }
     
-            $property = Property::find($id);
+            $property = Property::findOrFail($id);
     
             if (!$property) {
                 return response()->json(['message' => 'Property not found'], 404);
-            }
-    
-            // Update the property fields using ternary operators
-            $property->user_id = $request->user_id ?? $property->user_id;
-            $property->property_name = $request->property_name ?? $property->property_name;
-            $property->price = $request->price ?? $property->price;
-            $property->location = $request->has('location') ? json_decode($request->input('location'), true) : $property->location;
-            $property->bedrooms = $request->bedrooms ?? $property->bedrooms;
-            $property->bathrooms = $request->bathrooms ?? $property->bathrooms;
-            $property->area_sqft = $request->area_sqft ?? $property->area_sqft;
-            $property->deal = $request->deal ?? $property->deal;
-            $property->type = $request->type ?? $property->type;
-            $property->parking = $request->parking ?? $property->parking;
-            $property->description = $request->description ?? $property->description;
-            $property->assigned_buyer = $request->assigned_buyer ?? $property->assigned_buyer;
-            $property->isAvailable = $request->isAvailable ?? $property->isAvailable;
-            $property->dealer = $request->dealer ?? $property->dealer;
-            $property->dealer_contact = $request->dealer_contact ?? $property->dealer_contact;
-            $property->district = $request->district ?? $property->district;
-            $property->property_details = $request->property_details ?? $property->property_details;
-            $property->photo = $request->photo ?? $property->photo;
-    
-            $property->save();
-    
-            return response()->json([
-                'message' => 'Property updated successfully.',
-                'result' => $property,
-            ]);
+            }else{
+
+                $property->property_name = $request->input('property_name', $property->property_name);
+                $property->user_id = $request->input('user_id', $property->user_id);
+                $property->price = $request->input('price', $property->price);
+                $property->location = $request->has('location') ? json_decode($request->input('location',  $property->location), true) : $property->location;
+                $property->bedrooms = $request->input('bedrooms', $property->bedrooms);
+                $property->bathrooms = $request->input('bathrooms', $property->bathrooms);
+                $property->area_sqft = $request->input('area_sqft', $property->area_sqft);
+                $property->deal = $request->input('deal', $property->deal);
+                $property->type = $request->input('type', $property->type);
+                $property->parking = $request->input('parking', $property->parking);
+                $property->assigned_buyer = $request->input('assigned_buyer', $property->assigned_buyer);
+                $property->description = $request->input('description', $property->description);
+                $property->isAvailable = $request->input('isAvailable', $property->isAvailable);
+                $property->dealer = $request->input('dealer', $property->dealer);
+                $property->dealer_contact = $request->input('dealer_contact', $property->dealer_contact);
+                $property->district = $request->input('district', $property->district);
+                $property->property_details = $request->input('property_details', $property->property_details);
+
+                if ($request->hasFile('photo')) {
+                $uploadImage = $request->file('photo');
+                $singlePhotoName = time() . '_' . $uploadImage->getClientOriginalName();
+                $uploadImage->move(public_path('images/property_default_image'), $singlePhotoName);
+                $photoPath = 'images/property_default_image/' . $singlePhotoName;
+                }else{
+                $property->photo = $request->photo ?? $property->photo;
+                }
+                // $property->user_id = $request->user_id ?? $property->user_id;
+                // $property->property_name = $request->property_name ?? $property->property_name;
+                // $property->price = $request->price ?? $property->price;
+                // $property->location = $request->has('location') ? json_decode($request->input('location'), true) : $property->location;
+                // $property->bedrooms = $request->bedrooms ?? $property->bedrooms;
+                // $property->bathrooms = $request->bathrooms ?? $property->bathrooms;
+                // $property->area_sqft = $request->area_sqft ?? $property->area_sqft;
+                // $property->deal = $request->deal ?? $property->deal;
+                // $property->type = $request->type ?? $property->type;
+                // $property->parking = $request->parking ?? $property->parking;
+                // $property->description = $request->description ?? $property->description;
+                // $property->assigned_buyer = $request->assigned_buyer ?? $property->assigned_buyer;
+                // $property->isAvailable = $request->isAvailable ?? $property->isAvailable;
+                // $property->dealer = $request->dealer ?? $property->dealer;
+                // $property->dealer_contact = $request->dealer_contact ?? $property->dealer_contact;
+                // $property->district = $request->district ?? $property->district;
+                // $property->property_details = $request->property_details ?? $property->property_details;
+                // $property->photo = $request->photo ?? $property->photo;
+        
+                $property->save();
+        
+                return response()->json([
+                    'message' => 'Property updated successfully.',
+                    'result' => $property,
+                ]);
+        }
     
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to update property.', 'error' => $e->getMessage()], 500);
