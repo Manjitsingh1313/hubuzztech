@@ -556,7 +556,7 @@ class UserController extends Controller
                         return response()->json(['message' => 'User not found', 'user' => $user]);
 
                     }else{
-                        if ($request->hasFile('image')) {
+                        if ($request->has('image')) {
 
                             $Uploadimage = $request->file('image');
                             $single_photo = time() . '_' . $Uploadimage->getClientOriginalName();
