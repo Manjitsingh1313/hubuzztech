@@ -544,84 +544,84 @@ class UserController extends Controller
                     'average_user_rating' => "",
                     'ratings' => '',
                     'rera_number' => '',
-                    'image' => ''
+                    'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
 
                 ]);
                 if ($validator->fails()) {
                     return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()]);
                 }
-                else{
-                    $user = User::where('_id', $id)->exists();
-                    if(!$user){
-                        return response()->json(['message' => 'User not found', 'user' => $user]);
+              
+                $user = User::findOrFail($id);
+                if(!$user){
+                    return response()->json(['message' => 'User not found', 'user' => $user]);
 
-                    }else{
-                        if ($request->has('image')) {
+                }else{
+                    if ($request->hasFile('image')) {
 
-                            $Uploadimage = $request->file('image');
-                            $single_photo = time() . '_' . $Uploadimage->getClientOriginalName();
-                            $Uploadimage->move(public_path('images/user_images'), $single_photo);
-                            $photo = 'images/user_images/' . $single_photo;
+                        $Uploadimage = $request->file('image');
+                        $single_photo = time() . '_' . $Uploadimage->getClientOriginalName();
+                        $Uploadimage->move(public_path('images/user_images'), $single_photo);
+                        $photo = 'images/user_images/' . $single_photo;
 
 
-                            $data = User::findOrFail($id);
-                            $data->fill([         
-                                'image' => $photo,
-                                'otp_status' => $data->otp_status,
-                                'mobile' => $data->mobile,
-                                'payment_res' => $request->payment_res ? $request->payment_res : $data->payment_res,
-                                'email' => $request->email ? $request->email : $data->email,
-                                'user_city' => $request->user_city ? $request->user_city : $data->user_city,
-                                'password' => $request->password ? $request->password : $data->password,
-                                'name' => $request->name ? $request->name : $data->name,
-                                'role' => $request->role ? $request->role : $data->role,
-                                'average_user_rating' => $request->average_user_rating ? $request->average_user_rating : $data->average_user_rating,
-                                'ratings' => $request->ratings ? $request->ratings : $data->ratings,
-                                'rera_number' => $request->rera_number ? $request->rera_number : $data->rera_number,
-                                'status' => $request->status ?? $data->status, 
-                                'user_pincode' => $request->user_pincode ?? $data->user_pincode, 
-                                'payment_status' =>  $request->payment_status ?? $data->payment_status, 
+                        $data = User::findOrFail($id);
+                        $data->fill([         
+                            'image' => $photo,
+                            'otp_status' => $data->otp_status,
+                            'mobile' => $data->mobile,
+                            'payment_res' => $request->payment_res ? $request->payment_res : $data->payment_res,
+                            'email' => $request->email ? $request->email : $data->email,
+                            'user_city' => $request->user_city ? $request->user_city : $data->user_city,
+                            'password' => $request->password ? $request->password : $data->password,
+                            'name' => $request->name ? $request->name : $data->name,
+                            'role' => $request->role ? $request->role : $data->role,
+                            'average_user_rating' => $request->average_user_rating ? $request->average_user_rating : $data->average_user_rating,
+                            'ratings' => $request->ratings ? $request->ratings : $data->ratings,
+                            'rera_number' => $request->rera_number ? $request->rera_number : $data->rera_number,
+                            'status' => $request->status ?? $data->status, 
+                            'user_pincode' => $request->user_pincode ?? $data->user_pincode, 
+                            'payment_status' =>  $request->payment_status ?? $data->payment_status, 
 
-                            ]);
-                            $data->save();          
-                            return response()->json([
-                                'message'=>'User updated successfully here',
-                                'result'=> $data
-                            ]);
+                        ]);
+                        $data->save();          
+                        return response()->json([
+                            'message'=>'User updated successfully here',
+                            'result'=> $data
+                        ]);
 
-                        }
-                        else{
-                            $data = User::findOrFail($id);
-                            $data->fill([         
-                                'image' => $data->image,
-                                'otp_status' => $data->otp_status,
-                                'mobile' => $data->mobile,
-                                'payment_res' => $request->payment_res ? $request->payment_res : $data->payment_res,
-                                'email' => $request->email ? $request->email : $data->email,
-                                'user_city' => $request->user_city ? $request->user_city : $data->user_city,
-                                'password' => $request->password ? $request->password : $data->password,
-                                'name' => $request->name ? $request->name : $data->name,
-                                'role' => $request->role ? $request->role : $data->role,
-                                'average_user_rating' => $request->average_user_rating ? $request->average_user_rating : $data->average_user_rating,
-                                'ratings' => $request->ratings ? $request->ratings : $data->ratings,
-                                'rera_number' => $request->rera_number ? $request->rera_number : $data->rera_number,
-                                'status' => $request->status ?? $data->status, 
-                                'user_pincode' => $request->user_pincode ?? $data->user_pincode, 
-                                'payment_status' => $request->payment_status ?? $data->payment_status, 
-                                
-
-                            ]);
-                            $data->save();          
-                            return response()->json([
-                                'message'=>'User updated successfully',
-                                'result'=> $data
-                            ]);
-                        }
                     }
+                    else{
+                        $data = User::findOrFail($id);
+                        $data->fill([         
+                            'image' => $data->image,
+                            'otp_status' => $data->otp_status,
+                            'mobile' => $data->mobile,
+                            'payment_res' => $request->payment_res ? $request->payment_res : $data->payment_res,
+                            'email' => $request->email ? $request->email : $data->email,
+                            'user_city' => $request->user_city ? $request->user_city : $data->user_city,
+                            'password' => $request->password ? $request->password : $data->password,
+                            'name' => $request->name ? $request->name : $data->name,
+                            'role' => $request->role ? $request->role : $data->role,
+                            'average_user_rating' => $request->average_user_rating ? $request->average_user_rating : $data->average_user_rating,
+                            'ratings' => $request->ratings ? $request->ratings : $data->ratings,
+                            'rera_number' => $request->rera_number ? $request->rera_number : $data->rera_number,
+                            'status' => $request->status ?? $data->status, 
+                            'user_pincode' => $request->user_pincode ?? $data->user_pincode, 
+                            'payment_status' => $request->payment_status ?? $data->payment_status, 
+                            
+
+                        ]);
+                        $data->save();          
+                        return response()->json([
+                            'message'=>'User updated successfully',
+                            'result'=> $data
+                        ]);
+                    }
+                }
 
                   
                   
-                }
+                
                 
             } catch (\Exception $e) {
                 return response()->json(['message' => 'Failed to update user.', 'error' => $e->getMessage()]);
