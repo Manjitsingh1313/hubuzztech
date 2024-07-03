@@ -559,9 +559,10 @@ class UserController extends Controller
                         if ($request->hasFile('image')) {
 
                             $Uploadimage = $request->file('image');
-                            $single_photo = time() . '_' . $Uploadimage->hashName();
+                            $single_photo = time() . '_' . $Uploadimage->getClientOriginalName();
                             $Uploadimage->move(public_path('images/user_images'), $single_photo);
                             $photo = 'images/user_images/' . $single_photo;
+
 
                             $data = User::findOrFail($id);
                             $data->fill([         
