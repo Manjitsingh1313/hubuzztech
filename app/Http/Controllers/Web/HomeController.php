@@ -48,7 +48,7 @@ class HomeController extends Controller
 
     public function downloadAPK()
     {
-        $apkPath = public_path('assets/apk/unify-prod.apk');
+        $apkPath = public_path('assets/apk/unify-update.apk');
 
         if (file_exists($apkPath)) {
             // return response()->download($apkPath, 'unify-prod.apk');
