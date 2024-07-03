@@ -51,7 +51,10 @@ class HomeController extends Controller
         $apkPath = public_path('assets/apk/unify-prod.apk');
 
         if (file_exists($apkPath)) {
-            return response()->download($apkPath, 'unify-prod.apk');
+            // return response()->download($apkPath, 'unify-prod.apk');
+            return response()->download($apkPath, 'unify-prod.apk', [
+                'Content-Type' => 'application/vnd.android.package-archive',
+            ]);
         } else {
             return response()->json(['error' => 'APK file not found'], 404);
         }
