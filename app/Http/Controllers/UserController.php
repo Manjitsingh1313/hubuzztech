@@ -613,7 +613,7 @@ class UserController extends Controller
                         ]);
                         $data->save();          
                         return response()->json([
-                            'message'=>'User updated successfully',
+                            'message'=>'User updated successfully with no image',
                             'result'=> $data
                         ]);
                     }
