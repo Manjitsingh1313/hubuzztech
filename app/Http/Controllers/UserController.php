@@ -564,7 +564,6 @@ class UserController extends Controller
                             $photo = 'images/user_images/' . $single_photo;
 
                             $data = User::findOrFail($id);
-                            $payment_status = true;
                             $data->fill([         
                                 'image' => $photo,
                                 'otp_status' => $data->otp_status,
@@ -580,7 +579,7 @@ class UserController extends Controller
                                 'rera_number' => $request->rera_number ? $request->rera_number : $data->rera_number,
                                 'status' => $request->status ?? $data->status, 
                                 'user_pincode' => $request->user_pincode ?? $data->user_pincode, 
-                                'payment_status' => $payment_status, 
+                                'payment_status' =>  $request->payment_status ?? $data->payment_status, 
 
                             ]);
                             $data->save();          
@@ -591,7 +590,6 @@ class UserController extends Controller
 
                         }
                         else{
-                            $payment_status = true;
                             $data = User::findOrFail($id);
                             $data->fill([         
                                 'image' => $data->image,
@@ -608,7 +606,8 @@ class UserController extends Controller
                                 'rera_number' => $request->rera_number ? $request->rera_number : $data->rera_number,
                                 'status' => $request->status ?? $data->status, 
                                 'user_pincode' => $request->user_pincode ?? $data->user_pincode, 
-                                'payment_status' => $payment_status, 
+                                'payment_status' => $request->payment_status ?? $data->payment_status, 
+                                
 
                             ]);
                             $data->save();          

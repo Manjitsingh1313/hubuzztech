@@ -50,7 +50,6 @@ class User extends Authenticatable implements JWTSubject
         'notification_push_token',
         'notification_data',
 
-
     ];
 
     /**
