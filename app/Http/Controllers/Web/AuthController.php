@@ -17,7 +17,15 @@ use Illuminate\Support\Facades\Log;
 class AuthController extends Controller
 {
  
+    
+  
+    public function login()
+    {
+        return view('auth/login');
+    }
+  
 
+  
     public function register()
     {
         return view('auth/register');
@@ -49,16 +57,8 @@ class AuthController extends Controller
             'message' => 'User registered successfully',
         ]);
     }
-    
-    
-    
 
-  
-    public function login()
-    {
-        return view('auth/login');
-    }
-  
+
 
 
     public function loginAction(Request $request)
