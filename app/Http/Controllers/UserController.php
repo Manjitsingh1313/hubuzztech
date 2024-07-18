@@ -529,7 +529,6 @@ class UserController extends Controller
     public function updateUser(Request $request, $id)
         {
             // dd('Request Data: ', $request->all());
-            return response()->json($request->all()); 
             try {
                 
                 $validator = Validator::make($request->all(), [
