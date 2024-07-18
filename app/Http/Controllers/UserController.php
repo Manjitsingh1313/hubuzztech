@@ -591,7 +591,7 @@ class UserController extends Controller
                         return response()->json([
                             'message'=>'User updated successfully here',
                             'result'=> $data,
-                            'request' => $request->all()
+                            'request' => $request->all(),
                             
                         ]);
 
