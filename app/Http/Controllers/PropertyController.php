@@ -771,6 +771,8 @@ class PropertyController extends Controller
                 return response()->json([
                     'message' => 'Property updated successfully.',
                     'result' => $property,
+                    'request' => $request->all()
+
                 ]);
         }
     

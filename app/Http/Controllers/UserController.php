@@ -533,7 +533,6 @@ class UserController extends Controller
             // dd('Request Data: ', $request->all());
             // return response()->json($request->all()); 
             try {
-                
                 $validator = Validator::make($request->all(), [
                     'mobile'=>'integer|digits:10',
                     'otp_status'=>'',
