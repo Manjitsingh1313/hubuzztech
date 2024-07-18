@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 use Throwable;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
-
+use Illuminate\Support\Facades\Log;
 /**
  * @group Users
  *
@@ -528,7 +528,10 @@ class UserController extends Controller
     // updateUser by id 
     public function updateUser(Request $request, $id)
         {
+            // dd('Request Data: ', $request->all());
+            return response()->json($request->all()); 
             try {
+                
                 $validator = Validator::make($request->all(), [
                     'mobile'=>'integer|digits:10',
                     'otp_status'=>'',
@@ -586,7 +589,9 @@ class UserController extends Controller
                         $data->save();          
                         return response()->json([
                             'message'=>'User updated successfully here',
-                            'result'=> $data
+                            'result'=> $data,
+                            "request" => $request->all()
+
                         ]);
 
                     }
@@ -614,7 +619,8 @@ class UserController extends Controller
                         $data->save();          
                         return response()->json([
                             'message'=>'User updated successfully with no image',
-                            'result'=> $data
+                            'result'=> $data,
+                            "request" => $request->all()
                         ]);
                     }
                 }
