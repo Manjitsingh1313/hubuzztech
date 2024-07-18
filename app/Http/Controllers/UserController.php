@@ -26,7 +26,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['getUserById', 'login','register', 'getUserByMobile','refresh', 'respondWithToken']]);
+        $this->middleware('auth:api', ['except' => ['getUserById', 'updateUser', 'login','register', 'getUserByMobile','refresh', 'respondWithToken']]);
     }
 
     /**
