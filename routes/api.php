@@ -30,7 +30,7 @@ Route::group([
     Route::post('refresh', [UserController::class, 'refresh']);
     Route::get('/user/{_id}', [UserController::class, 'getUserById']);
     Route::get('/user/mobile/{mobile}', [UserController::class, 'getUserByMobile']);
-    Route::put('/user/{_id}', [UserController::class, 'updateUser']);
+    Route::put('/user/userprofileupdate/{_id}', [UserController::class, 'updateUser']);
     Route::delete('/user/{_id}', [UserController::class, 'deleteUserById']);
     Route::get('/users', [UserController::class, 'User_list']);
 

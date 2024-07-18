@@ -526,9 +526,12 @@ class UserController extends Controller
      * }
      */
     // updateUser by id 
+
+
     public function updateUser(Request $request, $id)
         {
             // dd('Request Data: ', $request->all());
+            // return response()->json($request->all()); 
             try {
                 
                 $validator = Validator::make($request->all(), [
@@ -589,8 +592,8 @@ class UserController extends Controller
                         return response()->json([
                             'message'=>'User updated successfully here',
                             'result'=> $data,
-                            "request" => $request->all()
-
+                            'request' => $request->all()
+                            
                         ]);
 
                     }
@@ -600,18 +603,18 @@ class UserController extends Controller
                             'image' => $data->image,
                             'otp_status' => $data->otp_status,
                             'mobile' => $data->mobile,
-                            'payment_res' => $request->payment_res ? $request->payment_res : $data->payment_res,
-                            'email' => $request->email ? $request->email : $data->email,
-                            'user_city' => $request->user_city ? $request->user_city : $data->user_city,
-                            'password' => $request->password ? $request->password : $data->password,
-                            'name' => $request->name ? $request->name : $data->name,
-                            'role' => $request->role ? $request->role : $data->role,
-                            'average_user_rating' => $request->average_user_rating ? $request->average_user_rating : $data->average_user_rating,
-                            'ratings' => $request->ratings ? $request->ratings : $data->ratings,
-                            'rera_number' => $request->rera_number ? $request->rera_number : $data->rera_number,
-                            'status' => $request->status ?? $data->status, 
-                            'user_pincode' => $request->user_pincode ?? $data->user_pincode, 
-                            'payment_status' => $request->payment_status ?? $data->payment_status, 
+                            'payment_res' => $request->payment_res,
+                            'email' => $request->email,
+                            'user_city' => $request->user_city,
+                            'password' => $request->password,
+                            'name' => $request->name,
+                            'role' => $request->role,
+                            'average_user_rating' => $request->average_user_rating,
+                            'ratings' => $request->ratings,
+                            'rera_number' => $request->rera_number,
+                            'status' => $request->status, 
+                            'user_pincode' => $request->user_pincode, 
+                            'payment_status' => $request->payment_status, 
                             
 
                         ]);
@@ -622,12 +625,7 @@ class UserController extends Controller
                             "request" => $request->all()
                         ]);
                     }
-                }
-
-                  
-                  
-                
-                
+                }              
             } catch (\Exception $e) {
                 return response()->json(['message' => 'Failed to update user.', 'error' => $e->getMessage()]);
             }
