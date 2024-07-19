@@ -682,8 +682,8 @@ class PropertyController extends Controller
 
     public function updateProperty(Request $request, $id)
     {
+        // dd($request);
         try {
-            // Validate request data
             // $validator = Validator::make($request->all(), [
             //     'user_id' => 'required|string|exists:users,_id',
             //     'property_name' => 'required|string|min:4|max:40',
@@ -712,13 +712,13 @@ class PropertyController extends Controller
             // ]);
     
             // if ($validator->fails()) {
-            //     return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()], 400);
+            //     return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()]);
             // }
     
             $property = Property::findOrFail($id);
     
             if (!$property) {
-                return response()->json(['message' => 'Property not found'], 404);
+                return response()->json(['message' => 'Property not found']);
             }else{
 
                 $property->property_name = $request->input('property_name', $property->property_name);
@@ -740,32 +740,13 @@ class PropertyController extends Controller
                 $property->property_details = $request->input('property_details', $property->property_details);
 
                 if ($request->hasFile('photo')) {
-                $uploadImage = $request->file('photo');
-                $singlePhotoName = time() . '_' . $uploadImage->getClientOriginalName();
-                $uploadImage->move(public_path('images/property_default_image'), $singlePhotoName);
-                $photoPath = 'images/property_default_image/' . $singlePhotoName;
+                    $uploadImage = $request->file('photo');
+                    $singlePhotoName = time() . '_' . $uploadImage->getClientOriginalName();
+                    $uploadImage->move(public_path('images/property_default_image'), $singlePhotoName);
+                    $photoPath = 'images/property_default_image/' . $singlePhotoName;
                 }else{
-                $property->photo = $request->photo ?? $property->photo;
+                    $property->photo = $request->photo ?? $property->photo;
                 }
-                // $property->user_id = $request->user_id ?? $property->user_id;
-                // $property->property_name = $request->property_name ?? $property->property_name;
-                // $property->price = $request->price ?? $property->price;
-                // $property->location = $request->has('location') ? json_decode($request->input('location'), true) : $property->location;
-                // $property->bedrooms = $request->bedrooms ?? $property->bedrooms;
-                // $property->bathrooms = $request->bathrooms ?? $property->bathrooms;
-                // $property->area_sqft = $request->area_sqft ?? $property->area_sqft;
-                // $property->deal = $request->deal ?? $property->deal;
-                // $property->type = $request->type ?? $property->type;
-                // $property->parking = $request->parking ?? $property->parking;
-                // $property->description = $request->description ?? $property->description;
-                // $property->assigned_buyer = $request->assigned_buyer ?? $property->assigned_buyer;
-                // $property->isAvailable = $request->isAvailable ?? $property->isAvailable;
-                // $property->dealer = $request->dealer ?? $property->dealer;
-                // $property->dealer_contact = $request->dealer_contact ?? $property->dealer_contact;
-                // $property->district = $request->district ?? $property->district;
-                // $property->property_details = $request->property_details ?? $property->property_details;
-                // $property->photo = $request->photo ?? $property->photo;
-        
                 $property->save();
         
                 return response()->json([
@@ -779,7 +760,7 @@ class PropertyController extends Controller
         }
     
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to update property.', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Failed to update property.', 'error' => $e->getMessage()]);
         }
     }
     
