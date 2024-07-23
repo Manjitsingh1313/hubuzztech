@@ -548,7 +548,7 @@ class UserController extends Controller
                     'average_user_rating' => "",
                     'ratings' => '',
                     'rera_number' => '',
-                    'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+                    // 'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
 
                 ]);
                 if ($validator->fails()) {
