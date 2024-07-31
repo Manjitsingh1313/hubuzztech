@@ -250,52 +250,127 @@ class ChatController extends Controller
     //     }
     // }
 
+
+
+
         
+    // public function getChat(Request $request)
+    // {
+    //     $sender_id = $request->input('sender_id'); 
+    //     $recipient_id = $request->input('recipient_id'); 
+    //     // return $sender_id;
+    //     // return $recipient_id;
+
+    //     try {
+    //         if (!$recipient_id) {
+    //             return response()->json(['message' => 'Recipient ID is missing.']);
+    //         }
+    //         $chatExists = Chat::where('sender_id', $sender_id)
+    //         ->where('recipient_id', $recipient_id)
+    //         ->first();
+
+    //         if (!$chatExists) {
+    //             return response()->json(['message' => 'No chat messages found between the sender and recipient']);
+    //         }
+    //         else{
+    //             $chatExists = Chat::where('sender_id', $sender_id)
+    //             ->where('recipient_id', $recipient_id)
+    //             ->get();
+    //             $sender_profile = User::find($sender_id);
+    //             if (!$sender_profile) {
+    //                 return response()->json(['message' => 'Sender not found.']);
+    //             }
+    
+    //             $recipient_profile = User::find($recipient_id);
+    //             if (!$recipient_profile) {
+    //                 return response()->json(['message' => 'Recipient not found.']);
+    //             }
+    
+    //             return response()->json([
+    //                 'chatDataLength' => count($chatExists),
+
+    //                 'sender_profile' => $sender_profile,
+    //                 'recipient_profile' => $recipient_profile,
+    //                 'chatuserlist' => $chatExists,
+    //             ]);
+    //         }
+
+           
+    //     } catch (\Exception $e) {
+    //         return response()->json(['message' => 'Failed to retrieve messages', 'error' => $e->getMessage()]);
+    //     }
+    // }
+
+
+
     public function getChat(Request $request)
     {
-        $sender_id = $request->input('sender_id'); 
-        $recipient_id = $request->input('recipient_id'); 
-        // return $sender_id;
-        // return $recipient_id;
-
         try {
-            if (!$recipient_id) {
-                return response()->json(['message' => 'Recipient ID is missing.']);
+            if (!Auth::check()) {
+                return response()->json(['message' => 'Unauthorized. Please log in.']);
             }
-            $chatExists = Chat::where('sender_id', $sender_id)
-            ->where('recipient_id', $recipient_id)
-            ->first();
+            $validator = Validator::make($request->all(), [
+                'recipient_id' => 'required|string|exists:users,_id',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['message' => 'Validation error', 'errors' => $validator->errors()]);
+            }
+
+            $user = Auth::id();
+            $sender_id = $user;
+            $recipient_id = $request->input('recipient_id');
+            $chatExists = Chat::where(function ($query) use ($sender_id, $recipient_id) {
+                $query->where('sender_id', $sender_id)
+                    ->where('recipient_id', $recipient_id);
+            })
+            ->orWhere(function ($query) use ($sender_id, $recipient_id) {
+                $query->where('sender_id', $recipient_id)
+                    ->where('recipient_id', $sender_id);
+            })
+            ->exists();
 
             if (!$chatExists) {
                 return response()->json(['message' => 'No chat messages found between the sender and recipient']);
             }
-            else{
-                $chatExists = Chat::where('sender_id', $sender_id)
-                ->where('recipient_id', $recipient_id)
-                ->get();
-                $sender_profile = User::find($sender_id);
-                if (!$sender_profile) {
-                    return response()->json(['message' => 'Sender not found.']);
+
+            $messages = Chat::where(function ($query) use ($sender_id, $recipient_id) {
+                $query->where('sender_id', $sender_id)
+                    ->where('recipient_id', $recipient_id);
+            })
+            ->orWhere(function ($query) use ($sender_id, $recipient_id) {
+                $query->where('sender_id', $recipient_id)
+                    ->where('recipient_id', $sender_id);
+            })
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+            $senderMessages = [];
+            $recipientMessages = [];
+
+            foreach ($messages as $message) {
+                $formattedMessage = [
+                    'date' => $message->created_at->format('d/m/Y H:i'),
+                    'message' => $message->message
+                ];
+
+                if ($message->sender_id == $sender_id) {
+                    $recipientMessages[] = $formattedMessage;
+                } else {
+                    $senderMessages[] = $formattedMessage;
                 }
-    
-                $recipient_profile = User::find($recipient_id);
-                if (!$recipient_profile) {
-                    return response()->json(['message' => 'Recipient not found.']);
-                }
-    
-                return response()->json([
-                    'sender_profile' => $sender_profile,
-                    'recipient_profile' => $recipient_profile,
-                    'chatuserlist' => $chatExists,
-                ]);
             }
 
-           
+            return response()->json([
+                'sender_id' => $sender_id,
+                'recipient_id' => $recipient_id,
+                'sender_msgs' => $senderMessages,
+                'recipient_msgs' => $recipientMessages
+            ], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to retrieve messages', 'error' => $e->getMessage()]);
         }
     }
-
 
           
     public function getAuthChatList(Request $request)
@@ -324,6 +399,7 @@ class ChatController extends Controller
                 ->get();
     
                 return response()->json([
+                    'chatDataLength' => count($chatData),
                     'sender_profile' => $sender_profile,
                     'authChatList' => $chatData,
                 ]);
