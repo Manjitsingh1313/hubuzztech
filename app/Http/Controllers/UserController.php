@@ -356,7 +356,7 @@ class UserController extends Controller
                             'access_token' => $token,
                             'user' => $user,
                             'token_type' => 'Bearer',
-                            'expires_in' => auth()->factory()->getTTL() * 24 * 60
+                            'expires_in' => auth()->factory()->getTTL() * 365 * 24 * 60
                         ]);
                 
                    
@@ -496,7 +496,7 @@ class UserController extends Controller
 
     protected function respondWithToken($token, $user)
     {
-        $expiresInMinutes = auth()->factory()->getTTL() * 24 * 60; // 24 hours * 60 minutes
+        $expiresInMinutes = auth()->factory()->getTTL()* 365 * 24 * 60; // 24 hours * 60 minutes
     
         return response()->json([
             'access_token' => $token,
