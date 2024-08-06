@@ -283,7 +283,7 @@ class UserController extends Controller
                         'access_token' => $token,
                         'user' => $user,
                         'token_type' => 'Bearer',
-                        'expires_in' => auth()->factory()->getTTL() * 24 * 60
+                        'expires_in' => auth()->factory()->getTTL() * 365 * 24 * 60
                     ]);
             //     }else{
             //         return $response=[
@@ -548,7 +548,7 @@ class UserController extends Controller
                     'average_user_rating' => "",
                     'ratings' => '',
                     'rera_number' => '',
-                    // 'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+                    'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
 
                 ]);
                 if ($validator->fails()) {
