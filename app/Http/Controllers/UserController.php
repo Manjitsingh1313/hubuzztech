@@ -29,65 +29,27 @@ class UserController extends Controller
         $this->middleware('auth:api', ['except' => ['getUserById', 'updateUser', 'login','register', 'getUserByMobile','refresh', 'respondWithToken']]);
     }
 
-    /**
-     * User list
-     *
-     * This endpoint is used to get user list.
-     *
-     * 
-     * @header Authorization Bearer {token}
-     * 
-     * @response scenario="User list" {
-     * "user" :   [
-     * {
-     *   "_id": "65eec0aa4b28c694b60ec10c",
-     *   "mobile": 3294839384,
-     *   "name": null,
-     *   "email": null,
-     *   "image": null,
-     *   "user_pincode": null,
-     *       "longitude": -74.006
-     *   "user_location": {
-     *       "latitude": 40.7128,
-     *   },
-     *   "rera_number": 6767,
-     *   "user_city": "una",
-     *   "otp_status": true,
-     *   "status": true,
-     *   "updated_at": "2024-03-11T08:28:26.326000Z",
-     *   "created_at": "2024-03-11T08:28:26.326000Z"
-     *  },
-     * ]
-     *
-     */
-    // Get ser list
+   
     public function User_list(Request $request)
     {
         try {
             $jsonData = $request->getContent();
             $requestData = json_decode($jsonData, true);
             
-            // if ($requestData === null) {
-            //     $users = DB::collection('users')->paginate(10);
-            //     return response()->json([
-            //         'message' => 'Request processed successfully',
-            //         'users' => $users,
-            //     ]);
-            // }
+          
             $keyword = $requestData['keyword'] ?? null;
 
             $filters = $requestData['filters'] ?? [];
             $page = $requestData['page'] ?? 1;
             $limit = $requestData['limit'] ?? 10;
     
-            // $query = DB::collection('users')->with('ratings');
-            // $query = User::query()->with('ratings');
+      
             $query = User::query()
                 ->where('role', 'user')
                 ->with('ratings')
                 ->orderBy('created_at', 'desc'); 
 
-            // dd($query);
+         
 
     
             foreach ($filters as $key => $value) {
@@ -192,84 +154,15 @@ class UserController extends Controller
         ]);
     }
 
-
-
-   /**
-     * Login a user
-     *
-     * This endpoint is used to login a user.
-     *
-     * payload :  {
-     *               "mobile": "3535534323",
-     *               "otp_status": true,
-     *               "status": true,
-     *               "user_location": [
-     *       {
-     *           "coords": {
-     *               "speed": -1,
-     *               "longitude": 76.69112317715411,
-     *               "latitude": 30.71134927265382,
-     *               "accuracy": 16.965582688710988,
-     *               "heading": -1,
-     *               "altitude": 318.2151985168457,
-     *               "altitudeAccuracy": 7.0764055252075195
-     *           },
-     *           "timestamp": 1709037095653.2131
-     *       }
-     *   ],
-     *   
-     *            }
-     * 
-     * @bodyParam mobile integer required digits:10 Example: 2093235874
-     * @bodyParam otp_status boolean required Example: false
-     * @bodyParam user_location array required 
-     * @bodyParam status boolean required Example: true
-     * 
-     * @response scenario="success" 
-     * "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.      eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzEwMTQ1NzcyLCJleHAiOjE3MTAxNDkzNzIsIm5iZiI6MTcxMDE0NTc3MiwianRpIjoidm5kT1VrdEVRMzZaZHhBMCIsInN1YiI6IjY1ZWVjMGFhNGIyOGM2OTRiNjBlYzEwYyIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.dMkpq1VJasyxRPZsLO6rc5dstN_n8oAMRgfOcffLIiw",
-     * "token_type": "bearer",
-     * "expires_in": 3600,
-     * "user" :   {
-     *   "_id": "65eec0aa4b28c694b60ec10c",
-     *   "mobile": 3294839384,
-     *   "name": null,
-     *   "email": null,
-     *   "image": null,
-     *   "user_pincode": null,
-     *       "longitude": -74.006
-     *   "user_location": {
-     *       "latitude": 40.7128,
-     *   },
-     *   "rera_number": 6767,
-     *   "user_city": "una",
-     *   "otp_status": true,
-     *   "status": true,
-     *   "updated_at": "2024-03-11T08:28:26.326000Z",
-     *   "created_at": "2024-03-11T08:28:26.326000Z"
-     *  },
-     * }
-     *
-     * @response 401 scenario="Failed Login"{
-     * "message": "Invalid login credentials"
-     * }
-     *
-     */
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'mobile'=>'required|integer|digits:10',
             'otp_status'=>'required|boolean',
-            // 'name'=>'required|string',
-            // 'user_pincode'=>'required|integer',
-            // 'email'=>'required|email',
-            // 'user_location'=>'required|array',
-            // 'status'=>'required|boolean',
-            // 'payment_res'=>'required|array',
-            // 'payment_status'=>'required|integer',
     
         ]);
         $exists = User::where('mobile', $request->mobile)->exists();
-
+       
         if ($exists) {
             if ($validator->fails()) {
                 return response()->json(['error' => $validator->errors()]);
@@ -285,13 +178,7 @@ class UserController extends Controller
                         'token_type' => 'Bearer',
                         'expires_in' => auth()->factory()->getTTL() * 365 * 24 * 60
                     ]);
-            //     }else{
-            //         return $response=[
-            //             'success'=> false,
-            //             'message'=> 'Payment not done',
-            //         ];
-            // }
-                
+        
             }else {
                 return $response=[
                     'success'=> false,
@@ -321,7 +208,7 @@ class UserController extends Controller
 
             ]);
             $status = true;
-
+            $eoisent = false;
             if($validator2->fails())
             {
                 return response()->json($validator2->errors());
@@ -336,6 +223,8 @@ class UserController extends Controller
                             'user_location'=>$request->user_location,
                             'user_city'=>$request->user_city,
                             'status'=>$request->status,
+                            'eoisent'=>$eoisent,
+
                             'email'=>$request->email,
                             'user_pincode'=>$request->user_pincode,
                             'role' => $role,
@@ -378,122 +267,6 @@ class UserController extends Controller
 
 
 
-
-    // public function login(Request $request)
-    // {
-
-    //     $validator = Validator::make($request->all(), [
-    //         'mobile'=>'required|integer|digits:10',
-    //         'otp_status'=>'required|boolean',
-    //         // 'name'=>'required|string',
-    //         // 'user_pincode'=>'required|integer',
-    //         // 'email'=>'required|email',
-    //         'user_location'=>'required|array',
-    //         'status'=>'required|boolean',
-    //         'payment_res'=>'required|array',
-    //         'payment_status'=>'required|integer',
-
-    //     ]);
-    //     $exists = User::where('mobile', $request->mobile)->exists();
-
-    //     if ($exists) {
-    //         if ($validator->fails()) {
-    //             return response()->json(['error' => $validator->errors()], 401);
-    //         }
-    //         $user = User::where('mobile', $request->mobile)->first();
-    //         if($request->otp_status === true){
-    //             if($request->payment_status === true){
-    //                 $token = Auth::guard('api')->login($user);
-    //                 return response()->json([
-    //                     'message' => 'User logged in successfully',
-    //                     'access_token' => $token,
-    //                     'user' => $user,
-    //                     'token_type' => 'Bearer',
-    //                     'expires_in' => auth()->factory()->getTTL() * 24 * 60
-    //                 ]);
-    //             }else{
-    //                 return $response=[
-    //                     'success'=> false,
-    //                     'message'=> 'Payment not done',
-    //                 ];
-    //         }
-                
-    //         }else {
-    //             return $response=[
-    //                 'success'=> false,
-    //                 'message'=> 'Invalid OTP',
-    //             ];
-    //         }
-    //     }else {
-    //         $validator2 = Validator::make($request->all(),[
-    //             'mobile'=>'required|integer|digits:10',
-    //             'otp_status'=>'required',
-    //             'user_location'=>'required',
-    //             'name'=>'required|string',
-    //             // 'user_pincode' => 'nullable|integer|digits_between:1,6',
-    //             'user_pincode' => 'nullable',
-    //             'payment_res'=>'required|array',
-    //             'payment_status'=>'required|integer',
-    //             'email'=>'email',
-    //             'user_city'=>'required',
-
-    //         ]);
-    //         $status = true;
-
-    //         if($validator2->fails())
-    //         {
-    //             return response()->json($validator2->errors());
-    //         }
-    //         if($request->otp_status === true){
-    //             if($request->user_location !== '' || $request->user_location !== null){
-    //                 if($request->payment_status === true){
-    //                     $role = $request->role ?? 'user';
-
-    //                     $user = User::create([
-    //                         'mobile'=>$request->mobile,
-    //                         'otp_status'=>$request->otp_status,
-    //                         'user_location'=>$request->user_location,
-    //                         'user_city'=>$request->user_city,
-    //                         'status'=>$request->status,
-    //                         'email'=>$request->email,
-    //                         'user_pincode'=>$request->user_pincode,
-    //                         'name'=>$request->name,
-    //                         'payment_res'=>$request->payment_res,
-    //                         'payment_status'=>$request->payment_status,
-    //                         'role' => $role,
-    //                     ]);
-    //                     $token = Auth::guard('api')->login($user);
-    //                     return response()->json([
-    //                         'message' => 'User registered successfully',
-    //                         'access_token' => $token,
-    //                         'user' => $user,
-    //                         'token_type' => 'Bearer',
-    //                         'expires_in' => auth()->factory()->getTTL() * 24 * 60
-    //                     ]);
-    //                 }else{
-    //                     return $response=[
-    //                         'success'=> false,
-    //                         'message'=> 'Payment not done',
-    //                     ];
-    //                 }
-                   
-    //             }else{
-    //                 return $response=[
-    //                     'success'=> false,
-    //                     'message'=> 'User location required',
-    //                 ];
-    //             }
-    //         }else{
-    //             return response()->json([
-    //                 'error'=>'Invalid OTP',
-    //             ]); 
-    //         } 
-
-    //     }
-        
-    // }
-
-
     protected function respondWithToken($token, $user)
     {
         $expiresInMinutes = auth()->factory()->getTTL()* 365 * 24 * 60; // 24 hours * 60 minutes
@@ -508,30 +281,11 @@ class UserController extends Controller
     
 
     
-   /**
-     * Update a user
-     *
-     * This endpoint is used to update details of a specific user.
-     * 
-     * @header Authorization Bearer {token}
-     * 
-     * @urlParam _id required The ID of the user to update Example: 111
-     * @bodyParam mobile integer required digits:10 Example: 2093235874
-     * @bodyParam otp_status boolean required Example: false
-     * @bodyParam user_location array required 
-     * @bodyParam status integer required Example: true
-     *
-     * @response {
-     *    "message": "User updated successfully"
-     * }
-     */
-    // updateUser by id 
-
+  
 
     public function updateUser(Request $request, $id)
         {
-            // dd('Request Data: ', $request->all());
-            // return response()->json($request->all()); 
+            
             try {
                 $validator = Validator::make($request->all(), [
                     'mobile'=>'integer|digits:10',
@@ -572,6 +326,8 @@ class UserController extends Controller
                         $data->fill([         
                             'image' => $photo,
                             'otp_status' => $data->otp_status,
+                            'eoisent' => $request->eoisent,
+
                             'mobile' => $data->mobile,
                             'payment_res' => $request->payment_res ? $request->payment_res : $data->payment_res,
                             'email' => $request->email ? $request->email : $data->email,
@@ -601,6 +357,8 @@ class UserController extends Controller
                         $data->fill([         
                             'image' => $data->image,
                             'otp_status' => $data->otp_status,
+                            'eoisent' => $request->eoisent,
+
                             'mobile' => $data->mobile,
                             'payment_res' => $request->payment_res,
                             'email' => $request->email,
@@ -631,20 +389,7 @@ class UserController extends Controller
         }
 
 
-    /**
-     * Delete a user
-     *
-     * @header Authorization Bearer {token}
-     * 
-     * This endpoint is used to delete specific user.
-     * 
-     * @urlParam id required The ID of the user to delete. Example: 2
-     *
-     * @response {
-     *    "message": "User deleted successfully"
-     * }
-     */
-    // Delete user by id
+
     public function deleteUserById(Request $request, $id)
     {
         try {
@@ -663,40 +408,6 @@ class UserController extends Controller
 
 
 
-    /**
-     * Get a specific user by entering mobile number
-     * 
-     * 
-     * @header Authorization Bearer {token}
-     * 
-     * 
-     * Get the details of a specific user.
-     * 
-     * @urlParam mobile required digits:10 The mobile number of the user. Example: 339430503535
-     * 
-     * "user" :   {
-     *   "_id": "65eec0aa4b28c694b60ec10c",
-     *   "mobile": 3294839384,
-     *   "name": null,
-     *   "email": null,
-     *   "image": null,
-     *   "user_pincode": null,
-     *       "longitude": -74.006
-     *   "user_location": {
-     *       "latitude": 40.7128,
-     *   },
-     *   "rera_number": 6767,
-     *   "user_city": "una",
-     *   "otp_status": true,
-     *   "status": true,
-     *   "updated_at": "2024-03-11T08:28:26.326000Z",
-     *   "created_at": "2024-03-11T08:28:26.326000Z"
-     *  },
-     * @response 404 {
-     *   "message": "User not found"
-     * }
-     */
-    // getUserByMobile
     public function getUserByMobile(Request $request, int $mobile)
     {
         try {
@@ -711,41 +422,6 @@ class UserController extends Controller
         }
     }
 
-
-    /**
-     * Get a specific user
-     * 
-     * 
-     * @header Authorization Bearer {token}
-     * 
-     * 
-     * Get the details of a specific user.
-     * 
-     * @urlParam id required The ID of the user. Example: 3
-     * 
-     * "user" :   {
-     *   "_id": "65eec0aa4b28c694b60ec10c",
-     *   "mobile": 3294839384,
-     *   "name": null,
-     *   "email": null,
-     *   "image": null,
-     *   "user_pincode": null,
-     *       "longitude": -74.006
-     *   "user_location": {
-     *       "latitude": 40.7128,
-     *   },
-     *   "rera_number": 6767,
-     *   "user_city": "una",
-     *   "otp_status": true,
-     *   "status": true,
-     *   "updated_at": "2024-03-11T08:28:26.326000Z",
-     *   "created_at": "2024-03-11T08:28:26.326000Z"
-     *  },
-     * @response 404 {
-     *   "message": "User not found"
-     * }
-     */
-    // getUserById
     public function getUserById(Request $request , $id)
     {
         try {
