@@ -156,6 +156,7 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
             'mobile'=>'required|integer|digits:10',
             'otp_status'=>'required|boolean',
